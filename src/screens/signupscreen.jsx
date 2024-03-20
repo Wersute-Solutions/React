@@ -8,12 +8,22 @@ import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import SocialButtonCus from "../components/extra_login_custom";
 import { useNavigate } from "react-router-dom";
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import RadioGroup from "@mui/material/RadioGroup";
+import Radio from "@mui/material/Radio";
 
 function SignUp() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [retypepassword, setRetypePassword] = useState("");
+  const [value, setValue] = React.useState("freelancer");
+
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
+
   const handleSignup = () => {};
 
   const navigate = useNavigate();
@@ -94,6 +104,29 @@ function SignUp() {
           onChange={(e) => setRetypePassword(e.target.value)}
           pad={3}
         />
+        <Grid container justifyContent="center" sx={{ py: 1 }}>
+          <FormControl>
+            <RadioGroup
+              row
+              aria-labelledby="demo-row-radio-buttons-group-label"
+              name="row-radio-buttons-group"
+              value={value}
+              onChange={handleChange}
+            >
+              <FormControlLabel
+                value="freelancer"
+                control={<Radio />}
+                label="Freelancer"
+              />
+              <FormControlLabel
+                value="Client"
+                control={<Radio />}
+                label="Client"
+              />
+            </RadioGroup>
+          </FormControl>
+        </Grid>
+
         <ButtonCus pad={2} text={"SignUp"} onClick={handleSignup} />
         <Grid container justifyContent="center" sx={{ py: 2 }}>
           <Grid item>
