@@ -9,14 +9,17 @@ import Grid from "@mui/material/Grid";
 import SocialButtonCus from "../components/extra_login_custom";
 import { useNavigate } from "react-router-dom";
 
-function Login() {
+function SignUp() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [retypepassword, setRetypePassword] = useState("");
+  const handleSignup = () => {};
 
   const navigate = useNavigate();
 
   const handleGoogleLogin = () => {};
-  const handleLogin = () => {};
+
   const handleFacebookLogin = () => {};
 
   return (
@@ -33,7 +36,7 @@ function Login() {
           fontWeight={700}
           style={{ textAlign: "center", paddingTop: "50px", fontSize: "30px" }}
         >
-          Login
+          Create your account
         </Typography>
         <div
           style={{
@@ -46,7 +49,7 @@ function Login() {
             fontWeight={300}
             style={{ textAlign: "center", paddingTop: "5px", fontSize: "13px" }}
           >
-            Don't have an account yet?
+            Aleredy have an account?
           </Typography>
           <Button
             variant="text"
@@ -56,7 +59,7 @@ function Login() {
               border: "none",
             }}
             onClick={() => {
-              navigate("/signup");
+              navigate("/login");
             }}
           >
             <Typography
@@ -67,13 +70,18 @@ function Login() {
                 color: "#1976d2",
               }}
             >
-              Sign Up
+              Login
             </Typography>
           </Button>
         </div>
         <InputCus
-          placeholder="Username"
+          placeholder="What should we call you"
           onChange={(e) => setUsername(e.target.value)}
+          pad={1}
+        />
+        <InputCus
+          placeholder="What's your email"
+          onChange={(e) => setEmail(e.target.value)}
           pad={3}
         />
         <InputCus
@@ -81,7 +89,12 @@ function Login() {
           onChange={(e) => setPassword(e.target.value)}
           pad={1}
         />
-        <ButtonCus pad={4} text={"Login"} onClick={handleLogin} />
+        <InputCus
+          placeholder="Retype Password"
+          onChange={(e) => setRetypePassword(e.target.value)}
+          pad={3}
+        />
+        <ButtonCus pad={2} text={"SignUp"} onClick={handleSignup} />
         <Grid container justifyContent="center" sx={{ py: 2 }}>
           <Grid item>
             <Divider sx={{ borderTop: "1px solid #000", width: "800px" }} />
@@ -112,4 +125,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default SignUp;

@@ -1,13 +1,14 @@
-import React from 'react';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import React from "react";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Routes, Route, Outlet, Link } from "react-router-dom";
-import Login from './screens/loginscreen';
-
+import Login from "./screens/loginscreen";
+import SignUp from "./screens/signupscreen";
+import "./style.css";
 
 const darkTheme = createTheme({
   palette: {
     primary: {
-      main: '#1976d2',
+      main: "#1976d2",
     },
   },
 });
@@ -17,12 +18,12 @@ function App() {
     <ThemeProvider theme={darkTheme}>
       <div>
         <Routes>
-          <Route path= "/login" element={<Login/>}/>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
         </Routes>
       </div>
     </ThemeProvider>
-
   );
 }
 
-export default App
+export default App;
