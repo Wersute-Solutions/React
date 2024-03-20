@@ -8,14 +8,29 @@ import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import SocialButtonCus from "../components/extra_login_custom";
 import { useNavigate } from "react-router-dom";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [open, setOpen] = React.useState(false);
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleOpen = () => {
+    setOpen(true);
+  };
   const navigate = useNavigate();
-  const handleGoogleLogin = () => {};
-  const handleLogin = () => {};
-  const handleFacebookLogin = () => {};
+  const handleGoogleLogin = () => {
+    handleOpen();
+  };
+  const handleLogin = () => {
+    handleOpen();
+  };
+  const handleFacebookLogin = () => {
+    handleOpen();
+  };
 
   return (
     <>
@@ -27,6 +42,13 @@ function Login() {
           padding: "20px",
         }}
       >
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={open}
+          onClick={handleClose}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
         <Typography
           fontWeight={700}
           style={{ textAlign: "center", paddingTop: "50px", fontSize: "30px" }}
