@@ -3,6 +3,8 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Routes, Route, Outlet, Link } from "react-router-dom";
 import Login from "./screens/loginscreen";
 import SignUp from "./screens/signupscreen";
+import FreeProfileComplete from "./screens/profilecompletefree";
+
 import "./style.css";
 
 const darkTheme = createTheme({
@@ -20,6 +22,10 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route
+            path="/completefreelancerprofile"
+            element={<FreeProfileComplete />}
+          />
         </Routes>
       </div>
     </ThemeProvider>

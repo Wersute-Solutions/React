@@ -8,6 +8,7 @@ export default function InputCus({ placeholder, onChange, pad, width }) {
       <Grid item>
         <TextField
           required
+          multiline
           sx={{ width: width || "400px" }}
           label={placeholder}
           variant="outlined"
