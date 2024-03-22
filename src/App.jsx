@@ -1,6 +1,5 @@
-import React from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { Routes, Route, Outlet, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Login from "./screens/loginscreen";
 import SignUp from "./screens/signupscreen";
 import FreeProfileComplete from "./screens/profilecompletefree";

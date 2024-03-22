@@ -10,10 +10,12 @@ import SocialButtonCus from "../components/extra_login_custom";
 import { useNavigate } from "react-router-dom";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
+import {loginUser} from "../api/auth";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
   const [open, setOpen] = React.useState(false);
   const handleClose = () => {
     setOpen(false);
@@ -25,8 +27,19 @@ function Login() {
   const handleGoogleLogin = () => {
     handleOpen();
   };
-  const handleLogin = () => {
+  
+  const handleLogin = async() => {
     handleOpen();
+    const user = await loginUser({ username, password });
+    console.log(user);
+    if (user.status) {
+      navigate("/");
+    }
+    else {
+      alert(user.message);
+    }
+    setOpen(false);
+
   };
   const handleFacebookLogin = () => {
     handleOpen();
