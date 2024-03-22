@@ -1,17 +1,67 @@
-import React from "react";
+import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
-import Grid from "@mui/material/Grid";
-import AppBarCus from "../components/appbar_custom";
 import Typography from "@mui/material/Typography";
-import InputCus from "../components/input_custom";
+import Button from "@mui/material/Button";
+import Alert from "@mui/material/Alert";
+import Stack from "@mui/material/Stack";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { styled } from "@mui/material/styles";
-import Button from "@mui/material/Button";
+import AppBarCus from "../components/appbar_custom";
+import InputCus from "../components/input_custom";
 import ButtonCus from "../components/button_custom";
-import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
-import DatePicker from "@mui/lab/DatePicker";
 
 export default function FreeProfileComplete() {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    dateOfBirth: "",
+    contactNumber: "",
+    skills: "",
+    projectsExperience: "",
+    github: "",
+    linkedin: "",
+    bio: "",
+  });
+
+  const [alert, setAlert] = useState(null);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = () => {
+    // Reset alert
+    setAlert(null);
+
+    // Perform validation before submission
+    if (formData.firstName.trim() === "") {
+      setAlert(<Alert severity="error">Please Enter Your First Name</Alert>);
+      return;
+    }
+
+    if (formData.lastName.trim() === "") {
+      setAlert(<Alert severity="error">Please Enter Your Last Name</Alert>);
+      return;
+    }
+
+    console.log("Form submitted:", formData);
+
+    setFormData({
+      firstName: "",
+      lastName: "",
+      dateOfBirth: "",
+      contactNumber: "",
+      skills: "",
+      projectsExperience: "",
+      github: "",
+      linkedin: "",
+      bio: "",
+    });
+  };
   const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
     clipPath: "inset(50%)",
@@ -40,61 +90,108 @@ export default function FreeProfileComplete() {
         <Typography variant="h4" align="center" gutterBottom>
           Complete Your Profile
         </Typography>
-        <Grid container spacing={2} justifyContent="center">
-          <Grid item xs={12} sm={6} md={4}>
-            <InputCus placeholder={"First Name"} />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <InputCus placeholder={"Last Name"} />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DateCalendar
-                label="Date of Birth"
-                renderInput={(params) => <TextField {...params} />}
-              />
-            </LocalizationProvider>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <InputCus placeholder={"Contact Number"} />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <InputCus placeholder={"Skills"} />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <InputCus placeholder={"Projects and Experience"} />
-          </Grid>
-          <Grid item xs={12}>
-            <InputCus placeholder={"GitHub"} />
-          </Grid>
-          <Grid item xs={12}>
-            <InputCus placeholder={"Linkedin"} />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              id="bio"
-              label="Bio"
-              multiline
-              rows={4}
-              variant="outlined"
+        {alert && (
+          <Stack sx={{ width: "100%" }} spacing={2}>
+            {alert}
+          </Stack>
+        )}
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <div style={{ marginRight: "20px" }}>
+            <InputCus
+              placeholder={"First Name"}
+              name="firstName"
+              onChange={handleChange}
+              value={formData.firstName}
+              pad={1}
+              width={300}
             />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Button
-              component="label"
-              variant="contained"
-              startIcon={<CloudUploadIcon />}
-              fullWidth
-            >
-              Upload Resume
-              <VisuallyHiddenInput type="file" />
-            </Button>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <ButtonCus text={"Submit"} onClick={() => {}} fullWidth />
-          </Grid>
-        </Grid>
+            <InputCus
+              placeholder={"Date of Birth"}
+              name="dateOfBirth"
+              onChange={handleChange}
+              value={formData.dateOfBirth}
+              pad={1}
+              width={300}
+            />
+            <InputCus
+              placeholder={"Skills"}
+              name="skills"
+              onChange={handleChange}
+              value={formData.skills}
+              pad={1}
+              width={300}
+            />
+            <InputCus
+              placeholder={"GitHub"}
+              name="github"
+              onChange={handleChange}
+              value={formData.github}
+              pad={1}
+              width={300}
+            />
+          </div>
+          <div>
+            <InputCus
+              placeholder={"Last Name"}
+              name="lastName"
+              onChange={handleChange}
+              value={formData.lastName}
+              pad={1}
+              width={300}
+            />
+            <InputCus
+              placeholder={"Contact Number"}
+              name="contactNumber"
+              onChange={handleChange}
+              value={formData.contactNumber}
+              pad={1}
+              width={300}
+            />
+            <InputCus
+              placeholder={"Projects and Experience"}
+              name="projectsExperience"
+              onChange={handleChange}
+              value={formData.projectsExperience}
+              pad={1}
+              width={300}
+            />
+            <InputCus
+              placeholder={"Linkedin"}
+              name="linkedin"
+              onChange={handleChange}
+              value={formData.linkedin}
+              pad={1}
+              width={300}
+            />
+          </div>
+        </div>
+        <TextField
+          fullWidth
+          id="bio"
+          name="bio"
+          label="Bio"
+          multiline
+          rows={4}
+          variant="outlined"
+          value={formData.bio}
+          onChange={handleChange}
+          sx={{ marginBottom: 2, maxWidth: 600, py: 1 }}
+        />
+        <Button
+          component="label"
+          variant="contained"
+          startIcon={<CloudUploadIcon />}
+          style={{ marginTop: "20px", width: "400px" }}
+        >
+          Upload Resume
+          <VisuallyHiddenInput type="file" />
+        </Button>
+        <ButtonCus
+          pad={3}
+          text={"Submit"}
+          onClick={handleSubmit}
+          style={{ width: "400px", marginTop: "20px" }}
+        />
       </div>
     </>
   );
