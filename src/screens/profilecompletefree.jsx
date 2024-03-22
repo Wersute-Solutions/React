@@ -95,62 +95,76 @@ export default function FreeProfileComplete() {
             {alert}
           </Stack>
         )}
-        <InputCus
-          placeholder={"First Name"}
-          name="firstName"
-          onChange={handleChange}
-          value={formData.firstName}
-          pad={1}
-        />
-        <InputCus
-          placeholder={"Last Name"}
-          name="lastName"
-          onChange={handleChange}
-          value={formData.lastName}
-          pad={1}
-        />
-        <InputCus
-          placeholder={"Date of Birth"}
-          name="dateOfBirth"
-          onChange={handleChange}
-          value={formData.dateOfBirth}
-          pad={1}
-        />
-        <InputCus
-          placeholder={"Contact Number"}
-          name="contactNumber"
-          onChange={handleChange}
-          value={formData.contactNumber}
-          pad={1}
-        />
-        <InputCus
-          placeholder={"Skills"}
-          name="skills"
-          onChange={handleChange}
-          value={formData.skills}
-          pad={1}
-        />
-        <InputCus
-          placeholder={"Projects and Experience"}
-          name="projectsExperience"
-          onChange={handleChange}
-          value={formData.projectsExperience}
-          pad={1}
-        />
-        <InputCus
-          placeholder={"GitHub"}
-          name="github"
-          onChange={handleChange}
-          value={formData.github}
-          pad={1}
-        />
-        <InputCus
-          placeholder={"Linkedin"}
-          name="linkedin"
-          onChange={handleChange}
-          value={formData.linkedin}
-          pad={1}
-        />
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <div style={{ marginRight: "20px" }}>
+            <InputCus
+              placeholder={"First Name"}
+              name="firstName"
+              onChange={handleChange}
+              value={formData.firstName}
+              pad={1}
+              width={300}
+            />
+            <InputCus
+              placeholder={"Date of Birth"}
+              name="dateOfBirth"
+              onChange={handleChange}
+              value={formData.dateOfBirth}
+              pad={1}
+              width={300}
+            />
+            <InputCus
+              placeholder={"Skills"}
+              name="skills"
+              onChange={handleChange}
+              value={formData.skills}
+              pad={1}
+              width={300}
+            />
+            <InputCus
+              placeholder={"GitHub"}
+              name="github"
+              onChange={handleChange}
+              value={formData.github}
+              pad={1}
+              width={300}
+            />
+          </div>
+          <div>
+            <InputCus
+              placeholder={"Last Name"}
+              name="lastName"
+              onChange={handleChange}
+              value={formData.lastName}
+              pad={1}
+              width={300}
+            />
+            <InputCus
+              placeholder={"Contact Number"}
+              name="contactNumber"
+              onChange={handleChange}
+              value={formData.contactNumber}
+              pad={1}
+              width={300}
+            />
+            <InputCus
+              placeholder={"Projects and Experience"}
+              name="projectsExperience"
+              onChange={handleChange}
+              value={formData.projectsExperience}
+              pad={1}
+              width={300}
+            />
+            <InputCus
+              placeholder={"Linkedin"}
+              name="linkedin"
+              onChange={handleChange}
+              value={formData.linkedin}
+              pad={1}
+              width={300}
+            />
+          </div>
+        </div>
         <TextField
           fullWidth
           id="bio"
@@ -161,7 +175,7 @@ export default function FreeProfileComplete() {
           variant="outlined"
           value={formData.bio}
           onChange={handleChange}
-          sx={{ marginBottom: 2, maxWidth: 500, py: 1 }}
+          sx={{ marginBottom: 2, maxWidth: 600, py: 1 }}
         />
         <Button
           component="label"
