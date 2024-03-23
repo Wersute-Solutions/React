@@ -12,6 +12,8 @@ import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import RadioGroup from "@mui/material/RadioGroup";
 import Radio from "@mui/material/Radio";
+import Backdrop from "@mui/material/Backdrop";
+import { signupUser } from "../api/auth";
 
 function SignUp() {
   const [username, setUsername] = useState("");
@@ -19,12 +21,27 @@ function SignUp() {
   const [email, setEmail] = useState("");
   const [retypepassword, setRetypePassword] = useState("");
   const [value, setValue] = React.useState("freelancer");
+  const [backdropOpen, setBackdropOpen] = useState(false);
 
   const handleChange = (event) => {
     setValue(event.target.value);
   };
 
-  const handleSignup = () => {};
+  const handleSignup = async () => {
+    if (password !== retypepassword) {
+      alert("Password does not match");
+      return;
+    }
+    setBackdropOpen(true);
+    const response = await signupUser({ username, email, password });
+    if (response.status) {
+      alert("Signup success, You can login now!");
+      navigate("/login");
+    } else {
+      alert(response.message);
+    }
+
+  };
 
   const navigate = useNavigate();
 
@@ -42,6 +59,11 @@ function SignUp() {
           padding: "20px",
         }}
       >
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={backdropOpen}
+        >
+        </Backdrop>
         <Typography
           fontWeight={700}
           style={{ textAlign: "center", paddingTop: "50px", fontSize: "30px" }}
