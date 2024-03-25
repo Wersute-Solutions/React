@@ -34,17 +34,45 @@ export default function FreeProfileComplete() {
   };
 
   const handleSubmit = () => {
-    // Reset alert
     setAlert(null);
 
-    // Perform validation before submission
-    if (formData.firstName.trim() === "") {
-      setAlert(<Alert severity="error">Please Enter Your First Name</Alert>);
+    if (!formData.firstName.trim()) {
+      setAlert(<Alert severity="error">Please enter your first name.</Alert>);
       return;
     }
 
-    if (formData.lastName.trim() === "") {
-      setAlert(<Alert severity="error">Please Enter Your Last Name</Alert>);
+    if (!formData.lastName.trim()) {
+      setAlert(<Alert severity="error">Please enter your last name.</Alert>);
+      return;
+    }
+
+    if (!formData.bio.trim()) {
+      setAlert(<Alert severity="error">Please enter your bio.</Alert>);
+      return;
+    }
+
+    if (!formData.linkedin.trim()) {
+      setAlert(<Alert severity="error">Please enter your linkedin.</Alert>);
+      return;
+    }
+
+    if (!formData.dateOfBirth.trim()) {
+      setAlert(
+        <Alert severity="error">Please enter your date of birth.</Alert>
+      );
+      return;
+    }
+
+    const contactNumberPattern = /^\d{10}$/;
+    if (!contactNumberPattern.test(formData.contactNumber)) {
+      setAlert(
+        <Alert severity="error">Please enter a valid contact number.</Alert>
+      );
+      return;
+    }
+
+    if (!formData.skills.trim()) {
+      setAlert(<Alert severity="error">Please enter your skills.</Alert>);
       return;
     }
 
@@ -62,6 +90,7 @@ export default function FreeProfileComplete() {
       bio: "",
     });
   };
+
   const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
     clipPath: "inset(50%)",
@@ -106,7 +135,7 @@ export default function FreeProfileComplete() {
               width={300}
             />
             <InputCus
-              placeholder={"Date of Birth"}
+              placeholder={"Date of Birth (YYYY-MM-DD)"}
               name="dateOfBirth"
               onChange={handleChange}
               value={formData.dateOfBirth}
@@ -156,7 +185,7 @@ export default function FreeProfileComplete() {
               width={300}
             />
             <InputCus
-              placeholder={"Linkedin"}
+              placeholder={"LinkedIn"}
               name="linkedin"
               onChange={handleChange}
               value={formData.linkedin}
