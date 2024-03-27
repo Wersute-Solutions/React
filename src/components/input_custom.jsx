@@ -7,6 +7,7 @@ export default function InputCus({ placeholder, onChange, pad, width, name }) {
     <Grid container justifyContent="center" sx={{ py: pad }}>
       <Grid item>
         <TextField
+          hidden
           required
           multiline
           name={name}
