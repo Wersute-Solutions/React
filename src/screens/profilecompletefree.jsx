@@ -24,6 +24,7 @@ export default function FreeProfileComplete() {
   });
 
   const [alert, setAlert] = useState(null);
+  const [resumeUploaded, setResumeUploaded] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,6 +32,11 @@ export default function FreeProfileComplete() {
       ...formData,
       [name]: value,
     });
+  };
+
+  const handleFileChange = () => {
+    const resumeFile = document.getElementById("resume").files[0];
+    setResumeUploaded(!!resumeFile);
   };
 
   const handleSubmit = () => {
@@ -76,19 +82,38 @@ export default function FreeProfileComplete() {
       return;
     }
 
-    console.log("Form submitted:", formData);
+    if (!formData.projectsExperience.trim()) {
+      setAlert(
+        <Alert severity="error">
+          Please enter your projects and expirience.
+        </Alert>
+      );
+      return;
+    }
 
-    setFormData({
-      firstName: "",
-      lastName: "",
-      dateOfBirth: "",
-      contactNumber: "",
-      skills: "",
-      projectsExperience: "",
-      github: "",
-      linkedin: "",
-      bio: "",
-    });
+    if (!formData.github.trim()) {
+      setAlert(<Alert severity="error">Please enter your github.</Alert>);
+      return;
+    }
+    const resumeFile = document.getElementById("resume").files[0];
+    if (!resumeFile) {
+      setAlert(<Alert severity="error">Please upload your resume.</Alert>);
+      return;
+    }
+
+    const allowedFormats = ["image/png", "image/jpeg"];
+    if (!allowedFormats.includes(resumeFile.type)) {
+      setAlert(
+        <Alert severity="error">
+          Please upload your resume in PNG or JPEG format.
+        </Alert>
+      );
+      setResumeUploaded(!!resumeFile);
+
+      return;
+    }
+
+    console.log("Form submitted:", formData);
   };
 
   const VisuallyHiddenInput = styled("input")({
@@ -195,6 +220,7 @@ export default function FreeProfileComplete() {
           </div>
         </div>
         <TextField
+          required
           fullWidth
           id="bio"
           name="bio"
@@ -212,8 +238,12 @@ export default function FreeProfileComplete() {
           startIcon={<CloudUploadIcon />}
           style={{ marginTop: "20px", width: "400px" }}
         >
-          Upload Resume
-          <VisuallyHiddenInput type="file" />
+          {resumeUploaded ? "Resume Uploaded" : "Upload Resume"}
+          <VisuallyHiddenInput
+            type="file"
+            id="resume"
+            onChange={handleFileChange}
+          />
         </Button>
         <ButtonCus
           pad={3}

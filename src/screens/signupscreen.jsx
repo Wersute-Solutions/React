@@ -120,6 +120,7 @@ function SignUp() {
           pad={3}
         />
         <InputCus
+          isPassword={true}
           placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
           pad={1}
