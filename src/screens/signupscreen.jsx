@@ -20,7 +20,7 @@ function SignUp() {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [retypepassword, setRetypePassword] = useState("");
-  const [value, setValue] = React.useState("freelancer");
+  const [value, setValue] = React.useState("Freelancer");
   const [backdropOpen, setBackdropOpen] = useState(false);
 
   const handleChange = (event) => {
@@ -39,7 +39,9 @@ function SignUp() {
     const response = await signupUser({ username, email, password });
     if (response.status) {
       alert("Signup success, You can login now!");
-      navigate("/login");
+      if (value == "Freelancer") {
+        navigate();
+      }
     } else {
       setBackdropOpen(false);
 
@@ -140,7 +142,7 @@ function SignUp() {
               onChange={handleChange}
             >
               <FormControlLabel
-                value="freelancer"
+                value="Freelancer"
                 control={<Radio />}
                 label="Freelancer"
               />
