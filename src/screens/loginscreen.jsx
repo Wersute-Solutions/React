@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState, useEffect } from "react";
 import AppBarCus from "../components/appbar_custom";
 import InputCus from "../components/input_custom";
 import Typography from "@mui/material/Typography";
@@ -11,10 +11,14 @@ import { useNavigate } from "react-router-dom";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import {loginUser} from "../api/auth";
+import { useStore } from "../zustandState";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const [setCurrentUser] = useStore(state => [state.setCurrentUser]);
+  const [currentUser] = useStore(state => [state.currentUser]);
 
   const [open, setOpen] = useState(false);
   const handleClose = () => {
@@ -27,16 +31,18 @@ function Login() {
   const handleGoogleLogin = () => {
     handleOpen();
   };
+
   
   const handleLogin = async() => {
     handleOpen();
-    const user = await loginUser({ username, password });
-    console.log(user);
-    if (user.status) {
+    const data = await loginUser({ username, password });
+    console.log("user_set: ",data.user);
+    setCurrentUser(data.user);
+    if (data.status) {
       navigate("/");
     }
     else {
-      alert(user.message);
+      alert(data.message);
     }
     setOpen(false);
 

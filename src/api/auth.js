@@ -47,8 +47,10 @@ export async function loginUser(kwargs) {
         }
         setRefresh(data.refresh);
         setAuth(data.access);
-        setObj("user", data.user);
-        return { status: true, message: "Login success" };
+        const user = await getCurrentUser();
+
+        setObj("user", user);
+        return { status: true, message: "Login success", user: user};
     } catch (error) {
         return { status: false, message: error.message };
     }
