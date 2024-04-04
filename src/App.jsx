@@ -8,6 +8,7 @@ import "./style.css";
 import { useEffect } from "react";
 import { checkTokenExpire, getCurrentUser } from "./api/auth";
 import { useStore } from "./zustandState";
+import ClientProfileComplete from "./screens/profilecompleteclient";
 
 const darkTheme = createTheme({
   palette: {
@@ -17,10 +18,7 @@ const darkTheme = createTheme({
   },
 });
 
-
-
 function App() {
-
   const { setCurrentUser } = useStore();
 
   async function userSetHandle() {
@@ -30,7 +28,7 @@ function App() {
 
   useEffect(() => {
     userSetHandle();
-  }, [])
+  }, []);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -38,8 +36,7 @@ function App() {
       console.log("Checking token expire");
     }, 1000 * 10);
     return () => clearInterval(intervalId);
-  }
-  )
+  });
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -51,6 +48,10 @@ function App() {
           <Route
             path="/completefreelancerprofile"
             element={<FreeProfileComplete />}
+          />
+          <Route
+            path="/completeclientprofile"
+            element={<ClientProfileComplete />}
           />
         </Routes>
       </div>

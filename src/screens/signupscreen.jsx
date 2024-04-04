@@ -20,7 +20,7 @@ function SignUp() {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [retypepassword, setRetypePassword] = useState("");
-  const [value, setValue] = React.useState("freelancer");
+  const [value, setValue] = React.useState("Freelancer");
   const [backdropOpen, setBackdropOpen] = useState(false);
 
   const handleChange = (event) => {
@@ -28,19 +28,25 @@ function SignUp() {
   };
 
   const handleSignup = async () => {
+    setBackdropOpen(true);
+
     if (password !== retypepassword) {
       alert("Password does not match");
+      setBackdropOpen(false);
+
       return;
     }
-    setBackdropOpen(true);
     const response = await signupUser({ username, email, password });
     if (response.status) {
       alert("Signup success, You can login now!");
-      navigate("/login");
+      if (value == "Freelancer") {
+        navigate();
+      }
     } else {
+      setBackdropOpen(false);
+
       alert(response.message);
     }
-
   };
 
   const navigate = useNavigate();
@@ -62,8 +68,7 @@ function SignUp() {
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
           open={backdropOpen}
-        >
-        </Backdrop>
+        ></Backdrop>
         <Typography
           fontWeight={700}
           style={{ textAlign: "center", paddingTop: "50px", fontSize: "30px" }}
@@ -117,6 +122,7 @@ function SignUp() {
           pad={3}
         />
         <InputCus
+          isPassword={true}
           placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
           pad={1}
@@ -136,7 +142,7 @@ function SignUp() {
               onChange={handleChange}
             >
               <FormControlLabel
-                value="freelancer"
+                value="Freelancer"
                 control={<Radio />}
                 label="Freelancer"
               />

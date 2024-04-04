@@ -1,30 +1,24 @@
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { styled } from "@mui/material/styles";
 import AppBarCus from "../components/appbar_custom";
 import InputCus from "../components/input_custom";
 import ButtonCus from "../components/button_custom";
 
-export default function FreeProfileComplete() {
+export default function ClientProfileComplete() {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     dateOfBirth: "",
     contactNumber: "",
-    skills: "",
-    projectsExperience: "",
-    github: "",
-    linkedin: "",
-    bio: "",
+    businessName: "",
+    businessProfession: "",
+    aboutBusiness: "",
   });
 
   const [alert, setAlert] = useState(null);
-  const [resumeUploaded, setResumeUploaded] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,11 +26,6 @@ export default function FreeProfileComplete() {
       ...formData,
       [name]: value,
     });
-  };
-
-  const handleFileChange = () => {
-    const resumeFile = document.getElementById("resume").files[0];
-    setResumeUploaded(!!resumeFile);
   };
 
   const handleSubmit = () => {
@@ -52,13 +41,10 @@ export default function FreeProfileComplete() {
       return;
     }
 
-    if (!formData.bio.trim()) {
-      setAlert(<Alert severity="error">Please enter your bio.</Alert>);
-      return;
-    }
-
-    if (!formData.linkedin.trim()) {
-      setAlert(<Alert severity="error">Please enter your linkedin.</Alert>);
+    if (!formData.aboutBusiness.trim()) {
+      setAlert(
+        <Alert severity="error">Please enter about your buisness.</Alert>
+      );
       return;
     }
 
@@ -77,56 +63,22 @@ export default function FreeProfileComplete() {
       return;
     }
 
-    if (!formData.skills.trim()) {
-      setAlert(<Alert severity="error">Please enter your skills.</Alert>);
-      return;
-    }
-
-    if (!formData.projectsExperience.trim()) {
+    if (!formData.businessProfession.trim()) {
       setAlert(
-        <Alert severity="error">
-          Please enter your projects and expirience.
-        </Alert>
+        <Alert severity="error">Please enter your business profession.</Alert>
       );
       return;
     }
 
-    if (!formData.github.trim()) {
-      setAlert(<Alert severity="error">Please enter your github.</Alert>);
-      return;
-    }
-    const resumeFile = document.getElementById("resume").files[0];
-    if (!resumeFile) {
-      setAlert(<Alert severity="error">Please upload your resume.</Alert>);
-      return;
-    }
-
-    const allowedFormats = ["image/png", "image/jpeg"];
-    if (!allowedFormats.includes(resumeFile.type)) {
+    if (!formData.businessName.trim()) {
       setAlert(
-        <Alert severity="error">
-          Please upload your resume in PNG or JPEG format.
-        </Alert>
+        <Alert severity="error">Please enter your business name.</Alert>
       );
-      setResumeUploaded(!!resumeFile);
-
       return;
     }
 
     console.log("Form submitted:", formData);
   };
-
-  const VisuallyHiddenInput = styled("input")({
-    clip: "rect(0 0 0 0)",
-    clipPath: "inset(50%)",
-    height: 1,
-    overflow: "hidden",
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    whiteSpace: "nowrap",
-    width: 1,
-  });
 
   return (
     <>
@@ -168,18 +120,10 @@ export default function FreeProfileComplete() {
               width={300}
             />
             <InputCus
-              placeholder={"Skills"}
-              name="skills"
+              placeholder={"business profession"}
+              name="businessProfession"
               onChange={handleChange}
-              value={formData.skills}
-              pad={1}
-              width={300}
-            />
-            <InputCus
-              placeholder={"GitHub"}
-              name="github"
-              onChange={handleChange}
-              value={formData.github}
+              value={formData.linkedin}
               pad={1}
               width={300}
             />
@@ -202,18 +146,10 @@ export default function FreeProfileComplete() {
               width={300}
             />
             <InputCus
-              placeholder={"Projects and Experience"}
-              name="projectsExperience"
+              placeholder={"business name"}
+              name="businessName"
               onChange={handleChange}
               value={formData.projectsExperience}
-              pad={1}
-              width={300}
-            />
-            <InputCus
-              placeholder={"LinkedIn"}
-              name="linkedin"
-              onChange={handleChange}
-              value={formData.linkedin}
               pad={1}
               width={300}
             />
@@ -223,8 +159,8 @@ export default function FreeProfileComplete() {
           required
           fullWidth
           id="bio"
-          name="bio"
-          label="Bio"
+          name="aboutBusiness"
+          label="about buisness"
           multiline
           rows={4}
           variant="outlined"
@@ -232,19 +168,7 @@ export default function FreeProfileComplete() {
           onChange={handleChange}
           sx={{ marginBottom: 2, maxWidth: 600, py: 1 }}
         />
-        <Button
-          component="label"
-          variant="contained"
-          startIcon={<CloudUploadIcon />}
-          style={{ marginTop: "20px", width: "400px" }}
-        >
-          {resumeUploaded ? "Resume Uploaded" : "Upload Resume"}
-          <VisuallyHiddenInput
-            type="file"
-            id="resume"
-            onChange={handleFileChange}
-          />
-        </Button>
+
         <ButtonCus
           pad={3}
           text={"Submit"}
