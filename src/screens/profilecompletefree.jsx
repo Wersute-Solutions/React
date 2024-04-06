@@ -9,15 +9,16 @@ import { styled } from "@mui/material/styles";
 import AppBarCus from "../components/appbar_custom";
 import InputCus from "../components/input_custom";
 import ButtonCus from "../components/button_custom";
+import { updateProfile } from "../api/profileHelpers";
 
 export default function FreeProfileComplete() {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    dateOfBirth: "",
-    contactNumber: "",
+    first_name: "",
+    last_name: "",
+    dob: "",
+    contact_no: "",
     skills: "",
-    projectsExperience: "",
+    projects_and_experience: "",
     github: "",
     linkedin: "",
     bio: "",
@@ -25,6 +26,7 @@ export default function FreeProfileComplete() {
 
   const [alert, setAlert] = useState(null);
   const [resumeUploaded, setResumeUploaded] = useState(false);
+  const [resumeFile, setResumeFile] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -34,20 +36,24 @@ export default function FreeProfileComplete() {
     });
   };
 
-  const handleFileChange = () => {
-    const resumeFile = document.getElementById("resume").files[0];
-    setResumeUploaded(!!resumeFile);
+  const handleFileChange = (e) => {
+    const resumeFile = e.target.files[0];
+    if (resumeFile) {
+      setResumeFile(resumeFile);
+      setResumeUploaded(true);
+      console.log(formData);
+    }
   };
 
   const handleSubmit = () => {
     setAlert(null);
 
-    if (!formData.firstName.trim()) {
+    if (!formData.first_name.trim()) {
       setAlert(<Alert severity="error">Please enter your first name.</Alert>);
       return;
     }
 
-    if (!formData.lastName.trim()) {
+    if (!formData.last_name.trim()) {
       setAlert(<Alert severity="error">Please enter your last name.</Alert>);
       return;
     }
@@ -62,7 +68,7 @@ export default function FreeProfileComplete() {
       return;
     }
 
-    if (!formData.dateOfBirth.trim()) {
+    if (!formData.dob.trim()) {
       setAlert(
         <Alert severity="error">Please enter your date of birth.</Alert>
       );
@@ -70,7 +76,7 @@ export default function FreeProfileComplete() {
     }
 
     const contactNumberPattern = /^\d{10}$/;
-    if (!contactNumberPattern.test(formData.contactNumber)) {
+    if (!contactNumberPattern.test(formData.contact_no)) {
       setAlert(
         <Alert severity="error">Please enter a valid contact number.</Alert>
       );
@@ -82,7 +88,7 @@ export default function FreeProfileComplete() {
       return;
     }
 
-    if (!formData.projectsExperience.trim()) {
+    if (!formData.projects_and_experience.trim()) {
       setAlert(
         <Alert severity="error">
           Please enter your projects and expirience.
@@ -95,13 +101,12 @@ export default function FreeProfileComplete() {
       setAlert(<Alert severity="error">Please enter your github.</Alert>);
       return;
     }
-    const resumeFile = document.getElementById("resume").files[0];
     if (!resumeFile) {
       setAlert(<Alert severity="error">Please upload your resume.</Alert>);
       return;
     }
 
-    const allowedFormats = ["image/png", "image/jpeg"];
+    const allowedFormats = ["image/png", "image/jpeg", "application/pdf"];
     if (!allowedFormats.includes(resumeFile.type)) {
       setAlert(
         <Alert severity="error">
@@ -113,7 +118,19 @@ export default function FreeProfileComplete() {
       return;
     }
 
-    console.log("Form submitted:", formData);
+    setFormData({
+      ...formData,
+      role: "freelancer",
+    });
+
+    const formDataToSend = new FormData();
+    for (const [key, value] of Object.entries(formData)) {
+      formDataToSend.append(key, String(value));
+    }
+    formDataToSend.append("role", "freelancer")
+    formDataToSend.append("resume", resumeFile, "resume.pdf");
+
+    updateProfile(formDataToSend);
   };
 
   const VisuallyHiddenInput = styled("input")({
@@ -153,7 +170,7 @@ export default function FreeProfileComplete() {
           <div style={{ marginRight: "20px" }}>
             <InputCus
               placeholder={"First Name"}
-              name="firstName"
+              name="first_name"
               onChange={handleChange}
               value={formData.firstName}
               pad={1}
@@ -161,9 +178,9 @@ export default function FreeProfileComplete() {
             />
             <InputCus
               placeholder={"Date of Birth (YYYY-MM-DD)"}
-              name="dateOfBirth"
+              name="dob"
               onChange={handleChange}
-              value={formData.dateOfBirth}
+              value={formData.dob}
               pad={1}
               width={300}
             />
@@ -187,7 +204,7 @@ export default function FreeProfileComplete() {
           <div>
             <InputCus
               placeholder={"Last Name"}
-              name="lastName"
+              name="last_name"
               onChange={handleChange}
               value={formData.lastName}
               pad={1}
@@ -195,17 +212,17 @@ export default function FreeProfileComplete() {
             />
             <InputCus
               placeholder={"Contact Number"}
-              name="contactNumber"
+              name="contact_no"
               onChange={handleChange}
-              value={formData.contactNumber}
+              value={formData.contact_no}
               pad={1}
               width={300}
             />
             <InputCus
               placeholder={"Projects and Experience"}
-              name="projectsExperience"
+              name="projects_and_experience"
               onChange={handleChange}
-              value={formData.projectsExperience}
+              value={formData.projects_and_experience}
               pad={1}
               width={300}
             />

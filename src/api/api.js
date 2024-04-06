@@ -1,4 +1,4 @@
-export const BASE_URL = 'http://192.168.1.4:8000/';
+export const BASE_URL = 'http://localhost:8000/';
 
 import { refreshToken } from "./auth";
 
@@ -51,6 +51,31 @@ export async function postRequest(url, kwargs = {}, headers = {}, auth = false) 
         return { status: false, message: error.message };
     }
 }
+
+export async function postForm(url, formData, headers = {}, auth = false) {
+    try {
+        const response = await fetch(`${BASE_URL}${url}`, {
+            method: 'POST',
+            headers: {
+                ...headers,
+                ...(auth && { 'Authorization': `Bearer ${localStorage.getItem('accessToken')}` }),
+            },
+            body: formData,
+        });
+        const data = await response.json();
+        if (!response.ok) {
+            throw new Error(data.detail || 'Failed to fetch');
+        }
+        if (response.status === 403) {
+            refreshToken();
+            return postRequest(url, formData, headers, auth);
+        }
+        return data;
+    } catch (error) {
+        return { status: false, message: error.message };
+    }
+}
+
 
 export async function putRequest(url, kwargs = {}, headers = {}, auth = false) {
     try {
