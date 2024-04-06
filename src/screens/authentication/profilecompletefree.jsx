@@ -6,10 +6,10 @@ import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { styled } from "@mui/material/styles";
-import AppBarCus from "../components/appbar_custom";
-import InputCus from "../components/input_custom";
-import ButtonCus from "../components/button_custom";
-import { updateProfile } from "../api/profileHelpers";
+import AppBarCus from "../../components/appbar_custom";
+import InputCus from "../../components/input_custom";
+import ButtonCus from "../../components/button_custom";
+import { updateProfile } from "../../api/profileHelpers";
 
 export default function FreeProfileComplete() {
   const [formData, setFormData] = useState({
@@ -127,7 +127,7 @@ export default function FreeProfileComplete() {
     for (const [key, value] of Object.entries(formData)) {
       formDataToSend.append(key, String(value));
     }
-    formDataToSend.append("role", "freelancer")
+    formDataToSend.append("role", "freelancer");
     formDataToSend.append("resume", resumeFile, "resume.pdf");
 
     updateProfile(formDataToSend);

@@ -1,17 +1,17 @@
 import { useState, useEffect } from "react";
-import AppBarCus from "../components/appbar_custom";
-import InputCus from "../components/input_custom";
+import AppBarCus from "../../components/appbar_custom";
+import InputCus from "../../components/input_custom";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import ButtonCus from "../components/button_custom";
+import ButtonCus from "../../components/button_custom";
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
-import SocialButtonCus from "../components/extra_login_custom";
+import SocialButtonCus from "../../components/extra_login_custom";
 import { useNavigate } from "react-router-dom";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
-import { loginUser } from "../api/auth";
-import { useStore } from "../zustandState";
+import { loginUser } from "../../api/auth";
+import { useStore } from "../../zustandState";
 
 function Login() {
   const [username, setUsername] = useState("");

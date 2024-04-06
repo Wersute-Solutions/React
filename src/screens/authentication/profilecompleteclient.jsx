@@ -3,9 +3,9 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
-import AppBarCus from "../components/appbar_custom";
-import InputCus from "../components/input_custom";
-import ButtonCus from "../components/button_custom";
+import AppBarCus from "../../components/appbar_custom";
+import InputCus from "../../components/input_custom";
+import ButtonCus from "../../components/button_custom";
 
 export default function ClientProfileComplete() {
   const [formData, setFormData] = useState({

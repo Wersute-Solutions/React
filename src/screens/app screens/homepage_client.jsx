@@ -1,5 +1,5 @@
-import AppBarCus from "../components/appbar_custom";
-import ProfilePicture from "../components/profilepic";
+import AppBarCus from "../../components/appbar_custom";
+import ProfilePicture from "../../components/profilepic";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 

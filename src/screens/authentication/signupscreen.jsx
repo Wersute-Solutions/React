@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AppBarCus from "../components/appbar_custom";
-import InputCus from "../components/input_custom";
+import AppBarCus from "../../components/appbar_custom";
+import InputCus from "../../components/input_custom";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import ButtonCus from "../components/button_custom";
+import ButtonCus from "../../components/button_custom";
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
-import SocialButtonCus from "../components/extra_login_custom";
+import SocialButtonCus from "../../components/extra_login_custom";
 import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import RadioGroup from "@mui/material/RadioGroup";
 import Radio from "@mui/material/Radio";
 import Backdrop from "@mui/material/Backdrop";
-import { signupUser } from "../api/auth";
+import { signupUser } from "../../api/auth";
 
 function SignUp() {
   const [username, setUsername] = useState("");
