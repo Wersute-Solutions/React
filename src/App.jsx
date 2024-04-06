@@ -9,6 +9,8 @@ import { useEffect } from "react";
 import { checkTokenExpire, getCurrentUser } from "./api/auth";
 import { useStore } from "./zustandState";
 import ClientProfileComplete from "./screens/profilecompleteclient";
+import AppBarCus from "./components/appbar_custom";
+import HomePageClient from "./screens/homepage_client";
 
 const darkTheme = createTheme({
   palette: {
@@ -53,6 +55,7 @@ function App() {
             path="/completeclientprofile"
             element={<ClientProfileComplete />}
           />
+          <Route path="/home" element={<HomePageClient />} />
         </Routes>
       </div>
     </ThemeProvider>
