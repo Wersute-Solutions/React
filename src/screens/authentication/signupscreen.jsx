@@ -39,7 +39,7 @@ function SignUp() {
     const response = await signupUser({ username, email, password });
     if (response.status) {
       alert("Signup success, You can login now!");
-      if (value == "Freelancer") {
+      if (value === "Freelancer") {
         navigate();
       }
     } else {
@@ -63,6 +63,9 @@ function SignUp() {
           backgroundColor: "#f0f0f0",
           minHeight: "100vh",
           padding: "20px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
         }}
       >
         <Backdrop
@@ -80,13 +83,14 @@ function SignUp() {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            marginBottom: "10px",
           }}
         >
           <Typography
             fontWeight={300}
             style={{ textAlign: "center", paddingTop: "5px", fontSize: "13px" }}
           >
-            Aleredy have an account?
+            Already have an account?
           </Typography>
           <Button
             variant="text"
@@ -94,6 +98,7 @@ function SignUp() {
               textTransform: "none",
               backgroundColor: "transparent",
               border: "none",
+              marginLeft: "5px",
             }}
             onClick={() => {
               navigate("/login");
@@ -111,27 +116,35 @@ function SignUp() {
             </Typography>
           </Button>
         </div>
-        <InputCus
-          placeholder="What should we call you"
-          onChange={(e) => setUsername(e.target.value)}
-          pad={1}
-        />
-        <InputCus
-          placeholder="What's your email"
-          onChange={(e) => setEmail(e.target.value)}
-          pad={3}
-        />
-        <InputCus
-          isPassword={true}
-          placeholder="Password"
-          onChange={(e) => setPassword(e.target.value)}
-          pad={1}
-        />
-        <InputCus
-          placeholder="Retype Password"
-          onChange={(e) => setRetypePassword(e.target.value)}
-          pad={3}
-        />
+        <div style={{ marginBottom: "10px" }}>
+          <InputCus
+            placeholder="What should we call you"
+            onChange={(e) => setUsername(e.target.value)}
+            width={"300px"}
+          />
+        </div>
+        <div style={{ marginBottom: "10px" }}>
+          <InputCus
+            placeholder="What's your email"
+            onChange={(e) => setEmail(e.target.value)}
+            width={"300px"}
+          />
+        </div>
+        <div style={{ marginBottom: "10px" }}>
+          <InputCus
+            isPassword={true}
+            placeholder="Password"
+            onChange={(e) => setPassword(e.target.value)}
+            width={"300px"}
+          />
+        </div>
+        <div style={{ marginBottom: "10px" }}>
+          <InputCus
+            placeholder="Retype Password"
+            onChange={(e) => setRetypePassword(e.target.value)}
+            width={"300px"}
+          />
+        </div>
         <Grid container justifyContent="center" sx={{ py: 1 }}>
           <FormControl>
             <RadioGroup

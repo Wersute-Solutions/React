@@ -1,16 +1,14 @@
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Routes, Route } from "react-router-dom";
-import Login from "./screens/loginscreen";
-import SignUp from "./screens/signupscreen";
-import FreeProfileComplete from "./screens/profilecompletefree";
-import TempHomeScreen from "./screens/TempHomeScreen";
+import Login from "./screens/authentication/loginscreen";
+import SignUp from "./screens/authentication/signupscreen";
+import FreeProfileComplete from "./screens/authentication/profilecompletefree";
 import "./style.css";
 import { useEffect } from "react";
 import { checkTokenExpire, getCurrentUser } from "./api/auth";
 import { useStore } from "./zustandState";
-import ClientProfileComplete from "./screens/profilecompleteclient";
-import AppBarCus from "./components/appbar_custom";
-import HomePageClient from "./screens/homepage_client";
+import ClientProfileComplete from "./screens/authentication/profilecompleteclient";
+import HomePageClient from "./screens/app/homepage_client";
 
 const darkTheme = createTheme({
   palette: {
@@ -44,7 +42,6 @@ function App() {
     <ThemeProvider theme={darkTheme}>
       <div>
         <Routes>
-          <Route path="/" element={<TempHomeScreen />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route

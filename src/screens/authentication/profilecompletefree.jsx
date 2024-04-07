@@ -6,6 +6,7 @@ import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { styled } from "@mui/material/styles";
+import Grid from "@mui/material/Grid";
 import AppBarCus from "../../components/appbar_custom";
 import InputCus from "../../components/input_custom";
 import ButtonCus from "../../components/button_custom";
@@ -91,7 +92,7 @@ export default function FreeProfileComplete() {
     if (!formData.projects_and_experience.trim()) {
       setAlert(
         <Alert severity="error">
-          Please enter your projects and expirience.
+          Please enter your projects and experience.
         </Alert>
       );
       return;
@@ -154,120 +155,132 @@ export default function FreeProfileComplete() {
           minHeight: "100vh",
           padding: "20px",
           display: "flex",
-          flexDirection: "column",
+          justifyContent: "center",
           alignItems: "center",
         }}
       >
-        <Typography variant="h4" align="center" gutterBottom>
-          Complete Your Profile
-        </Typography>
-        {alert && (
-          <Stack sx={{ width: "100%" }} spacing={2}>
-            {alert}
-          </Stack>
-        )}
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <div style={{ marginRight: "20px" }}>
-            <InputCus
-              placeholder={"First Name"}
-              name="first_name"
-              onChange={handleChange}
-              value={formData.firstName}
-              pad={1}
-              width={300}
-            />
-            <InputCus
-              placeholder={"Date of Birth (YYYY-MM-DD)"}
-              name="dob"
-              onChange={handleChange}
-              value={formData.dob}
-              pad={1}
-              width={300}
-            />
-            <InputCus
-              placeholder={"Skills"}
-              name="skills"
-              onChange={handleChange}
-              value={formData.skills}
-              pad={1}
-              width={300}
-            />
-            <InputCus
-              placeholder={"GitHub"}
-              name="github"
-              onChange={handleChange}
-              value={formData.github}
-              pad={1}
-              width={300}
-            />
-          </div>
-          <div>
-            <InputCus
-              placeholder={"Last Name"}
-              name="last_name"
-              onChange={handleChange}
-              value={formData.lastName}
-              pad={1}
-              width={300}
-            />
-            <InputCus
-              placeholder={"Contact Number"}
-              name="contact_no"
-              onChange={handleChange}
-              value={formData.contact_no}
-              pad={1}
-              width={300}
-            />
-            <InputCus
-              placeholder={"Projects and Experience"}
-              name="projects_and_experience"
-              onChange={handleChange}
-              value={formData.projects_and_experience}
-              pad={1}
-              width={300}
-            />
-            <InputCus
-              placeholder={"LinkedIn"}
-              name="linkedin"
-              onChange={handleChange}
-              value={formData.linkedin}
-              pad={1}
-              width={300}
-            />
-          </div>
+        <div style={{ maxWidth: "800px", width: "100%" }}>
+          <Typography variant="h4" align="center" gutterBottom>
+            Complete Your Profile
+          </Typography>
+          {alert && (
+            <Stack sx={{ width: "100%" }} spacing={2}>
+              {alert}
+            </Stack>
+          )}
+          <br />
+          <br />
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+              <InputCus
+                placeholder={"First Name"}
+                name="first_name"
+                onChange={handleChange}
+                value={formData.first_name}
+                width={300}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <InputCus
+                placeholder={"Last Name"}
+                name="last_name"
+                onChange={handleChange}
+                value={formData.last_name}
+                width={300}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <InputCus
+                placeholder={"Date of Birth (YYYY-MM-DD)"}
+                name="dob"
+                onChange={handleChange}
+                value={formData.dob}
+                width={300}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <InputCus
+                placeholder={"Contact Number"}
+                name="contact_no"
+                onChange={handleChange}
+                value={formData.contact_no}
+                width={300}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <InputCus
+                placeholder={"Skills"}
+                name="skills"
+                onChange={handleChange}
+                value={formData.skills}
+                width={300}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <InputCus
+                placeholder={"GitHub"}
+                name="github"
+                onChange={handleChange}
+                value={formData.github}
+                width={300}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <InputCus
+                placeholder={"LinkedIn"}
+                name="linkedin"
+                onChange={handleChange}
+                value={formData.linkedin}
+                width={300}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <InputCus
+                placeholder={"Projects and Experience"}
+                name="projects_and_experience"
+                onChange={handleChange}
+                value={formData.projects_and_experience}
+                width={300}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                id="bio"
+                name="bio"
+                label="Bio"
+                multiline
+                rows={6}
+                variant="outlined"
+                value={formData.bio}
+                onChange={handleChange}
+                style={{ marginBottom: "20px", width: "88.5%" }}
+              />
+            </Grid>
+
+            <Grid
+              item
+              xs={12}
+              style={{ display: "flex", justifyContent: "center" }}
+            >
+              <Button
+                component="label"
+                variant="contained"
+                startIcon={<CloudUploadIcon />}
+              >
+                {resumeUploaded ? "Resume Uploaded" : "Upload Resume"}
+                <VisuallyHiddenInput
+                  type="file"
+                  id="resume"
+                  onChange={handleFileChange}
+                />
+              </Button>
+            </Grid>
+            <Grid item xs={12}>
+              <ButtonCus pad={3} text={"Submit"} onClick={handleSubmit} />
+            </Grid>
+          </Grid>
         </div>
-        <TextField
-          required
-          fullWidth
-          id="bio"
-          name="bio"
-          label="Bio"
-          multiline
-          rows={4}
-          variant="outlined"
-          value={formData.bio}
-          onChange={handleChange}
-          sx={{ marginBottom: 2, maxWidth: 600, py: 1 }}
-        />
-        <Button
-          component="label"
-          variant="contained"
-          startIcon={<CloudUploadIcon />}
-          style={{ marginTop: "20px", width: "400px" }}
-        >
-          {resumeUploaded ? "Resume Uploaded" : "Upload Resume"}
-          <VisuallyHiddenInput
-            type="file"
-            id="resume"
-            onChange={handleFileChange}
-          />
-        </Button>
-        <ButtonCus
-          pad={3}
-          text={"Submit"}
-          onClick={handleSubmit}
-          style={{ width: "400px", marginTop: "20px" }}
-        />
       </div>
     </>
   );

@@ -1,17 +1,17 @@
-import { useState, useEffect } from "react";
-import AppBarCus from "../../components/appbar_custom";
-import InputCus from "../../components/input_custom";
+import { useState } from "react";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
+import InputCus from "../../components/input_custom";
 import ButtonCus from "../../components/button_custom";
 import Divider from "@mui/material/Divider";
-import Grid from "@mui/material/Grid";
 import SocialButtonCus from "../../components/extra_login_custom";
 import { useNavigate } from "react-router-dom";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import { loginUser } from "../../api/auth";
 import { useStore } from "../../zustandState";
+import AppBarCus from "../../components/appbar_custom";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -56,6 +56,9 @@ function Login() {
           backgroundColor: "#f0f0f0",
           minHeight: "100vh",
           padding: "20px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
         }}
       >
         <Backdrop
@@ -76,6 +79,7 @@ function Login() {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            marginBottom: "10px",
           }}
         >
           <Typography
@@ -90,6 +94,7 @@ function Login() {
               textTransform: "none",
               backgroundColor: "transparent",
               border: "none",
+              marginLeft: "5px",
             }}
             onClick={() => {
               navigate("/signup");
@@ -107,16 +112,21 @@ function Login() {
             </Typography>
           </Button>
         </div>
-        <InputCus
-          placeholder="Username"
-          onChange={(e) => setUsername(e.target.value)}
-          pad={3}
-        />
-        <InputCus
-          placeholder="Password"
-          onChange={(e) => setPassword(e.target.value)}
-          pad={1}
-        />
+        <div style={{ marginBottom: "10px" }}>
+          <InputCus
+            placeholder="Username"
+            onChange={(e) => setUsername(e.target.value)}
+            width={"300px"}
+          />
+        </div>
+        <br />
+        <div style={{ marginBottom: "10px" }}>
+          <InputCus
+            placeholder="Password"
+            onChange={(e) => setPassword(e.target.value)}
+            width={"300px"}
+          />
+        </div>
         <ButtonCus pad={4} text={"Login"} onClick={handleLogin} />
         <Grid container justifyContent="center" sx={{ py: 2 }}>
           <Grid item>
