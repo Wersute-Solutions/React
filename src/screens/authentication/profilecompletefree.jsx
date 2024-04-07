@@ -11,6 +11,7 @@ import AppBarCus from "../../components/appbar_custom";
 import InputCus from "../../components/input_custom";
 import ButtonCus from "../../components/button_custom";
 import { updateProfile } from "../../api/profileHelpers";
+import InputLargeCus from "../../components/input_large_custom";
 
 export default function FreeProfileComplete() {
   const [formData, setFormData] = useState({
@@ -244,17 +245,11 @@ export default function FreeProfileComplete() {
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                required
-                id="bio"
-                name="bio"
-                label="Bio"
-                multiline
-                rows={6}
-                variant="outlined"
-                value={formData.bio}
+              <InputLargeCus
+                name={"bio"}
                 onChange={handleChange}
-                style={{ marginBottom: "20px", width: "88.5%" }}
+                placeholder={"Bio"}
+                width={710}
               />
             </Grid>
 

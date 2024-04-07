@@ -7,6 +7,7 @@ export default function InputCus({
   width,
   name,
   isPassword,
+  marginbottom,
 }) {
   return (
     <TextField
@@ -14,7 +15,7 @@ export default function InputCus({
       multiline
       name={name}
       type={isPassword ? "password" : "text"}
-      sx={{ width: width || "400px" }}
+      sx={{ width: width || "400px", marginBottom: marginbottom }}
       label={placeholder}
       color="primary"
       onChange={onChange}

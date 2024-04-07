@@ -7,6 +7,7 @@ import AppBarCus from "../../components/appbar_custom";
 import InputCus from "../../components/input_custom";
 import ButtonCus from "../../components/button_custom";
 import Grid from "@mui/material/Grid";
+import InputLargeCus from "../../components/input_large_custom";
 
 export default function ClientProfileComplete() {
   const [formData, setFormData] = useState({
@@ -164,18 +165,11 @@ export default function ClientProfileComplete() {
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="bio"
-                name="aboutBusiness"
-                label="about buisness"
-                multiline
-                rows={6}
-                variant="outlined"
-                value={formData.bio}
+              <InputLargeCus
+                name={"aboutBusiness"}
                 onChange={handleChange}
-                sx={{ marginBottom: 2, maxWidth: 710, py: 1 }}
+                placeholder={"about buisness"}
+                width={710}
               />
             </Grid>
             <Grid
