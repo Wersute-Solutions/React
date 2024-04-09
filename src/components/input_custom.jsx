@@ -11,7 +11,6 @@ export default function InputCus({
 }) {
   return (
     <TextField
-      required
       multiline
       name={name}
       type={isPassword ? "password" : "text"}
