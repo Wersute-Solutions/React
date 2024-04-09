@@ -115,7 +115,6 @@ export default function ClientProfileComplete() {
                 placeholder={"First Name"}
                 name="firstName"
                 onChange={handleChange}
-                value={formData.firstName}
                 width={300}
               />
             </Grid>
@@ -124,7 +123,6 @@ export default function ClientProfileComplete() {
                 placeholder={"Date of Birth (YYYY-MM-DD)"}
                 name="dateOfBirth"
                 onChange={handleChange}
-                value={formData.dateOfBirth}
                 width={300}
               />
             </Grid>
@@ -133,7 +131,6 @@ export default function ClientProfileComplete() {
                 placeholder={"business profession"}
                 name="businessProfession"
                 onChange={handleChange}
-                value={formData.linkedin}
                 width={300}
               />
             </Grid>
@@ -142,7 +139,6 @@ export default function ClientProfileComplete() {
                 placeholder={"Last Name"}
                 name="lastName"
                 onChange={handleChange}
-                value={formData.lastName}
                 width={300}
               />
             </Grid>
@@ -151,7 +147,6 @@ export default function ClientProfileComplete() {
                 placeholder={"Contact Number"}
                 name="contactNumber"
                 onChange={handleChange}
-                value={formData.contactNumber}
                 width={300}
               />
             </Grid>
@@ -160,7 +155,6 @@ export default function ClientProfileComplete() {
                 placeholder={"business name"}
                 name="businessName"
                 onChange={handleChange}
-                value={formData.projectsExperience}
                 width={300}
               />
             </Grid>
