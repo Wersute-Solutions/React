@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import AppBarCus from "../../components/appbar_custom";
 import Grid from "@mui/material/Grid";
+import Stack from "@mui/material/Stack";
 import InputCus from "../../components/input_custom";
 import InputLargeCus from "../../components/input_large_custom";
 import ButtonCus from "../../components/button_custom";
 import DrawerCus from "../../components/drawer_custom";
-import Box from "@mui/material/Box";
+import Alert from "@mui/material/Alert";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -25,6 +26,7 @@ export default function HomePageClient() {
   });
 
   const [showMoreFields, setShowMoreFields] = useState(false);
+  const [alert, setAlert] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,6 +42,18 @@ export default function HomePageClient() {
 
   const toggleShowMoreFields = () => {
     setShowMoreFields((prevShowMoreFields) => !prevShowMoreFields);
+  };
+
+  const handleSubmit = () => {
+    setAlert(null);
+    if (!formData.title.trim()) {
+      setAlert(<Alert severity="error">Please enter the title.</Alert>);
+      return;
+    }
+    if (!formData.description.trim()) {
+      setAlert(<Alert severity="error">Please enter the descritption.</Alert>);
+      return;
+    }
   };
 
   return (
@@ -69,6 +83,11 @@ export default function HomePageClient() {
         >
           Create a Post
         </Typography>
+        {alert && (
+          <Stack sx={{ width: "100%" }} spacing={2}>
+            {alert}
+          </Stack>
+        )}
         <Grid container spacing={2}>
           <Grid item xs={12} md={4}>
             <BoxCus
@@ -154,7 +173,7 @@ export default function HomePageClient() {
                 </IconButton>
               </Grid>
               <Grid item xs={6} marginTop={"50px"}>
-                <ButtonCus text={"Post"} onClick={() => {}} />
+                <ButtonCus text={"Post"} onClick={handleSubmit} />
               </Grid>
             </Grid>
           </Grid>
