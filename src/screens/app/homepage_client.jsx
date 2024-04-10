@@ -86,7 +86,7 @@ export default function HomePageClient() {
                   name={"title"}
                   onChange={handleChange}
                   placeholder={"Title"}
-                  marginbottom={5}
+                  marginbottom={4}
                   fullWidth
                 />
               </Grid>

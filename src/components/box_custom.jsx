@@ -6,7 +6,7 @@ export default function BoxCus({ element }) {
       sx={{
         backgroundColor: "#E0E0E0",
         width: "100%",
-        height: "300px",
+        height: "450px",
         borderRadius: "8px",
         display: "flex",
         justifyContent: "center",
