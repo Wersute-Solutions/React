@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import AppBarCus from "../../components/appbar_custom";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
@@ -11,11 +11,12 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import PhotoCameraIcon from "@mui/icons-material/PhotoCamera"; // Import the image picker icon
+import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
+import CloseIcon from "@mui/icons-material/Close";
 import BoxCus from "../../components/box_custom";
 
 export default function HomePageClient() {
-  const [isMenuOpen, setIsMenuOpen] = useState(true);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -23,10 +24,12 @@ export default function HomePageClient() {
     skills_required: "",
     duration: "",
     responsibilities: "",
+    image: null, // Add image state
   });
 
   const [showMoreFields, setShowMoreFields] = useState(false);
   const [alert, setAlert] = useState(null);
+  const fileInputRef = useRef(null); // Reference to file input
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -51,9 +54,44 @@ export default function HomePageClient() {
       return;
     }
     if (!formData.description.trim()) {
-      setAlert(<Alert severity="error">Please enter the descritption.</Alert>);
+      setAlert(<Alert severity="error">Please enter the description.</Alert>);
       return;
     }
+    // Handle form submission including image data
+    console.log(formData);
+  };
+
+  // Function to read the selected image file and set it as a preview
+  const handleImagePreview = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setFormData({
+          ...formData,
+          image: reader.result,
+        });
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setFormData({
+        ...formData,
+        image: null,
+      });
+    }
+  };
+
+  // Function to trigger file input when camera button is clicked
+  const handleCameraButtonClick = () => {
+    fileInputRef.current.click();
+  };
+
+  // Function to remove the selected image
+  const removeImage = () => {
+    setFormData({
+      ...formData,
+      image: null,
+    });
   };
 
   return (
@@ -90,16 +128,53 @@ export default function HomePageClient() {
         )}
         <Grid container spacing={2}>
           <Grid item xs={12} md={4}>
+            {/* Image picker with preview */}
+            <input
+              ref={fileInputRef}
+              style={{ display: "none" }}
+              id="image-upload"
+              type="file"
+              accept="image/*"
+              onChange={handleImagePreview}
+              name="image"
+            />
             <BoxCus
               element={
-                <IconButton>
-                  <PhotoCameraIcon fontSize="large" />
-                </IconButton>
+                formData.image ? (
+                  <div style={{ position: "relative" }}>
+                    <img
+                      src={formData.image}
+                      alt="Preview"
+                      style={{ maxWidth: "100%" }}
+                    />
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: "0",
+                        right: "0",
+                        zIndex: 1,
+                      }}
+                    >
+                      <IconButton
+                        onClick={removeImage}
+                        style={{ color: "white" }}
+                      >
+                        <CloseIcon />
+                      </IconButton>
+                    </div>
+                  </div>
+                ) : (
+                  <IconButton onClick={handleCameraButtonClick}>
+                    <PhotoCameraIcon fontSize="large" />
+                  </IconButton>
+                )
               }
             />
           </Grid>
           <Grid item xs={12} md={8}>
+            {/* Rest of the form */}
             <Grid container spacing={2}>
+              {/* Form inputs */}
               <Grid item xs={12}>
                 <InputCus
                   name={"title"}
