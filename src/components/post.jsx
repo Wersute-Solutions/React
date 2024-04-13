@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardContent,
@@ -8,6 +8,8 @@ import {
   Avatar,
 } from "@mui/material";
 import { blue } from "@mui/material/colors";
+import ButtonCus from "./button_custom";
+import ApplyPopup from "./post_popup";
 
 export default function Post({
   title,
@@ -21,6 +23,12 @@ export default function Post({
   profilePic,
   date,
 }) {
+  const [openPopup, setOpenPopup] = useState(false); // State to manage popup visibility
+
+  const handleApplyClick = () => {
+    setOpenPopup(true); // Open the popup when Apply button is clicked
+  };
+
   return (
     <Card
       sx={{
@@ -65,11 +73,11 @@ export default function Post({
           <CardMedia
             component="img"
             sx={{
-              width: "100%", // Make the image full width
+              width: "100%",
               objectFit: "cover",
               borderBottomLeftRadius: 4,
               borderTopLeftRadius: 0,
-              borderTopRightRadius: 0, // Add border radius for the image
+              borderTopRightRadius: 0,
               marginBottom: "10px",
             }}
             image={image}
@@ -105,6 +113,8 @@ export default function Post({
             <Typography variant="body1">{responsibilities}</Typography>
           </>
         )}
+        <ButtonCus text={"Apply"} pad={4} onClick={handleApplyClick} />
+        <ApplyPopup open={openPopup} onClose={() => setOpenPopup(false)} />{" "}
       </CardContent>
     </Card>
   );
