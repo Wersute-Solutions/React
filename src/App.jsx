@@ -9,6 +9,7 @@ import { checkTokenExpire, getCurrentUser } from "./api/auth";
 import { useStore } from "./zustandState";
 import ClientProfileComplete from "./screens/authentication/profilecompleteclient";
 import HomePageClient from "./screens/app/homepage_client";
+import HomePageFreelancer from "./screens/app/homepage_free";
 
 const darkTheme = createTheme({
   palette: {
@@ -53,6 +54,7 @@ function App() {
             element={<ClientProfileComplete />}
           />
           <Route path="/home" element={<HomePageClient />} />
+          <Route path="/homefree" element={<HomePageFreelancer />} />
         </Routes>
       </div>
     </ThemeProvider>

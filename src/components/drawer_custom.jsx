@@ -11,7 +11,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ProfilePicture from "./profilepic";
 
-export default function DrawerCus({ open, onClose }) {
+export default function DrawerCus({ open, onClose, isfree = false }) {
   const drawerContent = (
     <Box
       sx={{

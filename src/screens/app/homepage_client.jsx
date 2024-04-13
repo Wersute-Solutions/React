@@ -24,13 +24,12 @@ export default function HomePageClient() {
     skills_required: "",
     duration: "",
     responsibilities: "",
-    image: null, // Add image state
+    image: null,
   });
 
   const [showMoreFields, setShowMoreFields] = useState(false);
   const [alert, setAlert] = useState(null);
-  const fileInputRef = useRef(null); // Reference to file input
-
+  const fileInputRef = useRef(null);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -57,11 +56,9 @@ export default function HomePageClient() {
       setAlert(<Alert severity="error">Please enter the description.</Alert>);
       return;
     }
-    // Handle form submission including image data
     console.log(formData);
   };
 
-  // Function to read the selected image file and set it as a preview
   const handleImagePreview = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -81,12 +78,10 @@ export default function HomePageClient() {
     }
   };
 
-  // Function to trigger file input when camera button is clicked
   const handleCameraButtonClick = () => {
     fileInputRef.current.click();
   };
 
-  // Function to remove the selected image
   const removeImage = () => {
     setFormData({
       ...formData,
@@ -172,7 +167,6 @@ export default function HomePageClient() {
             />
           </Grid>
           <Grid item xs={12} md={8}>
-            {/* Rest of the form */}
             <Grid container spacing={2}>
               {/* Form inputs */}
               <Grid item xs={12}>
