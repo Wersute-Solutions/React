@@ -141,3 +141,24 @@ export async function getCurrentUser()
     
     return response;
 }
+
+export async function getGoogleUser(token){
+    const response = await fetch(
+        `${BASE_URL}api/auth/google/`,
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ token })
+        }
+    )
+    const data = await response.json();
+    if (!response.ok) {
+        throw new Error(data.detail || 'Failed to login');
+    }
+    setRefresh(data.refresh);
+    setAuth(data.access);
+    const user = await getCurrentUser();
+    return user;
+}

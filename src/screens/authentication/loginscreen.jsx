@@ -9,9 +9,12 @@ import SocialButtonCus from "../../components/extra_login_custom";
 import { useNavigate } from "react-router-dom";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
-import { loginUser } from "../../api/auth";
+import { getGoogleUser, loginUser } from "../../api/auth";
 import { useStore } from "../../zustandState";
 import AppBarCus from "../../components/appbar_custom";
+import { useGoogleLogin } from "@react-oauth/google"
+import { GoogleLogin } from '@react-oauth/google';
+
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -19,6 +22,10 @@ function Login() {
 
   const [setCurrentUser] = useStore((state) => [state.setCurrentUser]);
   const [currentUser] = useStore((state) => [state.currentUser]);
+
+  const googleLogin = useGoogleLogin({
+
+  })
 
   const [open, setOpen] = useState(false);
   const handleClose = () => {
@@ -145,6 +152,32 @@ function Login() {
         >
           <div style={{ marginRight: "10px" }}>
             <SocialButtonCus provider="google" onClick={handleGoogleLogin} />
+            <div>
+              <GoogleLogin
+                onSuccess={credentialResponse => {
+                  console.log(credentialResponse);
+                  const token = credentialResponse.credential;
+                  console.log(token);
+                  const user = getGoogleUser(token);
+                  console.log(user);
+                }}
+                onError={() => {
+                  console.log('Login Failed');
+                }}
+              />
+              {/* <GoogleLogin
+                clientId="179057463317-lhlgh40gafpsnued6ahcue0nrtmnp9ng.apps.googleusercontent.com"
+                buttonText="Login with Google"
+                onSuccess={()=>{
+                  console.log("success");
+                }}
+                onFailure={(error)=>{
+                  console.log("failure", error);
+                }}
+                cookiePolicy={'single_host_origin'}
+                uxMode="redirect"
+            /> */}
+            </div>
           </div>
           <div style={{ marginLeft: "10px" }}>
             <SocialButtonCus
