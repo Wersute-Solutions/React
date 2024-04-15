@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Card,
   CardContent,
@@ -29,6 +29,11 @@ export default function Post({
     setOpenPopup(true); // Open the popup when Apply button is clicked
   };
 
+  const dateOptions = {
+    month: 'short',
+    day: '2-digit',
+    year: 'numeric'
+  }
   return (
     <Card
       sx={{
@@ -58,7 +63,9 @@ export default function Post({
               {username}
             </Typography>
             <Typography variant="subtitle2" sx={{ color: blue[500] }}>
-              {date}
+              {
+                new Date(date).toLocaleDateString('en-US', dateOptions)
+              }
             </Typography>
           </div>
         </div>
