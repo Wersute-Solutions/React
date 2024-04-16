@@ -56,6 +56,14 @@ export default function HomePageClient() {
       setAlert(<Alert severity="error">Please enter the description.</Alert>);
       return;
     }
+    if (!formData.description.trim().length() < 100) {
+      setAlert(
+        <Alert severity="error">
+          Please write a description for atleast 100 characters
+        </Alert>
+      );
+      return;
+    }
     console.log(formData);
   };
 
