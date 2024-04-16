@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import {
   Card,
@@ -29,6 +30,8 @@ export default function Post({
     setOpenPopup(true); // Open the popup when Apply button is clicked
   };
 
+
+  
   const dateOptions = {
     month: 'short',
     day: '2-digit',
@@ -76,6 +79,9 @@ export default function Post({
         >
           {title}
         </Typography>
+
+        
+
         {image && (
           <CardMedia
             component="img"

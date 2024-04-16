@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
 import AppBarCus from "../../components/appbar_custom";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
@@ -14,14 +14,16 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import CloseIcon from "@mui/icons-material/Close";
 import BoxCus from "../../components/box_custom";
+import { createPost } from "../../api/posts";
+
 
 export default function HomePageClient() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    approx_pay: "",
-    skills_required: "",
+    pay: "",
+    skills: "",
     duration: "",
     responsibilities: "",
     image: null,
@@ -56,6 +58,12 @@ export default function HomePageClient() {
       setAlert(<Alert severity="error">Please enter the description.</Alert>);
       return;
     }
+    const formDataToSend = new FormData();
+    for (const [key, value] of Object.entries(formData)) {
+      formDataToSend.append(key, String(value));
+    }
+    formDataToSend.append("image", fileInputRef.current.files[0], "image.jpeg");
+    createPost(formDataToSend)
     console.log(formData);
   };
 
@@ -189,7 +197,7 @@ export default function HomePageClient() {
                 <>
                   <Grid item xs={6}>
                     <InputCus
-                      name={"approx_pay"}
+                      name={"pay"}
                       placeholder={"Approximate Pay"}
                       onChange={handleChange}
                       fullWidth
@@ -197,7 +205,7 @@ export default function HomePageClient() {
                   </Grid>
                   <Grid item xs={6}>
                     <InputCus
-                      name={"skills_required"}
+                      name={"skills"}
                       placeholder={"Skills Required"}
                       onChange={handleChange}
                       fullWidth

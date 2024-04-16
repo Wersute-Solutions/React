@@ -1,8 +1,8 @@
-import { getRequest, postRequest } from "./api";
+import { getRequest, postForm,  } from "./api";
 
 export async function createPost(postData) {
     try {
-        const response = await postRequest('api/posts/', postData, {}, true);
+        const response = await postForm('api/posts/', postData, {}, true);
         return { status: true, message: "Post created", data: response};
     } catch (error) {
         return { status: false, message: error.message };
@@ -17,3 +17,4 @@ export async function fetchPosts() {
         return { status: false, message: error.message };
     }
 }
+

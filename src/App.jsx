@@ -20,7 +20,7 @@ const darkTheme = createTheme({
 });
 
 function App() {
-  const { setCurrentUser } = useStore();
+  const { setCurrentUser, currentUser } = useStore();
 
   async function userSetHandle() {
     const user = await getCurrentUser();
@@ -39,10 +39,12 @@ function App() {
     return () => clearInterval(intervalId);
   });
 
+
   return (
     <ThemeProvider theme={darkTheme}>
       <div>
         <Routes>
+          <Route path="/" element={ currentUser?.profile?.role === "freelancer" ? <HomePageFreelancer /> : <HomePageClient /> } />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route

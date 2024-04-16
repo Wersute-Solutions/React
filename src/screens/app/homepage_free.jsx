@@ -61,6 +61,7 @@ export default function HomePageFreelancer() {
             skills={post.skills}
             duration={post.duration}
             responsibilities={post.responsibilities}
+            image={post.image}
           />
         ))}
       </div>
