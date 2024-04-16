@@ -1,14 +1,32 @@
-import React, { useState, useRef } from "react";
+import  { useState, useEffect } from "react";
 import AppBarCus from "../../components/appbar_custom";
 import DrawerCus from "../../components/drawer_custom";
 import Post from "../../components/post";
+import { fetchPosts } from "../../api/posts";
 
 export default function HomePageFreelancer() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [posts, setPosts] = useState([]);
+
+
+  useEffect(() => {
+    async function fetchPostsData() {
+      try {
+        const { data } = await fetchPosts(); // Destructure 'data' property from the response
+        setPosts(data); // Set the posts array to the state
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      }
+    }
+  
+    fetchPostsData();
+  }, []);
+  
 
   const toggleMenu = () => {
     setIsMenuOpen((prevState) => !prevState);
   };
+
   return (
     <>
       <AppBarCus
@@ -32,29 +50,19 @@ export default function HomePageFreelancer() {
           alignItems: "center",
         }}
       >
-        <Post
-          title={"Data Analyst - Social Impact (Entry Level)"}
-          description={
-            "We are seeking a motivated and detail-oriented Data Analyst to join our team in the Social Impact sector. As a Data Analyst, you will be responsible for collecting, analyzing, and interpreting data to help drive decision-making and improve outcomes for our organization. This is an entry-level position ideal for recent graduates or individuals looking to transition into the field of data analysis. Join us in making a positive impact on society!"
-          }
-          username={"bros"}
-          date={"April 14, 2024"}
-          pay={"$45,000 - $55,000 per year"}
-          skills={"Data Analysis, Statistical Analysis, SQL, Excel"}
-          duration={"Full-time"}
-          image={"profilepicture.png"}
-          responsibilities={
-            "- Collect and analyze data from various sources\n- Prepare reports and presentations to communicate findings\n- Identify trends and patterns in data\n- Collaborate with team members to develop data-driven strategies\n- Continuously monitor and evaluate data quality and integrity\n- Stay up-to-date with industry trends and best practices"
-          }
-        />
-        <Post
-          username={"dude"}
-          title={"job"}
-          description={
-            "We are seeking a motivated and detail-oriented Data Analyst to join our team in the Social Impact sector. As a Data Analyst, you will be responsible for collecting, analyzing, and interpreting data to help drive decision-making and improve outcomes for our organization. This is an entry-level position ideal for recent graduates or individuals looking to transition into the field of data analysis. Join us in making a positive impact on society!"
-          }
-          date={"April 14, 2024"}
-        />
+        {posts.map((post, idx) => (
+          <Post
+            key={idx}
+            title={post.title}
+            description={post.description}
+            username={post.user.username}
+            date={post.created_at}
+            pay={post.pay}
+            skills={post.skills}
+            duration={post.duration}
+            responsibilities={post.responsibilities}
+          />
+        ))}
       </div>
     </>
   );
