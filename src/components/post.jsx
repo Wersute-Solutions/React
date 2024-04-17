@@ -24,10 +24,9 @@ export default function Post({
   profilePic,
   date,
 }) {
-  const [openPopup, setOpenPopup] = useState(false); // State to manage popup visibility
-
+  const [openPopup, setOpenPopup] = useState(false);
   const handleApplyClick = () => {
-    setOpenPopup(true); // Open the popup when Apply button is clicked
+    setOpenPopup(true);
   };
 
 

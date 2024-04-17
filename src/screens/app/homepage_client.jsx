@@ -58,12 +58,23 @@ export default function HomePageClient() {
       setAlert(<Alert severity="error">Please enter the description.</Alert>);
       return;
     }
+
     const formDataToSend = new FormData();
     for (const [key, value] of Object.entries(formData)) {
       formDataToSend.append(key, String(value));
     }
     formDataToSend.append("image", fileInputRef.current.files[0], "image.jpeg");
     createPost(formDataToSend)
+
+    if (!formData.description.trim().length() < 100) {
+      setAlert(
+        <Alert severity="error">
+          Please write a description for atleast 100 characters
+        </Alert>
+      );
+      return;
+    }
+
     console.log(formData);
   };
 

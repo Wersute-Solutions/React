@@ -1,4 +1,4 @@
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import AppBarCus from "../../components/appbar_custom";
 import DrawerCus from "../../components/drawer_custom";
 import Post from "../../components/post";
@@ -7,7 +7,6 @@ import { fetchPosts } from "../../api/posts";
 export default function HomePageFreelancer() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [posts, setPosts] = useState([]);
-
 
   useEffect(() => {
     async function fetchPostsData() {
@@ -18,10 +17,9 @@ export default function HomePageFreelancer() {
         console.error("Error fetching posts:", error);
       }
     }
-  
+
     fetchPostsData();
   }, []);
-  
 
   const toggleMenu = () => {
     setIsMenuOpen((prevState) => !prevState);
