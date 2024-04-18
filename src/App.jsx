@@ -10,6 +10,8 @@ import { useStore } from "./zustandState";
 import ClientProfileComplete from "./screens/authentication/profilecompleteclient";
 import HomePageClient from "./screens/app/homepage_client";
 import HomePageFreelancer from "./screens/app/homepage_free";
+import SuccessPage from "./screens/app/success";
+import Requests from "./screens/app/requests";
 
 const darkTheme = createTheme({
   palette: {
@@ -39,7 +41,6 @@ function App() {
     return () => clearInterval(intervalId);
   });
 
-
   return (
     <ThemeProvider theme={darkTheme}>
       <div>
@@ -65,6 +66,8 @@ function App() {
           />
           <Route path="/home" element={<HomePageClient />} />
           <Route path="/homefree" element={<HomePageFreelancer />} />
+          <Route path="/sucess" element={<SuccessPage />} />
+          <Route path="/requests" element={<Requests />} />
         </Routes>
       </div>
     </ThemeProvider>

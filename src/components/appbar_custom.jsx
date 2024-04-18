@@ -48,30 +48,6 @@ export default function AppBarCus({
             />
           </Box>
 
-          {/* Search Bar */}
-          {showSearchBar && (
-            <Box sx={{ display: { xs: "none", md: "flex" } }}>
-              <div
-                style={{
-                  position: "relative",
-                  borderRadius: "20px",
-                  backgroundColor: "white",
-                  display: "flex",
-                  alignItems: "center",
-                  paddingLeft: "10px",
-                }}
-              >
-                <SearchIcon style={{ color: "gray" }} />
-                <InputBase
-                  placeholder="Search…"
-                  inputProps={{ "aria-label": "search" }}
-                  style={{ marginLeft: "5px" }}
-                  onChange={onSearch}
-                />
-              </div>
-            </Box>
-          )}
-
           {/* Notification Button */}
           {showNotificationButton && (
             <IconButton color="inherit" onClick={onNotificationButtonClick}>
