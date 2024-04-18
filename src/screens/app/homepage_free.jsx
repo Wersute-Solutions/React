@@ -3,6 +3,7 @@ import AppBarCus from "../../components/appbar_custom";
 import DrawerCus from "../../components/drawer_custom";
 import Post from "../../components/post";
 import { fetchPosts } from "../../api/posts";
+import Typography from "@mui/material/Typography";
 
 export default function HomePageFreelancer() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -11,8 +12,8 @@ export default function HomePageFreelancer() {
   useEffect(() => {
     async function fetchPostsData() {
       try {
-        const { data } = await fetchPosts(); // Destructure 'data' property from the response
-        setPosts(data); // Set the posts array to the state
+        const { data } = await fetchPosts();
+        setPosts(data);
       } catch (error) {
         console.error("Error fetching posts:", error);
       }
@@ -48,20 +49,26 @@ export default function HomePageFreelancer() {
           alignItems: "center",
         }}
       >
-        {posts.map((post, idx) => (
-          <Post
-            key={idx}
-            title={post.title}
-            description={post.description}
-            username={post.user.username}
-            date={post.created_at}
-            pay={post.pay}
-            skills={post.skills}
-            duration={post.duration}
-            responsibilities={post.responsibilities}
-            image={post.image}
-          />
-        ))}
+        {posts.length === 0 ? (
+          <Typography variant="body1" style={{ marginTop: "100px" }}>
+            No posts for now, check back later
+          </Typography>
+        ) : (
+          posts.map((post, idx) => (
+            <Post
+              key={idx}
+              title={post.title}
+              description={post.description}
+              username={post.user.username}
+              date={post.created_at}
+              pay={post.pay}
+              skills={post.skills}
+              duration={post.duration}
+              responsibilities={post.responsibilities}
+              image={post.image}
+            />
+          ))
+        )}
       </div>
     </>
   );

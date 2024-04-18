@@ -40,7 +40,9 @@ function SignUp() {
     if (response.status) {
       alert("Signup success, You can login now!");
       if (value === "Freelancer") {
-        navigate();
+        navigate("/completefreelancerprofile");
+      } else {
+        navigate("/completeclientprofile");
       }
     } else {
       setBackdropOpen(false);

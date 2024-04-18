@@ -15,7 +15,7 @@ import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import CloseIcon from "@mui/icons-material/Close";
 import BoxCus from "../../components/box_custom";
 import { createPost } from "../../api/posts";
-
+import { useNavigate } from "react-router-dom";
 
 export default function HomePageClient() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -28,10 +28,13 @@ export default function HomePageClient() {
     responsibilities: "",
     image: null,
   });
+  const navigate = useNavigate(); // Importing useNavigate hook
 
   const [showMoreFields, setShowMoreFields] = useState(false);
   const [alert, setAlert] = useState(null);
+  const [loading, setLoading] = useState(false); // Loading state
   const fileInputRef = useRef(null);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -58,22 +61,33 @@ export default function HomePageClient() {
       setAlert(<Alert severity="error">Please enter the description.</Alert>);
       return;
     }
+    if (formData.description.trim().length > 100) {
+      console.log("Description length:", formData.description.trim().length);
+      setAlert(
+        <Alert severity="error">
+          Description should be 100 characters or less.
+        </Alert>
+      );
+    } else {
+      console.log(
+        "Description length is within limit:",
+        formData.description.trim().length
+      );
+    }
+    setLoading(true);
 
     const formDataToSend = new FormData();
     for (const [key, value] of Object.entries(formData)) {
       formDataToSend.append(key, String(value));
     }
     formDataToSend.append("image", fileInputRef.current.files[0], "image.jpeg");
-    createPost(formDataToSend)
 
-    if (!formData.description.trim().length() < 100) {
-      setAlert(
-        <Alert severity="error">
-          Please write a description for atleast 100 characters
-        </Alert>
-      );
-      return;
-    }
+    setTimeout(() => {
+      createPost(formDataToSend);
+      setLoading(false);
+
+      navigate("/success");
+    }, 2000);
 
     console.log(formData);
   };
@@ -266,6 +280,26 @@ export default function HomePageClient() {
             </Grid>
           </Grid>
         </Grid>
+        {loading && (
+          <div
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              zIndex: 9999,
+            }}
+          >
+            <Typography variant="h5" style={{ color: "white" }}>
+              Loading...
+            </Typography>
+          </div>
+        )}
       </div>
     </>
   );

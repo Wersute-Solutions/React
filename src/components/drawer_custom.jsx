@@ -9,6 +9,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import FolderIcon from "@mui/icons-material/Folder";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
+import HomeIcon from "@mui/icons-material/Home"; // Import Home icon
 import ProfilePicture from "./profilepic";
 
 export default function DrawerCus({ open, onClose }) {
@@ -32,6 +33,12 @@ export default function DrawerCus({ open, onClose }) {
         />
       </Box>
       <List sx={{ flexGrow: 1 }}>
+        <ListItemButton>
+          <ListItemIcon sx={{ color: "#3f51b5" }}>
+            <HomeIcon /> {/* Home icon */}
+          </ListItemIcon>
+          <ListItemText primary="Home" />
+        </ListItemButton>
         <ListItemButton>
           <ListItemIcon sx={{ color: "#3f51b5" }}>
             <AccountCircleIcon />
