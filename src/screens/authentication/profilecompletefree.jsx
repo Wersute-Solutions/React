@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
@@ -160,7 +159,7 @@ export default function FreeProfileComplete() {
           alignItems: "center",
         }}
       >
-        <div style={{ maxWidth: "800px", width: "100%" }}>
+        <div style={{ maxWidth: "700px", width: "100%" }}>
           <Typography variant="h4" align="center" gutterBottom>
             Complete Your Profile
           </Typography>

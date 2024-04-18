@@ -7,17 +7,21 @@ export default function InputCus({
   width,
   name,
   isPassword,
-  marginbottom,
+  marginBottom,
+  value,
+  isDisabled = false,
 }) {
   return (
     <TextField
       multiline
       name={name}
       type={isPassword ? "password" : "text"}
-      sx={{ width: width || "400px", marginBottom: marginbottom }}
+      sx={{ width: width || "400px", marginBottom: marginBottom }}
       label={placeholder}
       color="primary"
       onChange={onChange}
+      value={value}
+      disabled={isDisabled}
     />
   );
 }

@@ -82,8 +82,13 @@ export default function HomePageClient() {
     }
     formDataToSend.append("image", fileInputRef.current.files[0], "image.jpeg");
 
-    setTimeout(() => {
-      createPost(formDataToSend);
+    setTimeout(async () => {
+      const post = await createPost(formDataToSend);
+      if (post.status === false) {
+        alert("There is an error");
+      } else {
+        navigate("/success");
+      }
       setLoading(false);
 
       navigate("/success");
