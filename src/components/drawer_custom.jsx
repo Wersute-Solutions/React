@@ -7,12 +7,14 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import FolderIcon from "@mui/icons-material/Folder";
-import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
-import HomeIcon from "@mui/icons-material/Home"; // Import Home icon
+import HomeIcon from "@mui/icons-material/Home";
 import ProfilePicture from "./profilepic";
+import { useNavigate } from "react-router-dom";
 
 export default function DrawerCus({ open, onClose }) {
+  const navigate = useNavigate();
+
   const drawerContent = (
     <Box
       sx={{
@@ -33,29 +35,23 @@ export default function DrawerCus({ open, onClose }) {
         />
       </Box>
       <List sx={{ flexGrow: 1 }}>
-        <ListItemButton>
+        <ListItemButton onClick={() => navigate("/home")}>
           <ListItemIcon sx={{ color: "#3f51b5" }}>
-            <HomeIcon /> {/* Home icon */}
+            <HomeIcon />
           </ListItemIcon>
           <ListItemText primary="Home" />
         </ListItemButton>
-        <ListItemButton>
+        <ListItemButton onClick={() => navigate("/profilepagefreelancer")}>
           <ListItemIcon sx={{ color: "#3f51b5" }}>
             <AccountCircleIcon />
           </ListItemIcon>
           <ListItemText primary="My Profile" />
         </ListItemButton>
-        <ListItemButton>
+        <ListItemButton onClick={() => navigate("/requests")}>
           <ListItemIcon sx={{ color: "#3f51b5" }}>
             <FolderIcon />
           </ListItemIcon>
           <ListItemText primary="My Requests" />
-        </ListItemButton>
-        <ListItemButton>
-          <ListItemIcon sx={{ color: "#3f51b5" }}>
-            <SettingsIcon />
-          </ListItemIcon>
-          <ListItemText primary="Settings" />
         </ListItemButton>
       </List>
       <List>

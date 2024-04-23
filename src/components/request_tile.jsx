@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: theme.spacing(1),
     border: `1px solid ${theme.palette.primary.main}`,
     display: "flex",
-    alignItems: "flex-start", // Align items at the start
+    alignItems: "flex-start",
   },
   avatar: {
     marginRight: theme.spacing(2),

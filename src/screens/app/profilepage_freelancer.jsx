@@ -9,7 +9,7 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { styled } from "@mui/material/styles";
 import { updateProfile } from "../../api/profileHelpers";
 
-export default function ProfilePageFreelancer() {
+export default function ProfilePageFreelancer({ isSelf = false }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [resumeUploaded, setResumeUploaded] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -267,9 +267,13 @@ export default function ProfilePageFreelancer() {
                 component="label"
                 variant="contained"
                 startIcon={<CloudUploadIcon />}
-                disabled={!isEditMode}
+                disabled={!isSelf ? false : !isEditMode}
               >
-                {resumeUploaded ? "Resume Uploaded" : "Upload Resume"}
+                {!isSelf
+                  ? "Download Resume"
+                  : resumeUploaded
+                  ? "Resume Uploaded"
+                  : "Upload Resume"}{" "}
                 <VisuallyHiddenInput
                   type="file"
                   id="resume"
@@ -277,15 +281,17 @@ export default function ProfilePageFreelancer() {
                 />
               </Button>
             </Grid>
-            <Grid item xs={12}>
-              <Button
-                variant="contained"
-                color={isEditMode ? "secondary" : "primary"}
-                onClick={handleEditClick}
-              >
-                {isEditMode ? "Save" : "Edit"}
-              </Button>
-            </Grid>
+            {isSelf && (
+              <Grid item xs={12}>
+                <Button
+                  variant="contained"
+                  color={isEditMode ? "secondary" : "primary"}
+                  onClick={handleEditClick}
+                >
+                  {isEditMode ? "Save" : "Edit"}
+                </Button>
+              </Grid>
+            )}
           </Grid>
         </div>
       </div>

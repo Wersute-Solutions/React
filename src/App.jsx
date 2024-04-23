@@ -74,7 +74,7 @@ function App() {
           <Route path="/requests" element={<Requests />} />
           <Route
             path="/profilepagefreelancer"
-            element={<ProfilePageFreelancer />}
+            element={<ProfilePageFreelancer isSelf={true} />}
           />
         </Routes>
       </div>
