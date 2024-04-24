@@ -13,6 +13,7 @@ import ButtonCus from "./button_custom";
 import ApplyPopup from "./post_popup";
 
 export default function Post({
+  id,
   title,
   description,
   image,
@@ -126,7 +127,7 @@ export default function Post({
           </>
         )}
         <ButtonCus text={"Apply"} pad={4} onClick={handleApplyClick} />
-        <ApplyPopup open={openPopup} onClose={() => setOpenPopup(false)} />{" "}
+        <ApplyPopup id={id} open={openPopup} onClose={() => setOpenPopup(false)} />{" "}
       </CardContent>
     </Card>
   );

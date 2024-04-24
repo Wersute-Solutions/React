@@ -56,6 +56,7 @@ export default function HomePageFreelancer() {
         ) : (
           posts.map((post, idx) => (
             <Post
+              id={post.id}
               key={idx}
               title={post.title}
               description={post.description}

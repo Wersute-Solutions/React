@@ -7,17 +7,24 @@ import {
   Button,
 } from "@mui/material";
 import InputLargeCus from "./input_large_custom";
+import { applyToPost } from "../api/posts";
 
-export default function ApplyPopup({ open, onClose }) {
+export default function ApplyPopup({ open, onClose, id }) {
   const [description, setDescription] = React.useState("");
 
   const handleChange = (event) => {
     setDescription(event.target.value);
   };
 
-  const handleApply = () => {
-    console.log("Applying for the job with description:", description);
-    onClose();
+  const handleApply = async () => {
+    applyToPost(id, description).then((response) => {
+      if (response.status) {
+        alert("Applied to post");
+        onClose();
+      } else {
+        alert("Failed to apply to post");
+      }
+    });
   };
 
   return (

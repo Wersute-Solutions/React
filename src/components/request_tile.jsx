@@ -80,29 +80,31 @@ const Tile = ({ title, status, date, applications, assignedTo, onAccept }) => {
           </Typography>
         </Paper>
       )}
-      {status === "Unassigned" &&
-        applications.map((application, index) => (
-          <Paper key={index} elevation={0} className={classes.application}>
-            <Avatar
-              alt={application.name}
-              src={application.profilePic}
-              className={classes.avatar}
-            />
-            <div className={classes.applicantDetails}>
-              <Typography variant="body1">{application.name}</Typography>
-              <Typography variant="body2" className={classes.coverLetter}>
-                {application.coverLetter}
-              </Typography>
-            </div>
-            <Button
-              onClick={() => onAccept(application)}
-              variant="contained"
-              color="primary"
-              className={classes.acceptButton}
-            >
-              Accept
-            </Button>
-          </Paper>
+      {true &&
+        applications?.map((application, index) => (
+          <>
+            <Paper key={index} elevation={0} className={classes.application}>
+              <Avatar
+                alt={application.applicant_profile?.first_name}
+                src={application.profilePic}
+                className={application?.applicant_profile?.avatar}
+              />
+              <div className={classes.applicantDetails}>
+                <Typography variant="body1">{`${application.applicant_profile?.first_name} ${application.applicant_profile?.last_name}`}</Typography>
+                <Typography variant="body2" className={application.cover_letter}>
+                  {application.cover_letter}
+                </Typography>
+              </div>
+              <Button
+                onClick={() => onAccept(application)}
+                variant="contained"
+                color="primary"
+                className={classes.acceptButton}
+              >
+                Accept
+              </Button>
+            </Paper>
+          </>
         ))}
     </Paper>
   );
