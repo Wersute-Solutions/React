@@ -7,9 +7,11 @@ export default function InputLargeCus({
   name,
   width,
   isDisabled = false, // Default value for isDisabled
+  value,
 }) {
   return (
     <TextField
+      value={value}
       fullWidth
       name={name}
       label={placeholder}

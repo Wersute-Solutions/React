@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AppBarCus from "../../components/appbar_custom";
 import DrawerCus from "../../components/drawer_custom";
 import ProfilePicture from "../../components/profilepic";
@@ -8,12 +8,24 @@ import InputLargeCus from "../../components/input_large_custom";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { styled } from "@mui/material/styles";
 import { updateProfile } from "../../api/profileHelpers";
+import { fetchProfile } from "../../api/profileHelpers";
 
 export default function ProfilePageFreelancer({ isSelf = false }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [resumeUploaded, setResumeUploaded] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [resumeFile, setResumeFile] = useState(null);
+
+  useEffect(
+    ()=>{
+      async function getProfile(){
+        const response = await fetchProfile(null);
+        setFormData(response[0])
+      }
+
+      getProfile();
+    },[]
+  )
 
   const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
@@ -254,6 +266,7 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
                 name={"bio"}
                 onChange={handleChange}
                 placeholder={"Bio"}
+                value={formData.bio}
                 width={710}
                 isDisabled={!isEditMode}
               />
