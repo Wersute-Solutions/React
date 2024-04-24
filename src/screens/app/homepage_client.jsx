@@ -28,11 +28,11 @@ export default function HomePageClient() {
     responsibilities: "",
     image: null,
   });
-  const navigate = useNavigate(); // Importing useNavigate hook
+  const navigate = useNavigate();
 
   const [showMoreFields, setShowMoreFields] = useState(false);
   const [alert, setAlert] = useState(null);
-  const [loading, setLoading] = useState(false); // Loading state
+  const [loading, setLoading] = useState(false);
   const fileInputRef = useRef(null);
 
   const handleChange = (e) => {
@@ -82,8 +82,13 @@ export default function HomePageClient() {
     }
     formDataToSend.append("image", fileInputRef.current.files[0], "image.jpeg");
 
-    setTimeout(() => {
-      createPost(formDataToSend);
+    setTimeout(async () => {
+      const post = await createPost(formDataToSend);
+      if (post.status === false) {
+        alert("There is an error");
+      } else {
+        navigate("/success");
+      }
       setLoading(false);
 
       navigate("/success");

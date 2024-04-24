@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
@@ -108,12 +107,10 @@ export default function FreeProfileComplete() {
       return;
     }
 
-    const allowedFormats = ["image/png", "image/jpeg", "application/pdf"];
+    const allowedFormats = ["application/pdf"];
     if (!allowedFormats.includes(resumeFile.type)) {
       setAlert(
-        <Alert severity="error">
-          Please upload your resume in PNG or JPEG format.
-        </Alert>
+        <Alert severity="error">Please upload your resume in PDF format.</Alert>
       );
       setResumeUploaded(!!resumeFile);
 
@@ -160,7 +157,7 @@ export default function FreeProfileComplete() {
           alignItems: "center",
         }}
       >
-        <div style={{ maxWidth: "800px", width: "100%" }}>
+        <div style={{ maxWidth: "700px", width: "100%" }}>
           <Typography variant="h4" align="center" gutterBottom>
             Complete Your Profile
           </Typography>
