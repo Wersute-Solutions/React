@@ -28,11 +28,11 @@ export default function HomePageClient() {
     responsibilities: "",
     image: null,
   });
-  const navigate = useNavigate(); // Importing useNavigate hook
+  const navigate = useNavigate();
 
   const [showMoreFields, setShowMoreFields] = useState(false);
   const [alert, setAlert] = useState(null);
-  const [loading, setLoading] = useState(false); // Loading state
+  const [loading, setLoading] = useState(false);
   const fileInputRef = useRef(null);
 
   const handleChange = (e) => {

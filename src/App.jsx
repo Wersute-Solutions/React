@@ -13,6 +13,7 @@ import HomePageFreelancer from "./screens/app/homepage_free";
 import SuccessPage from "./screens/app/success";
 import Requests from "./screens/app/requests";
 import ProfilePageFreelancer from "./screens/app/profilepage_freelancer";
+import ProfilePageClient from "./screens/app/profilepage_client";
 
 const darkTheme = createTheme({
   palette: {
@@ -72,9 +73,14 @@ function App() {
           <Route path="/homefree" element={<HomePageFreelancer />} />
           <Route path="/success" element={<SuccessPage />} />
           <Route path="/requests" element={<Requests />} />
+
           <Route
             path="/profilepagefreelancer"
             element={<ProfilePageFreelancer isSelf={true} />}
+          />
+          <Route
+            path="/profilepageclient"
+            element={<ProfilePageClient isSelf={true} />}
           />
         </Routes>
       </div>

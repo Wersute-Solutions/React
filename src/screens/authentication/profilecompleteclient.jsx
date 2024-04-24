@@ -7,16 +7,17 @@ import InputCus from "../../components/input_custom";
 import ButtonCus from "../../components/button_custom";
 import Grid from "@mui/material/Grid";
 import InputLargeCus from "../../components/input_large_custom";
+import { updateProfile } from "../../api/profileHelpers";
 
 export default function ClientProfileComplete() {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    dateOfBirth: "",
-    contactNumber: "",
-    businessName: "",
-    businessProfession: "",
-    aboutBusiness: "",
+    first_name: "",
+    last_name: "",
+    dob: "",
+    contact_number: "",
+    business_name: "",
+    business_profession: "",
+    about_business: "",
   });
 
   const [alert, setAlert] = useState(null);
@@ -32,24 +33,24 @@ export default function ClientProfileComplete() {
   const handleSubmit = () => {
     setAlert(null);
 
-    if (!formData.firstName.trim()) {
+    if (!formData.first_name.trim()) {
       setAlert(<Alert severity="error">Please enter your first name.</Alert>);
       return;
     }
 
-    if (!formData.lastName.trim()) {
+    if (!formData.last_name.trim()) {
       setAlert(<Alert severity="error">Please enter your last name.</Alert>);
       return;
     }
 
-    if (!formData.aboutBusiness.trim()) {
+    if (!formData.about_business.trim()) {
       setAlert(
         <Alert severity="error">Please enter about your buisness.</Alert>
       );
       return;
     }
 
-    if (!formData.dateOfBirth.trim()) {
+    if (!formData.dob.trim()) {
       setAlert(
         <Alert severity="error">Please enter your date of birth.</Alert>
       );
@@ -57,26 +58,38 @@ export default function ClientProfileComplete() {
     }
 
     const contactNumberPattern = /^\d{10}$/;
-    if (!contactNumberPattern.test(formData.contactNumber)) {
+    if (!contactNumberPattern.test(formData.contact_number)) {
       setAlert(
         <Alert severity="error">Please enter a valid contact number.</Alert>
       );
       return;
     }
 
-    if (!formData.businessProfession.trim()) {
+    if (!formData.business_profession.trim()) {
       setAlert(
         <Alert severity="error">Please enter your business profession.</Alert>
       );
       return;
     }
 
-    if (!formData.businessName.trim()) {
+    if (!formData.business_name.trim()) {
       setAlert(
         <Alert severity="error">Please enter your business name.</Alert>
       );
       return;
     }
+    setFormData({
+      ...formData,
+      role: "client",
+    });
+
+    const formDataToSend = new FormData();
+    for (const [key, value] of Object.entries(formData)) {
+      formDataToSend.append(key, String(value));
+    }
+    formDataToSend.append("role", "client");
+
+    updateProfile(formDataToSend);
 
     console.log("Form submitted:", formData);
   };
