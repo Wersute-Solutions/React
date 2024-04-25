@@ -5,8 +5,8 @@ export async function updateProfile(data) {
 }
 
 export async function fetchProfile(id) {
-    if (id === null) {
+    if (id === undefined) {
         return await getRequest(`api/user/profiles/`, {}, {}, true);
     }
-    return await getRequest(`api/user/profiles/?id=id`, {}, {}, true);
+    return await getRequest(`api/user/profiles/?id=${id}`, {}, {}, true);
 }
