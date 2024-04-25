@@ -10,6 +10,7 @@ import { styled } from "@mui/material/styles";
 import { updateProfile } from "../../api/profileHelpers";
 import { fetchProfile } from "../../api/profileHelpers";
 import { useParams } from "react-router-dom";
+import Alert from "@mui/material/Alert";
 
 export default function ProfilePageFreelancer({ isSelf = false }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -138,11 +139,11 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
         return;
       }
 
-      const allowedFormats = ["image/png", "image/jpeg", "application/pdf"];
+      const allowedFormats = ["application/pdf"];
       if (!allowedFormats.includes(resumeFile.type)) {
         setAlert(
           <Alert severity="error">
-            Please upload your resume in PNG or JPEG format.
+            Please upload your resume in PDF format.
           </Alert>
         );
         setResumeUploaded(!!resumeFile);
@@ -177,6 +178,11 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
           justifyContent: "center",
         }}
       >
+        {alert && (
+          <Stack sx={{ width: "100%" }} spacing={2}>
+            {alert}
+          </Stack>
+        )}
         <ProfilePicture
           image={"profilepicture.png"}
           size={200}
