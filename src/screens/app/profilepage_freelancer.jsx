@@ -9,6 +9,7 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { styled } from "@mui/material/styles";
 import { updateProfile } from "../../api/profileHelpers";
 import { fetchProfile } from "../../api/profileHelpers";
+import { useParams } from "react-router-dom";
 
 export default function ProfilePageFreelancer({ isSelf = false }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -16,10 +17,12 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
   const [isEditMode, setIsEditMode] = useState(false);
   const [resumeFile, setResumeFile] = useState(null);
 
+  const { id } = useParams();
+
   useEffect(
     ()=>{
       async function getProfile(){
-        const response = await fetchProfile(null);
+        const response = await fetchProfile(id);
         setFormData(response[0])
       }
 

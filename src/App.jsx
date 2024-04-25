@@ -80,6 +80,9 @@ function App() {
             element={<ProfilePageFreelancer isSelf={true} />}
           />
           <Route
+            path="/profilepagefreelancer/:id"
+            element={<ProfilePageFreelancer isSelf={false} />}></Route>
+          <Route
             path="/profilepageclient"
             element={<ProfilePageClient isSelf={true} />}
           />
