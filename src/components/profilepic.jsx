@@ -24,7 +24,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProfilePicture = ({ image, altText, size, isEdit = false }) => {
+const ProfilePicture = ({
+  image,
+  altText,
+  size,
+  isEdit = false,
+  setPicFile,
+}) => {
   const classes = useStyles();
   const [imageSrc, setImageSrc] = useState(image);
   const fileInputRef = useRef(null);
@@ -44,7 +50,8 @@ const ProfilePicture = ({ image, altText, size, isEdit = false }) => {
       const reader = new FileReader();
       reader.onload = (e) => {
         const newImageSrc = e.target.result;
-        setImageSrc(newImageSrc);
+        setImageSrc(newImageSrc); // Update the image source state with the new image
+        setPicFile(file); // Pass the file to the parent component
       };
       reader.readAsDataURL(file);
     }
