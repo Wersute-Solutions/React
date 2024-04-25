@@ -11,6 +11,7 @@ import { updateProfile } from "../../api/profileHelpers";
 import { fetchProfile } from "../../api/profileHelpers";
 import { useParams } from "react-router-dom";
 import Alert from "@mui/material/Alert";
+import Stack from "@mui/material/Stack";
 
 export default function ProfilePageFreelancer({ isSelf = false }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -77,6 +78,8 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
   });
 
   const handleEditClick = () => {
+    console.log("Edit button clicked");
+
     setIsEditMode(!isEditMode);
     if (isEditMode) {
       setAlert(null);
@@ -134,22 +137,8 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
         setAlert(<Alert severity="error">Please enter your github.</Alert>);
         return;
       }
-      if (!resumeFile) {
-        setAlert(<Alert severity="error">Please upload your resume.</Alert>);
-        return;
-      }
 
-      const allowedFormats = ["application/pdf"];
-      if (!allowedFormats.includes(resumeFile.type)) {
-        setAlert(
-          <Alert severity="error">
-            Please upload your resume in PDF format.
-          </Alert>
-        );
-        setResumeUploaded(!!resumeFile);
-
-        return;
-      }
+      console.log(formData);
 
       const formDataToSend = new FormData();
       for (const [key, value] of Object.entries(formData)) {

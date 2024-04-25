@@ -7,7 +7,7 @@ import { makeStyles } from "@mui/styles";
 const useStyles = makeStyles((theme) => ({
   avatarContainer: {
     display: "inline-block",
-    marginRight: -theme.spacing(2), // Compensate for IconButton's margin
+    marginRight: -theme.spacing(2),
   },
   avatar: {
     width: theme.spacing(10),
@@ -44,7 +44,7 @@ const ProfilePicture = ({ image, altText, size, isEdit = false }) => {
       const reader = new FileReader();
       reader.onload = (e) => {
         const newImageSrc = e.target.result;
-        setImageSrc(newImageSrc); // Update the image source state with the new image
+        setImageSrc(newImageSrc);
       };
       reader.readAsDataURL(file);
     }
