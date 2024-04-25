@@ -6,7 +6,7 @@ import { Button, Grid } from "@mui/material";
 import InputCus from "../../components/input_custom";
 import InputLargeCus from "../../components/input_large_custom";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import {Download} from "@mui/icons-material"
+import { Download } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
 import { updateProfile } from "../../api/profileHelpers";
 import { fetchProfile } from "../../api/profileHelpers";
@@ -136,7 +136,6 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
         return;
       }
 
-
       const formDataToSend = new FormData();
       for (const [key, value] of Object.entries(formData)) {
         formDataToSend.append(key, String(value));
@@ -146,7 +145,7 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
         formDataToSend.append("resume", resumeFile, "resume.pdf");
       }
       if (profilePicFile) {
-        formDataToSend.append("avatar", profilePicFile, "avatar.png")
+        formDataToSend.append("avatar", profilePicFile, "avatar.png");
       }
 
       updateProfile(formDataToSend);
@@ -277,19 +276,16 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
               xs={12}
               style={{ display: "flex", justifyContent: "center" }}
             >
-              
               <Button
-                  component="label"
-                  variant="contained"
-                  startIcon={<Download />}
-                  onClick={
-                    ()=>{
-                      window.open(formData.resume, "_blank")
-                    }
-                  }
-                >
-                  Download Resume
-                </Button>
+                component="label"
+                variant="contained"
+                startIcon={<Download />}
+                onClick={() => {
+                  window.open(formData.resume, "_blank");
+                }}
+              >
+                Download Resume
+              </Button>
               <Button
                 component="label"
                 variant="contained"
@@ -299,8 +295,8 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
                 {!isSelf
                   ? "Download Resume"
                   : resumeUploaded
-                    ? "Resume Uploaded"
-                    : "Upload Resume"}{" "}
+                  ? "Resume Uploaded"
+                  : "Upload Resume"}{" "}
                 <VisuallyHiddenInput
                   type="file"
                   id="resume"

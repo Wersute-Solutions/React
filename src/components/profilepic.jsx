@@ -7,7 +7,7 @@ import { makeStyles } from "@mui/styles";
 const useStyles = makeStyles((theme) => ({
   avatarContainer: {
     display: "inline-block",
-    marginRight: -theme.spacing(2), // Compensate for IconButton's margin
+    marginRight: -theme.spacing(2),
   },
   avatar: {
     width: theme.spacing(10),
@@ -24,7 +24,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProfilePicture = ({ image, altText, size, isEdit = false, setPicFile }) => {
+const ProfilePicture = ({
+  image,
+  altText,
+  size,
+  isEdit = false,
+  setPicFile,
+}) => {
   const classes = useStyles();
   const [imageSrc, setImageSrc] = useState(image);
   const fileInputRef = useRef(null);
