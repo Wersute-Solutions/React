@@ -18,8 +18,8 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
   const [resumeUploaded, setResumeUploaded] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [alert, setAlert] = useState(null);
-
   const [resumeFile, setResumeFile] = useState(null);
+  const [avatar, setAvatar] = useState(null);
 
   const { id } = useParams();
 
@@ -138,14 +138,14 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
         return;
       }
 
-      console.log(formData);
-
       const formDataToSend = new FormData();
       for (const [key, value] of Object.entries(formData)) {
         formDataToSend.append(key, String(value));
       }
       formDataToSend.append("role", "freelancer");
-      formDataToSend.append("resume", resumeFile, "resume.pdf");
+      if (resumeUploaded) {
+        formDataToSend.append("resume", resumeFile, "resume.pdf");
+      }
 
       updateProfile(formDataToSend);
     }
