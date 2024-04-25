@@ -47,11 +47,11 @@ export default function Requests() {
               id={post.id}
               key={idx}
               title={post.title}
-              status={post.status}
+              status={post.assigned_to ? "Assigned" : "Unassigned"}
               date={post.date}
               applications={post.applications}
               onAccept={handleAccept}
-              assignedTo={post.assigned_to.username}
+              assignedTo={post.assigned_to?.username}
             />
           </div>
         ))}
