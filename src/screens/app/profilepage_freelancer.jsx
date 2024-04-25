@@ -6,6 +6,7 @@ import { Button, Grid } from "@mui/material";
 import InputCus from "../../components/input_custom";
 import InputLargeCus from "../../components/input_large_custom";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import {Download} from "@mui/icons-material"
 import { styled } from "@mui/material/styles";
 import { updateProfile } from "../../api/profileHelpers";
 import { fetchProfile } from "../../api/profileHelpers";
@@ -18,7 +19,7 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
   const [isEditMode, setIsEditMode] = useState(false);
   const [alert, setAlert] = useState(null);
   const [resumeFile, setResumeFile] = useState(null);
-  const [avatar, setAvatar] = useState(null);
+  const [profilePicFile, setProfilePicFile] = useState(null);
 
   const { id } = useParams();
 
@@ -134,16 +135,18 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
         setAlert(<Alert severity="error">Please enter your github.</Alert>);
         return;
       }
-      
+
 
       const formDataToSend = new FormData();
       for (const [key, value] of Object.entries(formData)) {
         formDataToSend.append(key, String(value));
       }
       formDataToSend.append("role", "freelancer");
-      if(resumeUploaded)
-      {
+      if (resumeUploaded) {
         formDataToSend.append("resume", resumeFile, "resume.pdf");
+      }
+      if (profilePicFile) {
+        formDataToSend.append("avatar", profilePicFile, "avatar.png")
       }
 
       updateProfile(formDataToSend);
@@ -172,9 +175,10 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
           </Stack>
         )}
         <ProfilePicture
-          image={"profilepicture.png"}
+          image={formData.avatar}
           size={200}
           isEdit={isEditMode}
+          setPicFile={setProfilePicFile}
         />
         <div style={{ maxWidth: "700px", width: "100%" }}>
           <Grid container spacing={2} justifyContent="center" marginTop={5}>
@@ -273,6 +277,19 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
               xs={12}
               style={{ display: "flex", justifyContent: "center" }}
             >
+              
+              <Button
+                  component="label"
+                  variant="contained"
+                  startIcon={<Download />}
+                  onClick={
+                    ()=>{
+                      window.open(formData.resume, "_blank")
+                    }
+                  }
+                >
+                  Download Resume
+                </Button>
               <Button
                 component="label"
                 variant="contained"
@@ -282,8 +299,8 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
                 {!isSelf
                   ? "Download Resume"
                   : resumeUploaded
-                  ? "Resume Uploaded"
-                  : "Upload Resume"}{" "}
+                    ? "Resume Uploaded"
+                    : "Upload Resume"}{" "}
                 <VisuallyHiddenInput
                   type="file"
                   id="resume"
