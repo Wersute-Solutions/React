@@ -35,7 +35,7 @@ export default function DrawerCus({ open, onClose }) {
         />
       </Box>
       <List sx={{ flexGrow: 1 }}>
-        <ListItemButton onClick={() => navigate("/home")}>
+        <ListItemButton onClick={() => navigate("/")}>
           <ListItemIcon sx={{ color: "#3f51b5" }}>
             <HomeIcon />
           </ListItemIcon>

@@ -125,7 +125,7 @@ export default function ClientProfileComplete() {
             <Grid item xs={12} md={6}>
               <InputCus
                 placeholder={"First Name"}
-                name="firstName"
+                name="first_name"
                 onChange={handleChange}
                 width={300}
               />
@@ -133,7 +133,7 @@ export default function ClientProfileComplete() {
             <Grid item xs={12} md={6}>
               <InputCus
                 placeholder={"Date of Birth (YYYY-MM-DD)"}
-                name="dateOfBirth"
+                name="dob"
                 onChange={handleChange}
                 width={300}
               />
@@ -141,7 +141,7 @@ export default function ClientProfileComplete() {
             <Grid item xs={12} md={6}>
               <InputCus
                 placeholder={"business profession"}
-                name="businessProfession"
+                name="business_profession"
                 onChange={handleChange}
                 width={300}
               />
@@ -149,7 +149,7 @@ export default function ClientProfileComplete() {
             <Grid item xs={12} md={6}>
               <InputCus
                 placeholder={"Last Name"}
-                name="lastName"
+                name="last_name"
                 onChange={handleChange}
                 width={300}
               />
@@ -157,7 +157,7 @@ export default function ClientProfileComplete() {
             <Grid item xs={12} md={6}>
               <InputCus
                 placeholder={"Contact Number"}
-                name="contactNumber"
+                name="contact_number"
                 onChange={handleChange}
                 width={300}
               />
@@ -165,14 +165,14 @@ export default function ClientProfileComplete() {
             <Grid item xs={12} md={6}>
               <InputCus
                 placeholder={"business name"}
-                name="businessName"
+                name="business_name"
                 onChange={handleChange}
                 width={300}
               />
             </Grid>
             <Grid item xs={12}>
               <InputLargeCus
-                name={"aboutBusiness"}
+                name={"about_business"}
                 onChange={handleChange}
                 placeholder={"about buisness"}
                 width={710}
