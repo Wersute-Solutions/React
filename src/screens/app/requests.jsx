@@ -44,13 +44,14 @@ export default function Requests() {
         {posts.map((post, idx) => (
           <div key={idx} className="">
             <Tile
+              id={post.id}
               key={idx}
               title={post.title}
               status={post.status}
               date={post.date}
               applications={post.applications}
               onAccept={handleAccept}
-              assignedTo={post.assignedTo}
+              assignedTo={post.assigned_to.username}
             />
           </div>
         ))}

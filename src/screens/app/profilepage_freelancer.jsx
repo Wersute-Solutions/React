@@ -14,18 +14,18 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [resumeUploaded, setResumeUploaded] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [alert, setAlert] = useState(null);
+
   const [resumeFile, setResumeFile] = useState(null);
 
-  useEffect(
-    ()=>{
-      async function getProfile(){
-        const response = await fetchProfile(null);
-        setFormData(response[0])
-      }
+  useEffect(() => {
+    async function getProfile() {
+      const response = await fetchProfile(null);
+      setFormData(response[0]);
+    }
 
-      getProfile();
-    },[]
-  )
+    getProfile();
+  }, []);
 
   const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",

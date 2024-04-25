@@ -38,23 +38,31 @@ const useStyles = makeStyles((theme) => ({
   },
   applicantDetails: {
     flexGrow: 1,
-    minWidth: 0, // Allow text overflow
+    minWidth: 0,
   },
   acceptButton: {
     marginLeft: "auto",
-    marginTop: "auto", // Center the button vertically
+    marginTop: "auto",
     display: "block",
   },
   coverLetter: {
-    overflowWrap: "break-word", // Wrap text within the container
+    overflowWrap: "break-word",
     wordWrap: "break-word",
     display: "-webkit-box",
-    WebkitLineClamp: 3, // Maximum number of lines
+    WebkitLineClamp: 3,
     WebkitBoxOrient: "vertical",
   },
 }));
 
-const Tile = ({ title, status, date, applications, assignedTo, onAccept }) => {
+const Tile = ({
+  title,
+  status,
+  date,
+  applications,
+  assignedTo,
+  onAccept,
+  id,
+}) => {
   const classes = useStyles();
 
   return (
@@ -91,7 +99,10 @@ const Tile = ({ title, status, date, applications, assignedTo, onAccept }) => {
               />
               <div className={classes.applicantDetails}>
                 <Typography variant="body1">{`${application.applicant_profile?.first_name} ${application.applicant_profile?.last_name}`}</Typography>
-                <Typography variant="body2" className={application.cover_letter}>
+                <Typography
+                  variant="body2"
+                  className={application.cover_letter}
+                >
                   {application.cover_letter}
                 </Typography>
               </div>
