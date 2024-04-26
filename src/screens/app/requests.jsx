@@ -50,7 +50,6 @@ export default function Requests() {
               status={post.status}
               date={post.date}
               applications={post.applications}
-              onAccept={handleAccept}
               assignedTo={post.assigned_to.username}
             />
           </div>
