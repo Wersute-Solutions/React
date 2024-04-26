@@ -14,6 +14,7 @@ import SuccessPage from "./screens/app/success";
 import Requests from "./screens/app/requests";
 import ProfilePageFreelancer from "./screens/app/profilepage_freelancer";
 import ProfilePageClient from "./screens/app/profilepage_client";
+import { useNavigate } from "react-router-dom";
 
 const darkTheme = createTheme({
   palette: {
@@ -25,10 +26,14 @@ const darkTheme = createTheme({
 
 function App() {
   const { setCurrentUser, currentUser } = useStore();
+  const navigate = useNavigate();
 
   async function userSetHandle() {
     const user = await getCurrentUser();
     setCurrentUser(user);
+    if(user.status === false) {
+      navigate("/login");
+    }
   }
 
   useEffect(() => {
