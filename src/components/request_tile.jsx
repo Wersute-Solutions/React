@@ -4,6 +4,8 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
+import { acceptApplication } from "../api/posts";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -57,6 +59,8 @@ const useStyles = makeStyles((theme) => ({
 const Tile = ({ title, status, date, applications, assignedTo, id }) => {
   const classes = useStyles();
 
+  const navigate = useNavigate()
+
   return (
     <Paper elevation={0} className={classes.paper}>
       <Typography variant="h5" className={classes.title}>
@@ -68,15 +72,15 @@ const Tile = ({ title, status, date, applications, assignedTo, id }) => {
       <Typography variant="body1" className={classes.date}>
         Date: {date}
       </Typography>
-      {status === "Assigned" && assignedTo && (
+      {status === "Assigned" && (
         <Paper elevation={0} className={classes.application}>
           <Avatar
-            alt={assignedTo.name}
+            alt={assignedTo.username}
             src={assignedTo.profilePic}
             className={classes.avatar}
           />
           <Typography variant="body1" className={classes.applicantDetails}>
-            Assigned to: {assignedTo.name}
+            Assigned to: {assignedTo.username}
           </Typography>
         </Paper>
       )}
@@ -99,7 +103,10 @@ const Tile = ({ title, status, date, applications, assignedTo, id }) => {
                 </Typography>
               </div>
               <Button
-                onClick={() => onAccept(application)}
+                onClick={async () => {
+                  await acceptApplication(application.id, application.applicant_profile?.id);
+                  window.location.reload();
+                }}
                 variant="contained"
                 color="primary"
                 className={classes.acceptButton}
