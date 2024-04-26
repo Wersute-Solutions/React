@@ -54,15 +54,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Tile = ({
-  title,
-  status,
-  date,
-  applications,
-  assignedTo,
-  onAccept,
-  id,
-}) => {
+const Tile = ({ title, status, date, applications, assignedTo, id }) => {
   const classes = useStyles();
 
   return (

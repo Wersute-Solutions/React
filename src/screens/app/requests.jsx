@@ -57,8 +57,7 @@ export default function Requests() {
               status={post.assigned_to ? "Assigned" : "Unassigned"}
               date={ new Date(post.created_at).toLocaleDateString("en-US", dateOptions) }
               applications={post.applications}
-              onAccept={handleAccept}
-              assignedTo={post.assigned_to?.username}
+              assignedTo={post.assigned_to.username}
             />
           </div>
         ))}
