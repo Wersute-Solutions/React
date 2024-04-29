@@ -1,21 +1,26 @@
 import { useState, useRef } from "react";
+import {
+  AppBar,
+  Typography,
+  Grid,
+  IconButton,
+  Stack,
+  Alert,
+} from "@mui/material";
+import {
+  ExpandMore as ExpandMoreIcon,
+  ExpandLess as ExpandLessIcon,
+  PhotoCamera as PhotoCameraIcon,
+  Close as CloseIcon,
+} from "@mui/icons-material";
+import { createPost } from "../../api/posts";
+import { useNavigate } from "react-router-dom";
 import AppBarCus from "../../components/appbar_custom";
-import Grid from "@mui/material/Grid";
-import Stack from "@mui/material/Stack";
+import DrawerCus from "../../components/drawer_custom";
+import BoxCus from "../../components/box_custom";
 import InputCus from "../../components/input_custom";
 import InputLargeCus from "../../components/input_large_custom";
 import ButtonCus from "../../components/button_custom";
-import DrawerCus from "../../components/drawer_custom";
-import Alert from "@mui/material/Alert";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
-import CloseIcon from "@mui/icons-material/Close";
-import BoxCus from "../../components/box_custom";
-import { createPost } from "../../api/posts";
-import { useNavigate } from "react-router-dom";
 
 export default function HomePageClient() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -61,18 +66,13 @@ export default function HomePageClient() {
       setAlert(<Alert severity="error">Please enter the description.</Alert>);
       return;
     }
-    if (formData.description.trim().length > 100) {
-      console.log("Description length:", formData.description.trim().length);
+    if (formData.description.trim().length > 500) {
       setAlert(
         <Alert severity="error">
-          Description should be 100 characters or less.
+          Description should be 500 characters or less.
         </Alert>
       );
-    } else {
-      console.log(
-        "Description length is within limit:",
-        formData.description.trim().length
-      );
+      return;
     }
     setLoading(true);
 
@@ -80,21 +80,18 @@ export default function HomePageClient() {
     for (const [key, value] of Object.entries(formData)) {
       formDataToSend.append(key, String(value));
     }
-    formDataToSend.append("image", fileInputRef.current.files[0], "image.jpeg");
-
+    if (formData.image) {
+      formDataToSend.append("image", fileInputRef.current.files[0]);
+    }
     setTimeout(async () => {
       const post = await createPost(formDataToSend);
+      setLoading(false);
       if (post.status === false) {
         alert("There is an error");
       } else {
         navigate("/success");
       }
-      setLoading(false);
-
-      navigate("/success");
     }, 2000);
-
-    console.log(formData);
   };
 
   const handleImagePreview = (e) => {
@@ -161,7 +158,6 @@ export default function HomePageClient() {
         )}
         <Grid container spacing={2}>
           <Grid item xs={12} md={4}>
-            {/* Image picker with preview */}
             <input
               ref={fileInputRef}
               style={{ display: "none" }}
@@ -206,14 +202,13 @@ export default function HomePageClient() {
           </Grid>
           <Grid item xs={12} md={8}>
             <Grid container spacing={2}>
-              {/* Form inputs */}
               <Grid item xs={12}>
                 <InputCus
                   name={"title"}
                   onChange={handleChange}
                   placeholder={"Title"}
                   marginbottom={4}
-                  fullWidth
+                  width={"350px"}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -225,40 +220,45 @@ export default function HomePageClient() {
               </Grid>
               {showMoreFields && (
                 <>
-                  <Grid item xs={6}>
+                  <Grid item xs={12} sm={6}>
                     <InputCus
                       name={"pay"}
                       placeholder={"Approximate Pay"}
                       onChange={handleChange}
                       fullWidth
+                      width={"350px"}
                     />
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={12} sm={6}>
                     <InputCus
                       name={"skills"}
                       placeholder={"Skills Required"}
                       onChange={handleChange}
                       fullWidth
+                      width={"350px"}
                     />
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={12} sm={6}>
                     <InputCus
                       name={"duration"}
                       placeholder={"Duration"}
                       onChange={handleChange}
                       fullWidth
+                      width={"350px"}
                     />
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={12} sm={6}>
                     <InputCus
                       name={"responsibilities"}
                       placeholder={"Responsibilities"}
                       onChange={handleChange}
                       fullWidth
+                      width={"350px"}
                     />
                   </Grid>
                 </>
               )}
+
               <Grid item xs={12}>
                 <IconButton
                   onClick={toggleShowMoreFields}
@@ -279,8 +279,8 @@ export default function HomePageClient() {
                   </Typography>
                 </IconButton>
               </Grid>
-              <Grid item xs={6} marginTop={"50px"}>
-                <ButtonCus text={"Post"} onClick={handleSubmit} />
+              <Grid item xs={12} marginTop={"20px"}>
+                <ButtonCus text={"Post"} onClick={handleSubmit} fullWidth />
               </Grid>
             </Grid>
           </Grid>

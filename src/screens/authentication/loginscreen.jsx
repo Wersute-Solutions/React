@@ -12,9 +12,8 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { getGoogleUser, loginUser } from "../../api/auth";
 import { useStore } from "../../zustandState";
 import AppBarCus from "../../components/appbar_custom";
-import { useGoogleLogin } from "@react-oauth/google"
-import { GoogleLogin } from '@react-oauth/google';
-
+import { useGoogleLogin } from "@react-oauth/google";
+import { GoogleLogin } from "@react-oauth/google";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -23,9 +22,7 @@ function Login() {
   const [setCurrentUser] = useStore((state) => [state.setCurrentUser]);
   const [currentUser] = useStore((state) => [state.currentUser]);
 
-  const googleLogin = useGoogleLogin({
-
-  })
+  const googleLogin = useGoogleLogin({});
 
   const [open, setOpen] = useState(false);
   const handleClose = () => {
@@ -87,6 +84,9 @@ function Login() {
             justifyContent: "center",
             alignItems: "center",
             marginBottom: "10px",
+            maxWidth: "400px",
+            width: "100%",
+            margin: "0 auto",
           }}
         >
           <Typography
@@ -119,7 +119,15 @@ function Login() {
             </Typography>
           </Button>
         </div>
-        <div style={{ marginBottom: "10px" }}>
+        <div
+          style={{
+            marginBottom: "10px",
+            maxWidth: "400px",
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
           <InputCus
             placeholder="Username"
             onChange={(e) => setUsername(e.target.value)}
@@ -127,17 +135,26 @@ function Login() {
           />
         </div>
         <br />
-        <div style={{ marginBottom: "10px" }}>
+        <div
+          style={{
+            marginBottom: "10px",
+            maxWidth: "400px",
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
           <InputCus
             placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
             width={"300px"}
           />
         </div>
+
         <ButtonCus pad={4} text={"Login"} onClick={handleLogin} />
         <Grid container justifyContent="center" sx={{ py: 2 }}>
-          <Grid item>
-            <Divider sx={{ borderTop: "1px solid #000", width: "800px" }} />
+          <Grid item xs={12} style={{ maxWidth: "400px" }}>
+            <Divider sx={{ borderTop: "1px solid #000", width: "100%" }} />
           </Grid>
         </Grid>
         <Typography variant="body1" align="center">
@@ -154,7 +171,7 @@ function Login() {
             <SocialButtonCus provider="google" onClick={handleGoogleLogin} />
             <div>
               <GoogleLogin
-                onSuccess={credentialResponse => {
+                onSuccess={(credentialResponse) => {
                   console.log(credentialResponse);
                   const token = credentialResponse.credential;
                   console.log(token);
@@ -162,21 +179,9 @@ function Login() {
                   console.log(user);
                 }}
                 onError={() => {
-                  console.log('Login Failed');
+                  console.log("Login Failed");
                 }}
               />
-              {/* <GoogleLogin
-                clientId="179057463317-lhlgh40gafpsnued6ahcue0nrtmnp9ng.apps.googleusercontent.com"
-                buttonText="Login with Google"
-                onSuccess={()=>{
-                  console.log("success");
-                }}
-                onFailure={(error)=>{
-                  console.log("failure", error);
-                }}
-                cookiePolicy={'single_host_origin'}
-                uxMode="redirect"
-            /> */}
             </div>
           </div>
           <div style={{ marginLeft: "10px" }}>

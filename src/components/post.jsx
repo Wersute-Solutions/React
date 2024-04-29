@@ -60,10 +60,16 @@ export default function Post({
             {username.charAt(0)}
           </Avatar>
           <div>
-            <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
+            <Typography
+              variant="subtitle1"
+              sx={{ fontWeight: "bold", whiteSpace: "pre-line" }}
+            >
               {username}
             </Typography>
-            <Typography variant="subtitle2" sx={{ color: blue[500] }}>
+            <Typography
+              variant="subtitle2"
+              sx={{ color: blue[500], whiteSpace: "pre-line" }}
+            >
               {new Date(date).toLocaleDateString("en-US", dateOptions)}
             </Typography>
           </div>
@@ -71,7 +77,7 @@ export default function Post({
         <Typography
           variant="h5"
           component="div"
-          sx={{ fontWeight: "bold", mb: 1 }}
+          sx={{ fontWeight: "bold", mb: 1, whiteSpace: "pre-line" }}
         >
           {title}
         </Typography>
@@ -91,23 +97,31 @@ export default function Post({
             alt={title}
           />
         )}
-        <Typography variant="body1" sx={{ mb: 2 }}>
-        
+        <Typography variant="body1" sx={{ mb: 2, whiteSpace: "pre-line" }}>
           {description}
         </Typography>
         {pay && (
-          <Typography variant="subtitle1" sx={{ mb: 1 }}>
+          <Typography
+            variant="subtitle1"
+            sx={{ mb: 1, whiteSpace: "pre-line" }}
+          >
             Approximate Pay: {pay}
           </Typography>
         )}
         {duration && (
-          <Typography variant="subtitle1" sx={{ mb: 1 }}>
+          <Typography
+            variant="subtitle1"
+            sx={{ mb: 1, whiteSpace: "pre-line" }}
+          >
             Duration: {duration}
           </Typography>
         )}
         {skills && (
           <>
-            <Typography variant="subtitle1" sx={{ mb: 1 }}>
+            <Typography
+              variant="subtitle1"
+              sx={{ mb: 1, whiteSpace: "pre-line" }}
+            >
               Skills Required:
             </Typography>
             <Chip label={skills} variant="outlined" sx={{ mr: 1, mb: 1 }} />
@@ -115,14 +129,23 @@ export default function Post({
         )}
         {responsibilities && (
           <>
-            <Typography variant="subtitle1" sx={{ mt: 2 }}>
+            <Typography
+              variant="subtitle1"
+              sx={{ mt: 2, whiteSpace: "pre-line" }}
+            >
               Responsibilities:
             </Typography>
-            <Typography variant="body1">{responsibilities}</Typography>
+            <Typography variant="body1" sx={{ whiteSpace: "pre-line" }}>
+              {responsibilities}
+            </Typography>
           </>
         )}
         <ButtonCus text={"Apply"} pad={4} onClick={handleApplyClick} />
-        <ApplyPopup id={id} open={openPopup} onClose={() => setOpenPopup(false)} />{" "}
+        <ApplyPopup
+          id={id}
+          open={openPopup}
+          onClose={() => setOpenPopup(false)}
+        />{" "}
       </CardContent>
     </Card>
   );

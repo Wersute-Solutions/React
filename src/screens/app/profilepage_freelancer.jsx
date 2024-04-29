@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import AppBarCus from "../../components/appbar_custom";
 import DrawerCus from "../../components/drawer_custom";
-import ProfilePicture from "../../components/profilepic";
-import { Button, Grid } from "@mui/material";
+import ProfilePicture from "../../components/profilepic"; // Import ProfilePicture component
+import { Button, Grid, Stack, CircularProgress } from "@mui/material";
 import InputCus from "../../components/input_custom";
 import InputLargeCus from "../../components/input_large_custom";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
@@ -20,13 +20,20 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
   const [alert, setAlert] = useState(null);
   const [resumeFile, setResumeFile] = useState(null);
   const [profilePicFile, setProfilePicFile] = useState(null);
+  const [loading, setLoading] = useState(true); // State to indicate loading
 
   const { id } = useParams();
 
   useEffect(() => {
     async function getProfile() {
-      const response = await fetchProfile(id);
-      setFormData(response[0]);
+      try {
+        const response = await fetchProfile(id);
+        setFormData(response[0]);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+        setLoading(false);
+      }
     }
 
     getProfile();
@@ -74,7 +81,7 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
     github: "",
     linkedin: "",
     bio: "",
-    resume: "",
+    avatar: "",
   });
 
   const handleEditClick = () => {
@@ -135,9 +142,10 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
         setAlert(<Alert severity="error">Please enter your github.</Alert>);
         return;
       }
-
+      setLoading(true);
       const formDataToSend = new FormData();
       for (const [key, value] of Object.entries(formData)) {
+        if (key == "resume" || key == "avatar") continue;
         formDataToSend.append(key, String(value));
       }
       formDataToSend.append("role", "freelancer");
@@ -149,6 +157,7 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
       }
 
       updateProfile(formDataToSend);
+      setLoading(false);
     }
   };
 
@@ -173,6 +182,7 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
             {alert}
           </Stack>
         )}
+        {/* Render the ProfilePicture component here */}
         <ProfilePicture
           image={formData.avatar}
           size={200}

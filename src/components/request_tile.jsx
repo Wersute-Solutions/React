@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
   applicantDetails: {
     flexGrow: 1,
     minWidth: 0,
+    marginLeft: theme.spacing(2), // Add margin to create space between text and avatar
   },
   acceptButton: {
     marginLeft: "auto",

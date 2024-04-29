@@ -30,7 +30,6 @@ export default function Requests() {
     year: "numeric",
   };
 
-
   return (
     <>
       <AppBarCus onMenuIconClick={toggleMenu} showMenuIcon />
@@ -53,7 +52,10 @@ export default function Requests() {
               key={idx}
               title={post.title}
               status={post.assigned_to ? "Assigned" : "Unassigned"}
-              date={ new Date(post.created_at).toLocaleDateString("en-US", dateOptions) }
+              date={new Date(post.created_at).toLocaleDateString(
+                "en-US",
+                dateOptions
+              )}
               applications={post.applications}
               assignedTo={post.assigned_to}
             />

@@ -86,6 +86,9 @@ function SignUp() {
             justifyContent: "center",
             alignItems: "center",
             marginBottom: "10px",
+            maxWidth: "400px",
+            width: "100%",
+            margin: "0 auto",
           }}
         >
           <Typography
@@ -118,33 +121,33 @@ function SignUp() {
             </Typography>
           </Button>
         </div>
-        <div style={{ marginBottom: "10px" }}>
+        <div style={{ marginBottom: "10px", maxWidth: "400px", width: "100%" }}>
           <InputCus
             placeholder="What should we call you"
             onChange={(e) => setUsername(e.target.value)}
-            width={"300px"}
+            width={"100%"}
           />
         </div>
-        <div style={{ marginBottom: "10px" }}>
+        <div style={{ marginBottom: "10px", maxWidth: "400px", width: "100%" }}>
           <InputCus
             placeholder="What's your email"
             onChange={(e) => setEmail(e.target.value)}
-            width={"300px"}
+            width={"100%"}
           />
         </div>
-        <div style={{ marginBottom: "10px" }}>
+        <div style={{ marginBottom: "10px", maxWidth: "400px", width: "100%" }}>
           <InputCus
             isPassword={true}
             placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
-            width={"300px"}
+            width={"100%"}
           />
         </div>
-        <div style={{ marginBottom: "10px" }}>
+        <div style={{ marginBottom: "10px", maxWidth: "400px", width: "100%" }}>
           <InputCus
             placeholder="Retype Password"
             onChange={(e) => setRetypePassword(e.target.value)}
-            width={"300px"}
+            width={"100%"}
           />
         </div>
         <Grid container justifyContent="center" sx={{ py: 1 }}>
@@ -172,8 +175,8 @@ function SignUp() {
 
         <ButtonCus pad={2} text={"SignUp"} onClick={handleSignup} />
         <Grid container justifyContent="center" sx={{ py: 2 }}>
-          <Grid item>
-            <Divider sx={{ borderTop: "1px solid #000", width: "800px" }} />
+          <Grid item xs={12} style={{ maxWidth: "400px" }}>
+            <Divider sx={{ borderTop: "1px solid #000", width: "100%" }} />
           </Grid>
         </Grid>
         <Typography variant="body1" align="center">
