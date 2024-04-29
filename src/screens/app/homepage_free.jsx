@@ -8,14 +8,19 @@ import Typography from "@mui/material/Typography";
 export default function HomePageFreelancer() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [posts, setPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     async function fetchPostsData() {
       try {
         const { data } = await fetchPosts();
         setPosts(data);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching posts:", error);
+        setError("Error fetching posts. Please try again later.");
+        setIsLoading(false);
       }
     }
 
@@ -49,7 +54,15 @@ export default function HomePageFreelancer() {
           alignItems: "center",
         }}
       >
-        {posts.length === 0 ? (
+        {isLoading ? (
+          <Typography variant="body1" style={{ marginTop: "100px" }}>
+            Loading...
+          </Typography>
+        ) : error ? (
+          <Typography variant="body1" style={{ marginTop: "100px" }}>
+            {error}
+          </Typography>
+        ) : posts.length === 0 ? (
           <Typography variant="body1" style={{ marginTop: "100px" }}>
             No posts for now, check back later
           </Typography>

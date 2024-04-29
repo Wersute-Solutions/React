@@ -48,9 +48,9 @@ export default function Requests() {
               key={idx}
               title={post.title}
               status={post.assigned_to ? "Assigned" : "Unassigned"}
-              date={post.date}
+              date={post.created_at}
               applications={post.applications}
-              assignedTo={post.assigned_to.username}
+              assignedTo={post.assigned_to?.username}
             />
           </div>
         ))}

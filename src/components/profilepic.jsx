@@ -51,7 +51,7 @@ const ProfilePicture = ({
       reader.onload = (e) => {
         const newImageSrc = e.target.result;
         setImageSrc(newImageSrc); // Update the image source state with the new image
-        setPicFile(file); // Pass the file to the parent component
+        setPicFile(file);
       };
       reader.readAsDataURL(file);
     }

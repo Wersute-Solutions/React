@@ -6,7 +6,7 @@ export default function InputLargeCus({
   onChange,
   name,
   width,
-  isDisabled = false, // Default value for isDisabled
+  isDisabled = false,
   value,
 }) {
   return (
@@ -22,9 +22,9 @@ export default function InputLargeCus({
       sx={{
         maxWidth: width,
         marginBottom: "30px",
-        pointerEvents: isDisabled ? "none" : "auto", // Disable pointer events if isDisabled is true
+        pointerEvents: isDisabled ? "none" : "auto",
       }}
-      disabled={isDisabled} // Set disabled attribute based on isDisabled prop
+      disabled={isDisabled}
     />
   );
 }
