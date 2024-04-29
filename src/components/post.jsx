@@ -92,6 +92,7 @@ export default function Post({
           />
         )}
         <Typography variant="body1" sx={{ mb: 2 }}>
+        
           {description}
         </Typography>
         {pay && (

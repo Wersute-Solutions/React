@@ -91,6 +91,8 @@ function App() {
             path="/profilepageclient"
             element={<ProfilePageClient isSelf={true} />}
           />
+          <Route />
+          <Route path="/myapplications" element={<></>}></Route>
         </Routes>
       </div>
     </ThemeProvider>

@@ -17,9 +17,7 @@ export default function Requests() {
     }
     fetchPosts();
   }, []);
-  const handleAccept = (application) => {
-    console.log("Accepted application:", application.name);
-  };
+ 
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => {
