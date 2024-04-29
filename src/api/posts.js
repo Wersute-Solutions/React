@@ -38,3 +38,16 @@ export async function fetchMyPosts() {
         return { status: false, message: error.message };
     }
 }
+
+export async function acceptApplication(applicationId, user_id) {
+    try {
+        const data = {
+            "assigned_to": user_id
+        }
+        const response = await postRequest(`api/applications/${applicationId}/accept/`, data, {}, true);
+        return { status: true, message: "Accepted application", data: response};
+    }
+    catch (error) {
+        return { status: false, message: error.message };
+    }
+}

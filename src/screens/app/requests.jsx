@@ -26,6 +26,12 @@ export default function Requests() {
     setIsMenuOpen((prevState) => !prevState);
   };
 
+  const dateOptions = {
+    month: "short",
+    day: "2-digit",
+    year: "numeric",
+  };
+
   return (
     <>
       <AppBarCus onMenuIconClick={toggleMenu} showMenuIcon />
@@ -48,9 +54,12 @@ export default function Requests() {
               key={idx}
               title={post.title}
               status={post.assigned_to ? "Assigned" : "Unassigned"}
-              date={post.created_at}
+              date={new Date(post.created_at).toLocaleDateString(
+                "en-US",
+                dateOptions
+              )}
               applications={post.applications}
-              assignedTo={post.assigned_to?.username}
+              assignedTo={post.assigned_to}
             />
           </div>
         ))}
