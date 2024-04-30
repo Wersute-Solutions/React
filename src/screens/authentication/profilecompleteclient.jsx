@@ -8,6 +8,9 @@ import ButtonCus from "../../components/button_custom";
 import Grid from "@mui/material/Grid";
 import InputLargeCus from "../../components/input_large_custom";
 import { updateProfile } from "../../api/profileHelpers";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+import { useNavigate } from "react-router-dom";
 
 export default function ClientProfileComplete() {
   const [formData, setFormData] = useState({
@@ -19,8 +22,11 @@ export default function ClientProfileComplete() {
     business_profession: "",
     about_business: "",
   });
+  const navigate = useNavigate();
 
   const [alert, setAlert] = useState(null);
+  const [loading, setLoading] = useState(false);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,7 +36,7 @@ export default function ClientProfileComplete() {
     });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setAlert(null);
 
     if (!formData.first_name.trim()) {
@@ -78,25 +84,29 @@ export default function ClientProfileComplete() {
       );
       return;
     }
-    setFormData({
-      ...formData,
-      role: "client",
-    });
-
-    const formDataToSend = new FormData();
-    for (const [key, value] of Object.entries(formData)) {
-      formDataToSend.append(key, String(value));
+    setLoading(true);
+    try {
+      const formDataToSend = new FormData();
+      for (const [key, value] of Object.entries(formData)) {
+        formDataToSend.append(key, String(value));
+      }
+      formDataToSend.append("role", "client");
+      await updateProfile(formDataToSend);
+       navigate("/")
+    } catch (error) {
+      setAlert(<Alert severity="error">Failed to submit the form.</Alert>);
+    } finally {
+      setLoading(false);
     }
-    formDataToSend.append("role", "client");
-
-    updateProfile(formDataToSend);
-
-    console.log("Form submitted:", formData);
+    
   };
 
   return (
     <>
       <AppBarCus />
+      <Backdrop open={loading} sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <div
         style={{
           backgroundColor: "#f0f0f0",

@@ -8,11 +8,7 @@ import ButtonCus from "../../components/button_custom";
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import SocialButtonCus from "../../components/extra_login_custom";
-import FormControl from "@mui/material/FormControl";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import RadioGroup from "@mui/material/RadioGroup";
-import Radio from "@mui/material/Radio";
-import Backdrop from "@mui/material/Backdrop";
+ import Backdrop from "@mui/material/Backdrop";
 import { signupUser } from "../../api/auth";
 
 function SignUp() {
@@ -20,12 +16,9 @@ function SignUp() {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [retypepassword, setRetypePassword] = useState("");
-  const [value, setValue] = React.useState("Freelancer");
   const [backdropOpen, setBackdropOpen] = useState(false);
 
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  };
+
 
   const handleSignup = async () => {
     setBackdropOpen(true);
@@ -39,11 +32,7 @@ function SignUp() {
     const response = await signupUser({ username, email, password });
     if (response.status) {
       alert("Signup success, You can login now!");
-      if (value === "Freelancer") {
-        navigate("/completefreelancerprofile");
-      } else {
-        navigate("/completeclientprofile");
-      }
+      navigate("/choice")
     } else {
       setBackdropOpen(false);
 
@@ -150,28 +139,7 @@ function SignUp() {
             width={"100%"}
           />
         </div>
-        <Grid container justifyContent="center" sx={{ py: 1 }}>
-          <FormControl>
-            <RadioGroup
-              row
-              aria-labelledby="demo-row-radio-buttons-group-label"
-              name="row-radio-buttons-group"
-              value={value}
-              onChange={handleChange}
-            >
-              <FormControlLabel
-                value="Freelancer"
-                control={<Radio />}
-                label="Freelancer"
-              />
-              <FormControlLabel
-                value="Client"
-                control={<Radio />}
-                label="Client"
-              />
-            </RadioGroup>
-          </FormControl>
-        </Grid>
+         
 
         <ButtonCus pad={2} text={"SignUp"} onClick={handleSignup} />
         <Grid container justifyContent="center" sx={{ py: 2 }}>

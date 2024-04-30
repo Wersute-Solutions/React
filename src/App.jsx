@@ -15,10 +15,11 @@ import Requests from "./screens/app/requests";
 import ProfilePageFreelancer from "./screens/app/profilepage_freelancer";
 import ProfilePageClient from "./screens/app/profilepage_client";
 import { useNavigate } from "react-router-dom";
+import Choice from "./screens/authentication/choicescreen";
 
 const darkTheme = createTheme({
   palette: {
-    primary: {
+    primary: {  
       main: "#1976d2",
     },
   },
@@ -34,6 +35,7 @@ function App() {
     if(user.status === false) {
       navigate("/login");
     }
+
   }
 
   useEffect(() => {
@@ -58,9 +60,14 @@ function App() {
               currentUser?.profile?.role === "client" ? (
                 <HomePageClient />
               ) : (
-                currentUser?.profile?.role === "freelancer" && (
-                  <HomePageFreelancer />
-                )
+                currentUser?.profile?.role === "freelancer" ? (
+                  <HomePageFreelancer />) :
+                  (
+                    currentUser?.profile?.role === null && (
+                      <Choice />
+                    )
+                  )
+                
               )
             }
           />
@@ -92,8 +99,8 @@ function App() {
             element={<ProfilePageClient isSelf={true} />}
           />
           <Route />
-          <Route path="/myapplications" element={<></>}></Route>
-        </Routes>
+          <Route path="/choice" element={<Choice/>}></Route>
+         </Routes>
       </div>
     </ThemeProvider>
   );

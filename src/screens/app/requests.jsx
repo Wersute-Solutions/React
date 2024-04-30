@@ -11,6 +11,7 @@ export default function Requests() {
       const response = await fetchMyPosts();
       if (response.status) {
         setPosts(response.data);
+        console.log(response.data);
       } else {
         console.log("Error fetching posts:", response.message);
       }
@@ -45,7 +46,7 @@ export default function Requests() {
           alignItems: "center",
         }}
       >
-        {posts.map((post, idx) => (
+        {posts?.map((post, idx) => (
           <div key={idx} className="">
             <Tile
               id={post.id}
@@ -56,7 +57,7 @@ export default function Requests() {
                 "en-US",
                 dateOptions
               )}
-              applications={post.applications}
+              applications={post.assigned_to ? [] : post.applications}
               assignedTo={post.assigned_to}
             />
           </div>

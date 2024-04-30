@@ -11,6 +11,9 @@ import InputCus from "../../components/input_custom";
 import ButtonCus from "../../components/button_custom";
 import { updateProfile } from "../../api/profileHelpers";
 import InputLargeCus from "../../components/input_large_custom";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+import { useNavigate } from "react-router-dom";
 
 export default function FreeProfileComplete() {
   const [formData, setFormData] = useState({
@@ -28,6 +31,8 @@ export default function FreeProfileComplete() {
   const [alert, setAlert] = useState(null);
   const [resumeUploaded, setResumeUploaded] = useState(false);
   const [resumeFile, setResumeFile] = useState(null);
+  const [loading, setLoading] = useState(null)
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -46,7 +51,7 @@ export default function FreeProfileComplete() {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setAlert(null);
 
     if (!formData.first_name.trim()) {
@@ -117,19 +122,26 @@ export default function FreeProfileComplete() {
       return;
     }
 
-    setFormData({
-      ...formData,
-      role: "freelancer",
-    });
-
-    const formDataToSend = new FormData();
-    for (const [key, value] of Object.entries(formData)) {
-      formDataToSend.append(key, String(value));
+    
+    setLoading(true);
+    try {
+      const formDataToSend = new FormData();
+      for (const [key, value] of Object.entries(formData)) {
+        formDataToSend.append(key, String(value));
+      }
+      formDataToSend.append("role", "freelancer");
+      formDataToSend.append("resume", resumeFile, "resume.pdf");
+  
+      await updateProfile(formDataToSend);
+      navigate("/")
+    } catch (error) {
+      setAlert(<Alert severity="error">Failed to submit the form.</Alert>);
+    } finally {
+      setLoading(false);
     }
-    formDataToSend.append("role", "freelancer");
-    formDataToSend.append("resume", resumeFile, "resume.pdf");
 
-    updateProfile(formDataToSend);
+ 
+    window.location.reload()
   };
 
   const VisuallyHiddenInput = styled("input")({
@@ -147,6 +159,9 @@ export default function FreeProfileComplete() {
   return (
     <>
       <AppBarCus />
+      <Backdrop open={loading} sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+      <CircularProgress color="inherit" />
+    </Backdrop>
       <div
         style={{
           backgroundColor: "#f0f0f0",

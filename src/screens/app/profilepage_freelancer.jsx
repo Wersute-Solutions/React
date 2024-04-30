@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import AppBarCus from "../../components/appbar_custom";
 import DrawerCus from "../../components/drawer_custom";
-import ProfilePicture from "../../components/profilepic"; // Import ProfilePicture component
-import { Button, Grid, Stack, CircularProgress } from "@mui/material";
+import ProfilePicture from "../../components/profilepic";  
+import { Button, Grid, Stack, CircularProgress, Backdrop } from "@mui/material";
 import InputCus from "../../components/input_custom";
 import InputLargeCus from "../../components/input_large_custom";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
@@ -29,9 +29,10 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
       try {
         const response = await fetchProfile(id);
         setFormData(response[0]);
-        setLoading(false);
       } catch (error) {
         console.error("Error fetching profile:", error);
+        setAlert(<Alert severity="error">Error fetching profile</Alert>);
+      } finally {
         setLoading(false);
       }
     }
@@ -64,7 +65,6 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
     if (resumeFile) {
       setResumeFile(resumeFile);
       setResumeUploaded(true);
-      console.log(formData);
     }
   };
 
@@ -158,8 +158,18 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
 
       updateProfile(formDataToSend);
       setLoading(false);
+      window.location.reload();
+
     }
   };
+  if (loading) {
+    return (
+      <Backdrop open={loading}>
+        <CircularProgress color="primary" />
+      </Backdrop>
+    );
+  }
+
 
   return (
     <>

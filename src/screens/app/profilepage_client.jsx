@@ -95,6 +95,8 @@ export default function ProfilePageClient({ isSelf = false }) {
       formDataToSend.append("role", "client");
 
       updateProfile(formDataToSend);
+      window.location.reload();
+
     }
   };
 
