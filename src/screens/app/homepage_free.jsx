@@ -80,6 +80,7 @@ export default function HomePageFreelancer() {
               duration={post.duration}
               responsibilities={post.responsibilities}
               image={post.image}
+              user_id={post.user.id}
             />
           ))
         )}

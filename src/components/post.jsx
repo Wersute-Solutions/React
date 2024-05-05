@@ -10,6 +10,7 @@ import {
 import { blue } from "@mui/material/colors";
 import ButtonCus from "./button_custom";
 import ApplyPopup from "./post_popup";
+import { useNavigate } from "react-router-dom";
 
 export default function Post({
   id,
@@ -23,6 +24,7 @@ export default function Post({
   username,
   profilePic,
   date,
+  user_id,
 }) {
   const [openPopup, setOpenPopup] = useState(false);
   const handleApplyClick = () => {
@@ -34,6 +36,10 @@ export default function Post({
     day: "2-digit",
     year: "numeric",
   };
+
+
+  const navigate = useNavigate();
+
 
   return (
     <Card
@@ -50,7 +56,13 @@ export default function Post({
             display: "flex",
             alignItems: "center",
             marginBottom: "10px",
+            cursor: "pointer",
           }}
+          onClick={
+            ()=>{
+              navigate(`/profilepagefreelancer/${user_id}`)
+            }
+          }
         >
           <Avatar
             src={profilePic}
