@@ -17,7 +17,7 @@ export default function ClientProfileComplete() {
     first_name: "",
     last_name: "",
     dob: "",
-    contact_number: "",
+    contact_no: "",
     business_name: "",
     business_profession: "",
     about_business: "",
@@ -36,7 +36,7 @@ export default function ClientProfileComplete() {
     });
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async() => {
     setAlert(null);
 
     if (!formData.first_name.trim()) {
@@ -64,7 +64,7 @@ export default function ClientProfileComplete() {
     }
 
     const contactNumberPattern = /^\d{10}$/;
-    if (!contactNumberPattern.test(formData.contact_number)) {
+    if (!contactNumberPattern.test(formData.contact_no)) {
       setAlert(
         <Alert severity="error">Please enter a valid contact number.</Alert>
       );
@@ -90,7 +90,7 @@ export default function ClientProfileComplete() {
       for (const [key, value] of Object.entries(formData)) {
         formDataToSend.append(key, String(value));
       }
-      formDataToSend.append("role", "client");
+      formDataToSend.append("role","client");
       await updateProfile(formDataToSend);
       navigate("/")
     } catch (error) {
@@ -167,7 +167,7 @@ export default function ClientProfileComplete() {
             <Grid item xs={12} md={6}>
               <InputCus
                 placeholder={"Contact Number"}
-                name="contact_number"
+                name="contact_no"
                 onChange={handleChange}
                 width={300}
               />

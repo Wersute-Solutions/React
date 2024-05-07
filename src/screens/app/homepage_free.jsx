@@ -55,15 +55,15 @@ export default function HomePageFreelancer() {
         }}
       >
         {isLoading ? (
-          <Typography variant="body1" style={{ marginTop: "100px" }}>
+          <Typography variant="body1" style={{ marginTop: "250px" }}>
             Loading...
           </Typography>
         ) : error ? (
-          <Typography variant="body1" style={{ marginTop: "100px" }}>
+          <Typography variant="body1" style={{ marginTop: "250px" }}>
             {error}
           </Typography>
         ) : posts.length === 0 ? (
-          <Typography variant="body1" style={{ marginTop: "100px" }}>
+          <Typography variant="body1" style={{ marginTop: "250px" }}>
             No posts for now, check back later
           </Typography>
         ) : (

@@ -55,7 +55,7 @@ export default function Requests() {
           <CircularProgress color="primary" />
         </Backdrop>
         ) : posts.length === 0 ? (
-          <Typography variant="body1">you have not posted anything yet.</Typography>
+          <Typography variant="body1" style={{ marginTop: "250px" }}>your posts dont have any applicants yet.</Typography>
         ) : (
           posts.map((post, idx) => (
             <div key={idx} className="">

@@ -31,8 +31,7 @@ export default function HomePageClient() {
     skills: "",
     duration: "",
     responsibilities: "",
-    image: null,
-  });
+   });
   const navigate = useNavigate();
 
   const [showMoreFields, setShowMoreFields] = useState(false);

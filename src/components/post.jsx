@@ -53,7 +53,7 @@ export default function Post({
   useEffect(() => {
     async function getProfile() {
       try {
-        const response = await fetchProfile(id);
+        const response = await fetchProfile(user_id);
         setFormData(response[0]);
       } catch (error) {
         console.error("Error fetching profile:", error);
