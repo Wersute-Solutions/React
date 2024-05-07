@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -11,6 +11,8 @@ import { blue } from "@mui/material/colors";
 import ButtonCus from "./button_custom";
 import ApplyPopup from "./post_popup";
 import { useNavigate } from "react-router-dom";
+import { fetchProfile } from "../api/profileHelpers";
+
 
 export default function Post({
   id,
@@ -22,8 +24,8 @@ export default function Post({
   duration,
   responsibilities,
   username,
-  profilePic,
   date,
+  profilePic,
   user_id,
 }) {
   const [openPopup, setOpenPopup] = useState(false);
@@ -36,6 +38,31 @@ export default function Post({
     day: "2-digit",
     year: "numeric",
   };
+  const [formData, setFormData] = useState({
+    first_name: "",
+    last_name: "",
+    dob: "",
+    contact_no: "",
+    skills: "",
+    projects_and_experience: "",
+    github: "",
+    linkedin: "",
+    bio: "",
+    avatar: "",
+  });
+  useEffect(() => {
+    async function getProfile() {
+      try {
+        const response = await fetchProfile(id);
+        setFormData(response[0]);
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+       } finally {
+       }
+    }
+
+    getProfile();
+  }, []);
 
 
   const navigate = useNavigate();
@@ -65,7 +92,7 @@ export default function Post({
           }
         >
           <Avatar
-            src={profilePic}
+            src={formData && formData.avatar ? formData.avatar : profilePic}
             alt={username}
             sx={{ mr: 2, backgroundColor: blue[500] }}
           >

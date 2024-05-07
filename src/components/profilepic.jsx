@@ -6,23 +6,22 @@ import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
   avatarContainer: {
+    position: "relative",
     display: "inline-block",
     marginRight: -theme.spacing(2),
   },
-  avatar: {
-    width: theme.spacing(10),
-    height: theme.spacing(10),
-  },
   editButton: {
     position: "absolute",
-    top: "50%",
-    transform: "translateY(-50%)",
-    right: theme.spacing(2),
+    bottom: theme.spacing(1), // Adjust the bottom value to position the icon vertically
+    right: theme.spacing(1), // Adjust the right value to position the icon horizontally
+    transform: "translate(50%, 50%)", // Center the icon vertically and horizontally
   },
   hiddenInput: {
     display: "none",
   },
 }));
+
+
 
 const ProfilePicture = ({
   image,

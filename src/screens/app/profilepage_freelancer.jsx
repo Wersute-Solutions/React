@@ -73,7 +73,7 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
   };
   const [formData, setFormData] = useState({
     first_name: "",
-    last_name: "assss",
+    last_name: "",
     dob: "",
     contact_no: "",
     skills: "",
@@ -199,7 +199,7 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
           isEdit={isEditMode}
           setPicFile={setProfilePicFile}
         />
-        <div style={{ maxWidth: "700px", width: "100%" }}>
+        <div style={{ maxWidth: "700px", width: "100%" }} >
           <Grid container spacing={2} justifyContent="center" marginTop={5}>
             <Grid item xs={12} md={6}>
               <InputCus
@@ -306,15 +306,13 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
               >
                 Download Resume
               </Button>
-              <Button
+              {isSelf && <Button
                 component="label"
                 variant="contained"
                 startIcon={<CloudUploadIcon />}
-                disabled={!isSelf ? false : !isEditMode}
+                disabled={!isEditMode}
               >
-                {!isSelf
-                  ? "Download Resume"
-                  : resumeUploaded
+                {  resumeUploaded
                   ? "Resume Uploaded"
                   : "Upload Resume"}{" "}
                 <VisuallyHiddenInput
@@ -322,7 +320,7 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
                   id="resume"
                   onChange={handleFileChange}
                 />
-              </Button>
+              </Button>}
             </Grid>
             {isSelf && (
               <Grid item xs={12}>
