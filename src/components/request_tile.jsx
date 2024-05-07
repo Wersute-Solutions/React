@@ -1,11 +1,13 @@
-import React from "react";
-import { makeStyles } from "@mui/styles";
+ import { makeStyles } from "@mui/styles";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import Avatar from "@mui/material/Avatar";
-import { acceptApplication } from "../api/posts";
+ import { acceptApplication } from "../api/posts";
 import { useNavigate } from "react-router-dom";
+import ProfilePictureStatic from "./profilepic_static";
+import { fetchProfile } from "../api/profileHelpers";
+import React, { useEffect, useState } from "react";
+
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -57,10 +59,37 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Tile = ({ title, status, date, applications, assignedTo, id }) => {
+const Tile = ({ title, status, date, applications, assignedTo}) => {
   const classes = useStyles();
 
   const navigate = useNavigate()
+
+  const [formData, setFormData] = useState({
+    first_name: "",
+    last_name: "",
+    dob: "",
+    contact_no: "",
+    skills: "",
+    projects_and_experience: "",
+    github: "",
+    linkedin: "",
+    bio: "",
+    avatar: "",
+  });
+
+  useEffect(() => {
+    async function getProfile() {
+      try {
+        const response = await fetchProfile(assignedTo.id);
+        setFormData(response[0]);
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+       } finally {
+       }
+    }
+
+    getProfile();
+  }, []);
 
   return (
     <Paper elevation={0} className={classes.paper}>
@@ -75,11 +104,7 @@ const Tile = ({ title, status, date, applications, assignedTo, id }) => {
       </Typography>
       {status === "Assigned" && (
         <Paper elevation={0} className={classes.application}>
-          <Avatar
-            alt={assignedTo.username}
-            src={assignedTo.profilePic}
-            className={classes.avatar}
-          />
+          <ProfilePictureStatic imageSrc={formData.avatar}/>
           <Typography variant="body1" className={classes.applicantDetails}>
             Assigned to: {assignedTo.username}
           </Typography>
@@ -89,13 +114,11 @@ const Tile = ({ title, status, date, applications, assignedTo, id }) => {
         applications?.map((application, index) => (
           <>
             <Paper key={index} elevation={0} className={classes.application}>
-              <Avatar
-                alt={application.applicant_profile?.first_name}
-                src={application.profilePic}
-                className={application?.applicant_profile?.avatar}
-              />
+              <div onClick={navigate(`/`)}>
+              <ProfilePictureStatic imageSrc={application.applicant_profile?.avatar}/>
               <div className={classes.applicantDetails}>
-                <Typography variant="body1">{`${application.applicant_profile?.first_name} ${application.applicant_profile?.last_name}`}</Typography>
+                <Typography variant="body1">{`${application.applicant.username}`}</Typography>
+                </div>
                 <Typography
                   variant="body2"
                   className={application.cover_letter}

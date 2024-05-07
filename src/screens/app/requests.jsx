@@ -3,9 +3,13 @@ import AppBarCus from "../../components/appbar_custom";
 import DrawerCus from "../../components/drawer_custom";
 import Tile from "../../components/request_tile";
 import { fetchMyPosts } from "../../api/posts";
+import { CircularProgress, Backdrop } from "@mui/material";
+import Typography from "@mui/material/Typography";
 
 export default function Requests() {
   const [posts, setPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     async function fetchPosts() {
       const response = await fetchMyPosts();
@@ -15,10 +19,10 @@ export default function Requests() {
       } else {
         console.log("Error fetching posts:", response.message);
       }
+      setIsLoading(false);
     }
     fetchPosts();
   }, []);
- 
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => {
@@ -46,22 +50,29 @@ export default function Requests() {
           alignItems: "center",
         }}
       >
-        {posts?.map((post, idx) => (
-          <div key={idx} className="">
-            <Tile
-              id={post.id}
-              key={idx}
-              title={post.title}
-              status={post.assigned_to ? "Assigned" : "Unassigned"}
-              date={new Date(post.created_at).toLocaleDateString(
-                "en-US",
-                dateOptions
-              )}
-              applications={post.assigned_to ? [] : post.applications}
-              assignedTo={post.assigned_to}
-            />
-          </div>
-        ))}
+        {isLoading ? (
+          <Backdrop open={isLoading}>
+          <CircularProgress color="primary" />
+        </Backdrop>
+        ) : posts.length === 0 ? (
+          <Typography variant="body1">you have not posted anything yet.</Typography>
+        ) : (
+          posts.map((post, idx) => (
+            <div key={idx} className="">
+              <Tile
+                key={idx}
+                title={post.title}
+                status={post.assigned_to ? "Assigned" : "Unassigned"}
+                date={new Date(post.created_at).toLocaleDateString(
+                  "en-US",
+                  dateOptions
+                )}
+                applications={post.assigned_to ? [] : post.applications}
+                assignedTo={post.assigned_to}
+              />
+            </div>
+          ))
+        )}
       </div>
     </>
   );

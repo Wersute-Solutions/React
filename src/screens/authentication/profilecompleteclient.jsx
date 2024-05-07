@@ -92,7 +92,7 @@ export default function ClientProfileComplete() {
       }
       formDataToSend.append("role", "client");
       await updateProfile(formDataToSend);
-       navigate("/")
+      navigate("/")
     } catch (error) {
       setAlert(<Alert severity="error">Failed to submit the form.</Alert>);
     } finally {
