@@ -57,7 +57,7 @@ export default function Requests() {
         ) : posts.length === 0 ? (
           <Typography variant="body1" style={{ marginTop: "250px" }}>your posts dont have any applicants yet.</Typography>
         ) : (
-          posts.map((post, idx) => (
+          posts?.map((post, idx) => (
             <div key={idx} className="">
               <Tile
                 key={idx}

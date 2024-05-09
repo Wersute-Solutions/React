@@ -1,13 +1,12 @@
- import { makeStyles } from "@mui/styles";
+import { makeStyles } from "@mui/styles";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
- import { acceptApplication } from "../api/posts";
+import { acceptApplication } from "../api/posts";
 import { useNavigate } from "react-router-dom";
 import ProfilePictureStatic from "./profilepic_static";
 import { fetchProfile } from "../api/profileHelpers";
 import React, { useEffect, useState } from "react";
-
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -15,14 +14,16 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(3),
     borderRadius: theme.spacing(2),
     boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-    width: 700,
+    width: "calc(100% - 40px)", // Adjusted width for responsiveness
+    Width: 700, // Maximum width
+    margin: "20px auto", // Center the paper horizontally with some top and bottom margin
   },
   title: {
     fontWeight: "bold",
     marginBottom: theme.spacing(2),
   },
   status: {
-    marginBottom: theme.spacing(2),
+    marginBottom: theme.spacing(1),
   },
   date: {
     marginBottom: theme.spacing(2),
@@ -33,36 +34,35 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: theme.spacing(1),
     border: `1px solid ${theme.palette.primary.main}`,
     display: "flex",
-    alignItems: "flex-start",
+    alignItems: "center", // Center items vertically
   },
   avatar: {
     marginRight: theme.spacing(2),
     width: theme.spacing(8),
     height: theme.spacing(8),
+    border: `2px solid ${theme.palette.primary.main}`, // Add border
+    borderRadius: "50%", // Make avatar round
   },
   applicantDetails: {
-    flexGrow: 1,
-    minWidth: 0,
-    marginLeft: theme.spacing(2), // Add margin to create space between text and avatar
+    marginLeft: theme.spacing(2),
   },
   acceptButton: {
     marginLeft: "auto",
-    marginTop: "auto",
-    display: "block",
   },
   coverLetter: {
-    overflowWrap: "break-word",
-    wordWrap: "break-word",
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+    overflow: "hidden",
+    textOverflow: "ellipsis",
     display: "-webkit-box",
     WebkitLineClamp: 3,
     WebkitBoxOrient: "vertical",
   },
 }));
 
-const Tile = ({ title, status, date, applications, assignedTo}) => {
+const Tile = ({ title, status, date, applications, assignedTo }) => {
   const classes = useStyles();
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     first_name: "",
@@ -84,8 +84,7 @@ const Tile = ({ title, status, date, applications, assignedTo}) => {
         setFormData(response[0]);
       } catch (error) {
         console.error("Error fetching profile:", error);
-       } finally {
-       }
+      }
     }
 
     getProfile();
@@ -104,42 +103,38 @@ const Tile = ({ title, status, date, applications, assignedTo}) => {
       </Typography>
       {status === "Assigned" && (
         <Paper elevation={0} className={classes.application}>
-          <ProfilePictureStatic imageSrc={formData.avatar}/>
+          <ProfilePictureStatic imageSrc={formData.avatar} size={80} className={classes.avatar} />
           <Typography variant="body1" className={classes.applicantDetails}>
             Assigned to: {assignedTo.username}
           </Typography>
         </Paper>
       )}
-      {true &&
-        applications?.map((application, index) => (
-          <>
-            <Paper key={index} elevation={0} className={classes.application}>
-              <div onClick={navigate(`/`)}>
-              <ProfilePictureStatic imageSrc={application.applicant_profile?.avatar}/>
-              <div className={classes.applicantDetails}>
-                <Typography variant="body1">{`${application.applicant.username}`}</Typography>
-                </div>
-                <Typography
-                  variant="body2"
-                  className={application.cover_letter}
-                >
-                  {application.cover_letter}
-                </Typography>
-              </div>
-              <Button
-                onClick={async () => {
-                  await acceptApplication(application.id, application.applicant_profile?.id);
-                  window.location.reload();
-                }}
-                variant="contained"
-                color="primary"
-                className={classes.acceptButton}
-              >
-                Accept
-              </Button>
-            </Paper>
-          </>
-        ))}
+      {applications?.map((application, index) => (
+        <Paper key={index} elevation={0} className={classes.application}>
+          <ProfilePictureStatic
+            imageSrc={application.applicant_profile?.avatar}
+            size={40}
+            className={classes.avatar}
+          />
+          <div className={classes.applicantDetails}>
+            <Typography variant="body1">{application.applicant.username}</Typography>
+            <Typography variant="body2" className={classes.coverLetter}>
+              {application.cover_letter}
+            </Typography>
+          </div>
+          <Button
+            onClick={async () => {
+              await acceptApplication(application.id, application.applicant_profile?.id);
+              window.location.reload();
+            }}
+            variant="contained"
+            color="primary"
+            className={classes.acceptButton}
+          >
+            Accept
+          </Button>
+        </Paper>
+      ))}
     </Paper>
   );
 };
