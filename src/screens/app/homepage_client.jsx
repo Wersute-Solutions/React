@@ -16,11 +16,11 @@ import {
 import { createPost } from "../../api/posts";
 import { useNavigate } from "react-router-dom";
 import AppBarCus from "../../components/appbar_custom";
-import DrawerCus from "../../components/drawer_custom";
 import BoxCus from "../../components/box_custom";
 import InputCus from "../../components/input_custom";
 import InputLargeCus from "../../components/input_large_custom";
 import ButtonCus from "../../components/button_custom";
+import DrawerCusClient from "../../components/drawer_custom_client";
 
 export default function HomePageClient() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -131,7 +131,7 @@ export default function HomePageClient() {
         showNotificationButton
         onMenuIconClick={toggleMenu}
       />
-      <DrawerCus open={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
+      <DrawerCusClient open={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
       <div
         style={{
           backgroundColor: "#f0f0f0",

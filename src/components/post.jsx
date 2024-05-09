@@ -92,7 +92,7 @@ export default function Post({
           }
         >
           <Avatar
-            src={formData && formData.avatar ? formData.avatar : profilePic}
+            src={ formData?.avatar ? formData?.avatar : profilePic}
             alt={username}
             sx={{ mr: 2, backgroundColor: blue[500] }}
           >

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import AppBarCus from "../../components/appbar_custom";
-import DrawerCus from "../../components/drawer_custom";
+import DrawerCus from "../../components/drawer_custom_freelancer";
 import Tile from "../../components/request_tile";
 import { fetchMyPosts } from "../../api/posts";
 import { CircularProgress, Backdrop } from "@mui/material";

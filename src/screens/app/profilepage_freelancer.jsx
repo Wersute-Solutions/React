@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import AppBarCus from "../../components/appbar_custom";
-import DrawerCus from "../../components/drawer_custom";
+import DrawerCus from "../../components/drawer_custom_freelancer";
 import ProfilePicture from "../../components/profilepic";  
 import { Button, Grid, Stack, CircularProgress, Backdrop } from "@mui/material";
 import InputCus from "../../components/input_custom";
@@ -194,7 +194,7 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
         )}
         {/* Render the ProfilePicture component here */}
         <ProfilePicture
-          image={formData.avatar}
+          image={formData?.avatar}
           size={200}
           isEdit={isEditMode}
           setPicFile={setProfilePicFile}

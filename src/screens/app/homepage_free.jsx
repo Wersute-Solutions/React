@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import AppBarCus from "../../components/appbar_custom";
-import DrawerCus from "../../components/drawer_custom";
+import DrawerCus from "../../components/drawer_custom_freelancer";
 import Post from "../../components/post";
 import { fetchPosts } from "../../api/posts";
 import Typography from "@mui/material/Typography";

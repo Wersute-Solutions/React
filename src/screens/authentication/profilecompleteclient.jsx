@@ -111,7 +111,7 @@ export default function ClientProfileComplete() {
         style={{
           backgroundColor: "#f0f0f0",
           minHeight: "100vh",
-          padding: "20px",
+          
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
