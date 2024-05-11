@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import AppBarCus from "../../components/appbar_custom";
-import DrawerCus from "../../components/drawer_custom_freelancer";
 import Tile from "../../components/request_tile";
 import { fetchMyPosts } from "../../api/posts";
 import { CircularProgress, Backdrop } from "@mui/material";
 import Typography from "@mui/material/Typography";
+import DrawerCusClient from "../../components/drawer_custom_client";
 
 export default function Requests() {
   const [posts, setPosts] = useState([]);
@@ -38,7 +38,7 @@ export default function Requests() {
   return (
     <>
       <AppBarCus onMenuIconClick={toggleMenu} showMenuIcon />
-      <DrawerCus open={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
+      <DrawerCusClient open={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
 
       <div
         style={{

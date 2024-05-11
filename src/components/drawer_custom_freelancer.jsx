@@ -91,11 +91,11 @@ export default function DrawerCus({ open, onClose }) {
                 </ListItemIcon>
                 <ListItemText primary="My Profile" />
               </ListItemButton>
-              <ListItemButton onClick={() => navigate("/requests")}>
+              <ListItemButton onClick={() => navigate("/applications")}>
                 <ListItemIcon sx={{ color: "#3f51b5" }}>
                   <FolderIcon />
                 </ListItemIcon>
-                <ListItemText primary="My Requests" />
+                <ListItemText primary="My Applications" />
               </ListItemButton>
             </List>
             <List>
