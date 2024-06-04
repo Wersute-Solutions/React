@@ -31,7 +31,7 @@ export default function FreeProfileComplete() {
   const [alert, setAlert] = useState(null);
   const [resumeUploaded, setResumeUploaded] = useState(false);
   const [resumeFile, setResumeFile] = useState(null);
-  const [loading, setLoading] = useState(null)
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
   const handleChange = (e) => {

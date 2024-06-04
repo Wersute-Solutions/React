@@ -7,16 +7,15 @@ import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 
 export default function AppBarCus({
-  showSearchBar = false,
-  onSearch = () => {},
   showMenuIcon = false,
   onMenuIconClick = () => {},
   showNotificationButton = false,
   onNotificationButtonClick = () => {},
+  fixed = false,
 }) {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" color="primary">
+      <AppBar position={fixed ? "fixed" : "static"} color="primary">
         <Toolbar sx={{ justifyContent: "space-between" }}>
           {/* Menu Icon */}
           {showMenuIcon && (

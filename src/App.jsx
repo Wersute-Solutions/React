@@ -16,7 +16,7 @@ import ProfilePageFreelancer from "./screens/app/profilepage_freelancer";
 import ProfilePageClient from "./screens/app/profilepage_client";
 import { useNavigate } from "react-router-dom";
 import Choice from "./screens/authentication/choicescreen";
-import Applications from "./screens/app/applications";
+import Chat from "./screens/app/chatscreen";
 
 const darkTheme = createTheme({
   palette: {
@@ -87,7 +87,7 @@ function App() {
           <Route path="/homefree" element={<HomePageFreelancer />} />
           <Route path="/success" element={<SuccessPage />} />
           <Route path="/requests" element={<Requests />} />
-          <Route path="/applications"  element={<Applications/>} />
+          <Route path="/chatscreen"  element={<Chat/>} />
           <Route
             path="/profilepagefreelancer"
             element={<ProfilePageFreelancer isSelf={true} />}
