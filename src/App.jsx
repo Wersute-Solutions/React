@@ -17,6 +17,7 @@ import ProfilePageClient from "./screens/app/profilepage_client";
 import { useNavigate } from "react-router-dom";
 import Choice from "./screens/authentication/choicescreen";
 import Chat from "./screens/app/chatscreen";
+import Applications from "./screens/app/applications";
 
 const darkTheme = createTheme({
   palette: {
@@ -74,6 +75,7 @@ function App() {
           />
 
           <Route path="/login" element={<Login />} />
+          <Route path="/applications" element={<Applications />} />
           <Route path="/signup" element={<SignUp />} />
           <Route
             path="/completefreelancerprofile"
