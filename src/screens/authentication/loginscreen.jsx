@@ -43,7 +43,7 @@ function Login() {
       console.log("user_set: ", data.user);
       setCurrentUser(data.user); // Set the current user in the state
       if (data.status) {
-        navigate("/"); // Navigate to the home page on successful login
+        navigate("/",{ replace: true });
       } else {
         alert(data.message); // Show error message
       }
@@ -52,6 +52,7 @@ function Login() {
       alert("An error occurred during login. Please try again.");
     } finally {
       setOpen(false); // Hide loading indicator
+
     }
   };
 

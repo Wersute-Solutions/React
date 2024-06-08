@@ -41,7 +41,7 @@ export default function AppBarCus({
 
           {/* Logo */}
           <Box sx={{ flexGrow: 1, textAlign: "center" }}>
-            <div onClick={isclickable? handleLogoClick: {}} style={{ cursor: "pointer" }}>
+            <div onClick={isclickable? handleLogoClick: ()=>{}} style={{ cursor: "pointer" }}>
               <img
                 src="logo.png"
                 alt="Logo"
