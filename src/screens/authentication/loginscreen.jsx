@@ -1,19 +1,16 @@
 import { useState } from "react";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import Grid from "@mui/material/Grid";
 import InputCus from "../../components/input_custom";
 import ButtonCus from "../../components/button_custom";
 import Divider from "@mui/material/Divider";
-//import SocialButtonCus from "../../components/extra_login_custom";
 import { useNavigate } from "react-router-dom";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
-import { /*getGoogleUser,*/ loginUser } from "../../api/auth";
+import { loginUser } from "../../api/auth";
 import { useStore } from "../../zustandState";
 import AppBarCus from "../../components/appbar_custom";
-import { useGoogleLogin } from "@react-oauth/google";
-//import { GoogleLogin } from "@react-oauth/google";
+//import { useGoogleLogin } from "@react-oauth/google";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -22,7 +19,7 @@ function Login() {
   const [setCurrentUser] = useStore((state) => [state.setCurrentUser]);
   const [currentUser] = useStore((state) => [state.currentUser]);
 
-  const googleLogin = useGoogleLogin({});
+  //const googleLogin = useGoogleLogin({});
 
   const [open, setOpen] = useState(false);
   const handleClose = () => {
@@ -32,9 +29,9 @@ function Login() {
     setOpen(true);
   };
   const navigate = useNavigate();
-  const handleGoogleLogin = () => {
+  /*const handleGoogleLogin = () => {
     handleOpen();
-  };
+  };*/
 
   const handleLogin = async () => {
     handleOpen();
@@ -48,9 +45,16 @@ function Login() {
     }
     setOpen(false);
   };
-  const handleFacebookLogin = () => {
-    handleOpen();
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleLogin();
+    }
   };
+
+  /*const handleFacebookLogin = () => {
+    handleOpen();
+  };*/
 
   return (
     <>
@@ -147,8 +151,9 @@ function Login() {
           <InputCus
             placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
+            isPassword
             width={"300px"}
-          />
+           />
         </div>
 
         <ButtonCus pad={4} text={"Login"} onClick={handleLogin} />
