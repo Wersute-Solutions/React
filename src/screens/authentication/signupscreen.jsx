@@ -5,10 +5,10 @@ import InputCus from "../../components/input_custom";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import ButtonCus from "../../components/button_custom";
-import Divider from "@mui/material/Divider";
-import Grid from "@mui/material/Grid";
-import SocialButtonCus from "../../components/extra_login_custom";
- import Backdrop from "@mui/material/Backdrop";
+//import Divider from "@mui/material/Divider";
+//import Grid from "@mui/material/Grid";
+//import SocialButtonCus from "../../components/extra_login_custom";
+import Backdrop from "@mui/material/Backdrop";
 import { signupUser } from "../../api/auth";
 
 function SignUp() {
@@ -40,11 +40,10 @@ function SignUp() {
     }
   };
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
+  //const handleGoogleLogin = () => {};
 
-  const handleGoogleLogin = () => {};
-
-  const handleFacebookLogin = () => {};
+  //const handleFacebookLogin = () => {};
 
   return (
     <>

@@ -23,8 +23,7 @@ export default function Chat() {
     socketRef.current = new WebSocket(`ws://localhost:8000/ws/chat/${roomId}/?token=${jwtToken}`);
 
     socketRef.current.onopen = () => {
-      // Request chat history once the connection is established
-      socketRef.current.send(JSON.stringify({ type: "query_history" }));
+       socketRef.current.send(JSON.stringify({ type: "query_history" }));
     };
 
     socketRef.current.onmessage = (event) => {

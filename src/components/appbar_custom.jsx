@@ -5,6 +5,7 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import { useNavigate } from "react-router-dom";
 
 export default function AppBarCus({
   showMenuIcon = false,
@@ -13,6 +14,12 @@ export default function AppBarCus({
   onNotificationButtonClick = () => {},
   fixed = false,
 }) {
+  const navigate = useNavigate();
+
+  const handleLogoClick = () => {
+    navigate("/");
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position={fixed ? "fixed" : "static"} color="primary">
@@ -33,16 +40,18 @@ export default function AppBarCus({
 
           {/* Logo */}
           <Box sx={{ flexGrow: 1, textAlign: "center" }}>
-            <img
-              src="logo.png"
-              alt="Logo"
-              style={{
-                maxWidth: "100%",
-                maxHeight: "100%",
-                width: "100px",
-                height: "auto",
-              }}
-            />
+            <div onClick={handleLogoClick} style={{ cursor: "pointer" }}>
+              <img
+                src="logo.png"
+                alt="Logo"
+                style={{
+                  maxWidth: "100%",
+                  maxHeight: "100%",
+                  width: "100px",
+                  height: "auto",
+                }}
+              />
+            </div>
           </Box>
 
           {/* Notification Button */}
