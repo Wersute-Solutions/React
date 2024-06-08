@@ -134,6 +134,7 @@ function SignUp() {
         </div>
         <div style={{ marginBottom: "10px", maxWidth: "400px", width: "100%" }}>
           <InputCus
+            isPassword={true}
             placeholder="Retype Password"
             onChange={(e) => setRetypePassword(e.target.value)}
             width={"100%"}

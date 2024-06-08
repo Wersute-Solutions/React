@@ -51,6 +51,18 @@ export default function FreeProfileComplete() {
     }
   };
 
+  const validateUrl = (url) => {
+    const pattern = new RegExp(
+      "^(https:\\/\\/)?" + 
+      "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|" +
+      "((\\d{1,3}\\.){3}\\d{1,3}))" + 
+      "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + 
+      "(\\?[;&a-z\\d%_.~+=-]*)?" + 
+      "(\\#[-a-z\\d_]*)?$", "i"
+    );
+    return !!pattern.test(url) && url.startsWith("https://");
+  };
+
   const handleSubmit = async () => {
     setAlert(null);
 
@@ -69,11 +81,7 @@ export default function FreeProfileComplete() {
       return;
     }
 
-    if (!formData.linkedin.trim()) {
-      setAlert(<Alert severity="error">Please enter your linkedin.</Alert>);
-      return;
-    }
-
+    
     if (!formData.dob.trim()) {
       setAlert(
         <Alert severity="error">Please enter your date of birth.</Alert>
@@ -103,10 +111,24 @@ export default function FreeProfileComplete() {
       return;
     }
 
-    if (!formData.github.trim()) {
-      setAlert(<Alert severity="error">Please enter your github.</Alert>);
+    if (formData.github && !validateUrl(formData.github)) {
+      setAlert(
+        <Alert severity="error">
+          Please enter a valid GitHub URL starting with https://
+        </Alert>
+      );
       return;
     }
+
+    if (formData.linkedin && !validateUrl(formData.linkedin)) {
+      setAlert(
+        <Alert severity="error">
+          Please enter a valid LinkedIn URL starting with https://
+        </Alert>
+      );
+      return;
+    }
+    
     if (!resumeFile) {
       setAlert(<Alert severity="error">Please upload your resume.</Alert>);
       return;
@@ -231,7 +253,7 @@ export default function FreeProfileComplete() {
             </Grid>
             <Grid item xs={12} md={6}>
               <InputCus
-                placeholder={"GitHub"}
+                placeholder={"GitHub (Optional)"}
                 name="github"
                 onChange={handleChange}
                 value={formData.github}
@@ -240,7 +262,7 @@ export default function FreeProfileComplete() {
             </Grid>
             <Grid item xs={12} md={6}>
               <InputCus
-                placeholder={"LinkedIn"}
+                placeholder={"LinkedIn (Optional)"}
                 name="linkedin"
                 onChange={handleChange}
                 value={formData.linkedin}
@@ -261,6 +283,7 @@ export default function FreeProfileComplete() {
                 name={"bio"}
                 onChange={handleChange}
                 placeholder={"Bio"}
+                value={formData.bio}
                 width={710}
               />
             </Grid>
