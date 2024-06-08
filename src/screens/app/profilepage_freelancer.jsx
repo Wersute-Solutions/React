@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 import AppBarCus from "../../components/appbar_custom";
 import DrawerCus from "../../components/drawer_custom_freelancer";
 import ProfilePicture from "../../components/profilepic";  
-import { Button, Grid, Stack, CircularProgress, Backdrop } from "@mui/material";
+import { Button, Grid, Stack, CircularProgress, Backdrop, Box, useMediaQuery } from "@mui/material";
 import InputCus from "../../components/input_custom";
 import InputLargeCus from "../../components/input_large_custom";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { Download } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
-import { updateProfile } from "../../api/profileHelpers";
-import { fetchProfile } from "../../api/profileHelpers";
+import { updateProfile, fetchProfile } from "../../api/profileHelpers";
 import { useParams } from "react-router-dom";
 import Alert from "@mui/material/Alert";
 
@@ -23,6 +22,7 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
   const [loading, setLoading] = useState(true); // State to indicate loading
 
   const { id } = useParams();
+  const isMobile = useMediaQuery("(max-width:600px)");
 
   useEffect(() => {
     async function getProfile() {
@@ -38,7 +38,7 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
     }
 
     getProfile();
-  }, []);
+  }, [id]);
 
   const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
@@ -71,6 +71,7 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
   const toggleMenu = () => {
     setIsMenuOpen((prevState) => !prevState);
   };
+  
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -110,17 +111,13 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
       }
 
       if (!formData.dob.trim()) {
-        setAlert(
-          <Alert severity="error">Please enter your date of birth.</Alert>
-        );
+        setAlert(<Alert severity="error">Please enter your date of birth.</Alert>);
         return;
       }
 
       const contactNumberPattern = /^\d{10}$/;
       if (!contactNumberPattern.test(formData.contact_no)) {
-        setAlert(
-          <Alert severity="error">Please enter a valid contact number.</Alert>
-        );
+        setAlert(<Alert severity="error">Please enter a valid contact number.</Alert>);
         return;
       }
 
@@ -130,11 +127,7 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
       }
 
       if (!formData.projects_and_experience.trim()) {
-        setAlert(
-          <Alert severity="error">
-            Please enter your projects and experience.
-          </Alert>
-        );
+        setAlert(<Alert severity="error">Please enter your projects and experience.</Alert>);
         return;
       }
 
@@ -142,10 +135,11 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
         setAlert(<Alert severity="error">Please enter your github.</Alert>);
         return;
       }
+
       setLoading(true);
       const formDataToSend = new FormData();
       for (const [key, value] of Object.entries(formData)) {
-        if (key == "resume" || key == "avatar") continue;
+        if (key === "resume" || key === "avatar") continue;
         formDataToSend.append(key, String(value));
       }
       formDataToSend.append("role", "freelancer");
@@ -159,9 +153,9 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
       updateProfile(formDataToSend);
       setLoading(false);
       window.location.reload();
-
     }
   };
+
   if (loading) {
     return (
       <Backdrop open={loading}>
@@ -170,21 +164,18 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
     );
   }
 
-
   return (
     <>
       <AppBarCus onMenuIconClick={toggleMenu} showMenuIcon />
       <DrawerCus open={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
-      <div
-        style={{
+      <Box
+        sx={{
           backgroundColor: "#f0f0f0",
           minHeight: "100vh",
-          padding: "20px",
+          p: isMobile ? 2 : 4,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          justifyItems: "center",
-          justifyContent: "center",
         }}
       >
         {alert && (
@@ -192,109 +183,108 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
             {alert}
           </Stack>
         )}
-        {/* Render the ProfilePicture component here */}
         <ProfilePicture
           image={formData?.avatar}
-          size={200}
+          size={isMobile ? 150 : 200}
           isEdit={isEditMode}
           setPicFile={setProfilePicFile}
         />
-        <div style={{ maxWidth: "700px", width: "100%" }} >
-          <Grid container spacing={2} justifyContent="center" marginTop={5}>
+        <Box sx={{ maxWidth: "700px", width: "100%" }}>
+          <Grid container spacing={isMobile ? 1 : 2} justifyContent="center" mt={isMobile ? 2 : 5}>
             <Grid item xs={12} md={6}>
               <InputCus
-                placeholder={"First Name"}
+                placeholder="First Name"
                 name="first_name"
                 onChange={handleChange}
                 value={formData.first_name}
-                width={300}
+                width={isMobile ? "100%" : 300}
                 isDisabled={!isEditMode}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <InputCus
-                placeholder={"Last Name"}
+                placeholder="Last Name"
                 name="last_name"
                 onChange={handleChange}
                 value={formData.last_name}
-                width={300}
+                width={isMobile ? "100%" : 300}
                 isDisabled={!isEditMode}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <InputCus
-                placeholder={"Date of Birth (YYYY-MM-DD)"}
+                placeholder="Date of Birth (YYYY-MM-DD)"
                 name="dob"
                 onChange={handleChange}
                 value={formData.dob}
-                width={300}
+                width={isMobile ? "100%" : 300}
                 isDisabled={!isEditMode}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <InputCus
-                placeholder={"Contact Number"}
+                placeholder="Contact Number"
                 name="contact_no"
                 onChange={handleChange}
                 value={formData.contact_no}
-                width={300}
+                width={isMobile ? "100%" : 300}
                 isDisabled={!isEditMode}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <InputCus
-                placeholder={"Skills"}
+                placeholder="Skills"
                 name="skills"
                 onChange={handleChange}
                 value={formData.skills}
-                width={300}
+                width={isMobile ? "100%" : 300}
                 isDisabled={!isEditMode}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <InputCus
-                placeholder={"GitHub"}
+                placeholder="GitHub"
                 name="github"
                 onChange={handleChange}
                 value={formData.github}
-                width={300}
+                width={isMobile ? "100%" : 300}
                 isDisabled={!isEditMode}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <InputCus
-                placeholder={"LinkedIn"}
+                placeholder="LinkedIn"
                 name="linkedin"
                 onChange={handleChange}
                 value={formData.linkedin}
-                width={300}
+                width={isMobile ? "100%" : 300}
                 isDisabled={!isEditMode}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <InputCus
-                placeholder={"Projects and Experience"}
+                placeholder="Projects and Experience"
                 name="projects_and_experience"
                 onChange={handleChange}
                 value={formData.projects_and_experience}
-                width={300}
+                width={isMobile ? "100%" : 300}
                 isDisabled={!isEditMode}
               />
             </Grid>
             <Grid item xs={12}>
               <InputLargeCus
-                name={"bio"}
+                name="bio"
                 onChange={handleChange}
-                placeholder={"Bio"}
+                placeholder="Bio"
                 value={formData.bio}
-                width={710}
+                width={isMobile ? "100%" : 710}
                 isDisabled={!isEditMode}
               />
             </Grid>
             <Grid
               item
               xs={12}
-              style={{ display: "flex", justifyContent: "center" }}
+              sx={{ display: "flex", justifyContent: "center", flexDirection: isMobile ? "column" : "row", gap: 2 }}
             >
               <Button
                 component="label"
@@ -306,21 +296,21 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
               >
                 Download Resume
               </Button>
-              {isSelf && <Button
-                component="label"
-                variant="contained"
-                startIcon={<CloudUploadIcon />}
-                disabled={!isEditMode}
-              >
-                {  resumeUploaded
-                  ? "Resume Uploaded"
-                  : "Upload Resume"}{" "}
-                <VisuallyHiddenInput
-                  type="file"
-                  id="resume"
-                  onChange={handleFileChange}
-                />
-              </Button>}
+              {isSelf && (
+                <Button
+                  component="label"
+                  variant="contained"
+                  startIcon={<CloudUploadIcon />}
+                  disabled={!isEditMode}
+                >
+                  {resumeUploaded ? "Resume Uploaded" : "Upload Resume"} 
+                  <VisuallyHiddenInput
+                    type="file"
+                    id="resume"
+                    onChange={handleFileChange}
+                  />
+                </Button>
+              )}
             </Grid>
             {isSelf && (
               <Grid item xs={12}>
@@ -328,14 +318,15 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
                   variant="contained"
                   color={isEditMode ? "secondary" : "primary"}
                   onClick={handleEditClick}
+                  fullWidth={isMobile}
                 >
                   {isEditMode ? "Save" : "Edit"}
                 </Button>
               </Grid>
             )}
           </Grid>
-        </div>
-      </div>
+        </Box>
+      </Box>
     </>
   );
 }

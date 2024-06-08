@@ -1,20 +1,61 @@
-import { useState } from "react";
-import AppBarCus from "../../components/appbar_custom";
-import { Backdrop, CircularProgress, TextField, Button, Typography, IconButton } from "@mui/material";
-import DrawerCus from "../../components/drawer_custom_freelancer";
-import ChatBubble from "../../components/chat_bubble";
+import React, { useState, useEffect, useRef } from 'react';
+import { Box, Typography, Backdrop, CircularProgress, TextField, Button, IconButton } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import AppBarCus from '../../components/appbar_custom';
+import DrawerCus from '../../components/drawer_custom_freelancer';
+import ChatBubble from '../../components/chat_bubble';
 
 export default function Chat() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [newMessage, setNewMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [messages, setMessages] = useState([
-    { message: "Hello, how are you?", isLeft: true, time: "10:00 AM" },
-    { message: "I'm good, thanks! How about you?", isLeft: false, time: "10:01 AM" }
-  ]);
+  const [messages, setMessages] = useState([]);
   const navigate = useNavigate();
+  const socketRef = useRef(null);
+
+  useEffect(() => {
+    // Replace with your WebSocket URL and token
+    const roomId = 1;
+    const jwtToken = 'your-jwt-token';
+    const username = 'your-username'; // Replace with the actual username
+
+    socketRef.current = new WebSocket(`ws://localhost:8000/ws/chat/${roomId}/?token=${jwtToken}`);
+
+    socketRef.current.onopen = () => {
+      // Request chat history once the connection is established
+      socketRef.current.send(JSON.stringify({ type: "query_history" }));
+    };
+
+    socketRef.current.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      if (data.type === "chat_message") {
+        setMessages((prevMessages) => [
+          ...prevMessages, 
+          { message: data.message, isLeft: data.user !== username, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
+        ]);
+      } else if (data.type === "chat_history") {
+        const chatHistory = JSON.parse(data.messages);
+        setMessages(chatHistory.map(msg => ({
+          message: msg.content,
+          isLeft: msg.user !== username,
+          time: new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        })));
+      }
+    };
+
+    socketRef.current.onclose = () => {
+      console.log('WebSocket closed');
+    };
+
+    socketRef.current.onerror = (error) => {
+      console.error('WebSocket error:', error);
+    };
+
+    return () => {
+      socketRef.current.close();
+    };
+  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen((prevState) => !prevState);
@@ -24,7 +65,9 @@ export default function Chat() {
     e.preventDefault();
     if (newMessage.trim() !== "") {
       const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      setMessages([...messages, { message: newMessage, isLeft: false, time: currentTime }]);
+      const messageData = { message: newMessage, user: 'your-username', time: currentTime };
+      socketRef.current.send(JSON.stringify({ message: newMessage }));
+      setMessages([...messages, { ...messageData, isLeft: false }]);
       setNewMessage("");
     }
   };

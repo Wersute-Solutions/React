@@ -5,15 +5,15 @@ import Grid from "@mui/material/Grid";
 import InputCus from "../../components/input_custom";
 import ButtonCus from "../../components/button_custom";
 import Divider from "@mui/material/Divider";
-import SocialButtonCus from "../../components/extra_login_custom";
+//import SocialButtonCus from "../../components/extra_login_custom";
 import { useNavigate } from "react-router-dom";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
-import { getGoogleUser, loginUser } from "../../api/auth";
+import { /*getGoogleUser,*/ loginUser } from "../../api/auth";
 import { useStore } from "../../zustandState";
 import AppBarCus from "../../components/appbar_custom";
 import { useGoogleLogin } from "@react-oauth/google";
-import { GoogleLogin } from "@react-oauth/google";
+//import { GoogleLogin } from "@react-oauth/google";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -152,6 +152,7 @@ function Login() {
         </div>
 
         <ButtonCus pad={4} text={"Login"} onClick={handleLogin} />
+        {/*
         <Grid container justifyContent="center" sx={{ py: 2 }}>
           <Grid item xs={12} style={{ maxWidth: "400px" }}>
             <Divider sx={{ borderTop: "1px solid #000", width: "100%" }} />
@@ -167,7 +168,7 @@ function Login() {
             marginTop: "20px",
           }}
         >
-          <div style={{ marginRight: "10px" }}>
+           <div style={{ marginRight: "10px" }}>
             <SocialButtonCus provider="google" onClick={handleGoogleLogin} />
             <div>
               <GoogleLogin
@@ -189,8 +190,8 @@ function Login() {
               provider="facebook"
               onClick={handleFacebookLogin}
             />
-          </div>
-        </div>
+          </div> 
+        </div>*/}
       </div>
     </>
   );

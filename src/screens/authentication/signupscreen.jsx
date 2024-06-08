@@ -142,6 +142,7 @@ function SignUp() {
          
 
         <ButtonCus pad={2} text={"SignUp"} onClick={handleSignup} />
+        {/*
         <Grid container justifyContent="center" sx={{ py: 2 }}>
           <Grid item xs={12} style={{ maxWidth: "400px" }}>
             <Divider sx={{ borderTop: "1px solid #000", width: "100%" }} />
@@ -166,7 +167,7 @@ function SignUp() {
               onClick={handleFacebookLogin}
             />
           </div>
-        </div>
+        </div>*/}
       </div>
     </>
   );
