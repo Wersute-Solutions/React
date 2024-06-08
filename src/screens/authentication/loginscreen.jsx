@@ -1,9 +1,9 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import InputCus from "../../components/input_custom";
 import ButtonCus from "../../components/button_custom";
-import Divider from "@mui/material/Divider";
+//import Divider from "@mui/material/Divider";
 import { useNavigate } from "react-router-dom";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -16,8 +16,9 @@ function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const [setCurrentUser] = useStore((state) => [state.setCurrentUser]);
-  const [currentUser] = useStore((state) => [state.currentUser]);
+  // Use Zustand to set and get the current user state
+  const setCurrentUser = useStore((state) => state.setCurrentUser);
+  const currentUser = useStore((state) => state.currentUser);
 
   //const googleLogin = useGoogleLogin({});
 
@@ -29,23 +30,32 @@ function Login() {
     setOpen(true);
   };
   const navigate = useNavigate();
+
   /*const handleGoogleLogin = () => {
     handleOpen();
   };*/
 
+  // Handle login logic
   const handleLogin = async () => {
-    handleOpen();
-    const data = await loginUser({ username, password });
-    console.log("user_set: ", data.user);
-    setCurrentUser(data.user);
-    if (data.status) {
-      navigate("/");
-    } else {
-      alert(data.message);
+    handleOpen(); // Show loading indicator
+    try {
+      const data = await loginUser({ username, password });
+      console.log("user_set: ", data.user);
+      setCurrentUser(data.user); // Set the current user in the state
+      if (data.status) {
+        navigate("/"); // Navigate to the home page on successful login
+      } else {
+        alert(data.message); // Show error message
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("An error occurred during login. Please try again.");
+    } finally {
+      setOpen(false); // Hide loading indicator
     }
-    setOpen(false);
   };
 
+  // Trigger login on Enter key press
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
       handleLogin();
@@ -58,7 +68,7 @@ function Login() {
 
   return (
     <>
-      <AppBarCus />
+      <AppBarCus isclickable = {false}/>
       <div
         style={{
           backgroundColor: "#f0f0f0",
@@ -135,6 +145,7 @@ function Login() {
           <InputCus
             placeholder="Username"
             onChange={(e) => setUsername(e.target.value)}
+            onKeyPress={handleKeyPress} // Add key press handler
             width={"300px"}
           />
         </div>
@@ -151,9 +162,10 @@ function Login() {
           <InputCus
             placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
+            onKeyPress={handleKeyPress} // Add key press handler
             isPassword
             width={"300px"}
-           />
+          />
         </div>
 
         <ButtonCus pad={4} text={"Login"} onClick={handleLogin} />

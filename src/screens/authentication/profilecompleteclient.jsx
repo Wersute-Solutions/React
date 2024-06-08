@@ -103,7 +103,7 @@ export default function ClientProfileComplete() {
 
   return (
     <>
-      <AppBarCus />
+      <AppBarCus isclickable={false}/>
       <Backdrop open={loading} sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}>
         <CircularProgress color="inherit" />
       </Backdrop>
