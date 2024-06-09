@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import Choice from "./screens/authentication/choicescreen";
 import Chat from "./screens/app/chatscreen";
 import Applications from "./screens/app/applications";
+import Landing from "./screens/app/landing";
 
 const darkTheme = createTheme({
   palette: {
@@ -35,7 +36,7 @@ function App() {
     const user = await getCurrentUser();
     setCurrentUser(user);
     if(user.status === false) {
-      navigate("/login");
+      navigate("/landing");
     }
 
   }
@@ -81,6 +82,7 @@ function App() {
             path="/completefreelancerprofile"
             element={<FreeProfileComplete />}
           />
+          <Route path="/landing" element={<Landing/>} />
           <Route
             path="/completeclientprofile"
             element={<ClientProfileComplete />}
