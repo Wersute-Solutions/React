@@ -11,6 +11,10 @@ import { updateProfile } from "../../api/profileHelpers";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate } from "react-router-dom";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+
 
 export default function ClientProfileComplete() {
   const [formData, setFormData] = useState({
@@ -156,7 +160,6 @@ export default function ClientProfileComplete() {
                 width={300}
               />
             </Grid>
-            
             <Grid item xs={12} md={6}>
               <InputCus
                 placeholder={"business profession"}
@@ -166,12 +169,10 @@ export default function ClientProfileComplete() {
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <InputCus
-                placeholder={"Date of Birth (YYYY-MM-DD)"}
-                name="dob"
-                onChange={handleChange}
-                width={300}
-              />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker name="dob" label="Date Of Birth" />
+             </LocalizationProvider>
+           
             </Grid>
           
             <Grid item xs={12} md={6}>
