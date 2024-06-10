@@ -13,6 +13,9 @@ import ProfilePictureStatic from "./profilepic_static";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchProfile } from "../api/profileHelpers";
+import { useStore } from "../zustandState";
+import Backdrop from "@mui/material/Backdrop";
+
 
 export default function DrawerCus({ open, onClose }) {
   const navigate = useNavigate();
@@ -30,6 +33,21 @@ export default function DrawerCus({ open, onClose }) {
     bio: "",
     avatar: "",
   });
+  const setCurrentUser = useStore((state) => state.setCurrentUser);
+  const [loggingOut, setLoggingOut] = useState(false);
+
+  const handleLogout = () => {
+    setLoggingOut(true);
+     localStorage.removeItem("accessToken");
+     localStorage.removeItem("refreshToken");
+     localStorage.removeItem("user");
+
+     setCurrentUser(null);
+    setTimeout(() => {
+      setLoggingOut(false);
+      navigate("/landing", { replace: true });
+    }, 1000);
+  };
 
   useEffect(() => {
     async function getProfile() {
@@ -49,7 +67,21 @@ export default function DrawerCus({ open, onClose }) {
     }
   }, [id, open]);
 
+  const LoadingScreen = ({ open }) => (
+    <Backdrop
+      sx={{
+        color: "#fff",
+        zIndex: (theme) => theme.zIndex.modal + 1,
+        backgroundColor: "rgba(0, 0, 0, 0.7)",
+      }}
+      open={open}
+    >
+      <CircularProgress color="inherit" />
+    </Backdrop>
+  )
+
   return (
+    <>
     <Drawer open={open} onClose={onClose} variant="temporary" anchor="left">
       <Box
         sx={{
@@ -99,7 +131,7 @@ export default function DrawerCus({ open, onClose }) {
               </ListItemButton>
             </List>
             <List>
-              <ListItemButton sx={{ justifyContent: "flex-end" }}>
+              <ListItemButton sx={{ justifyContent: "flex-end" }} onClick={handleLogout}>
                 <ListItemIcon sx={{ color: "red" }}>
                   <LogoutIcon />
                 </ListItemIcon>
@@ -110,5 +142,7 @@ export default function DrawerCus({ open, onClose }) {
         )}
       </Box>
     </Drawer>
+    <LoadingScreen open={loggingOut} />
+    </>
   );
 }

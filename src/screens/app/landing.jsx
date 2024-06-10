@@ -29,49 +29,74 @@ const theme = createTheme({
 });
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: 'linear-gradient(135deg, #00bcd4 30%, #1a237e 90%)', // Gradient background
-        textAlign: 'center',
-        '& > *': {
-      margin: theme.spacing(2), // Add margin between elements
+  '@keyframes fadeIn': {
+    '0%': { opacity: 0 },
+    '100%': { opacity: 1 },
+  },
+  root: {
+    minHeight: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: 'linear-gradient(135deg, #00bcd4 30%, #1a237e 90%)', // Gradient background
+    textAlign: 'center',
+    paddingTop: theme.spacing(4),
+  },
+  content: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    padding: theme.spacing(4),
+    animation: '$fadeIn 1s ease-in-out',
+    minHeight: '100vh',
+    paddingTop: theme.spacing(20), // Adjust padding top for large screens
+    [theme.breakpoints.down('sm')]: {
+      paddingTop: theme.spacing(20), // Adjust padding top for small screens
     },
-      },
+  },
   logo: {
     width: 180,
-    height: 80,
+    height: 70,
     marginBottom: theme.spacing(4),
+    animation: '$fadeIn 1.5s ease-in-out',
   },
   heroContent: {
     maxWidth: 800,
     color: '#ffffff',
     margin: 'auto',
-    padding: theme.spacing(4),
+    animation: '$fadeIn 2s ease-in-out',
   },
   heroButtons: {
     marginTop: theme.spacing(6),
     [theme.breakpoints.down('sm')]: {
       marginTop: theme.spacing(2),
     },
+    animation: '$fadeIn 2.5s ease-in-out',
   },
   featureSection: {
     width: '100%',
     padding: theme.spacing(8, 2),
     background: 'linear-gradient(135deg, #00bcd4 30%, #1a237e 90%)',
     marginTop: theme.spacing(6),
+    animation: '$fadeIn 3s ease-in-out',
   },
   featurePaper: {
     marginTop: theme.spacing(4),
     padding: theme.spacing(4),
+    transition: 'transform 0.3s, box-shadow 0.3s',
+    '&:hover': {
+      transform: 'scale(1.05)',
+      boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)',
+    },
   },
   contactSection: {
     backgroundColor: '#0d47a1',
     color: '#fff',
     padding: theme.spacing(6, 2),
+    animation: '$fadeIn 3.5s ease-in-out',
   },
   contactItem: {
     display: 'flex',
@@ -86,6 +111,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     backgroundColor: '#0d47a1',
     color: '#fff',
+    animation: '$fadeIn 4s ease-in-out',
   },
 }));
 
@@ -93,67 +119,70 @@ const Landing = () => {
   const classes = useStyles();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const navigate = useNavigate();
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Box className={classes.root}>
-        <Container className={classes.heroContent}>
-          <img src={"logo.png"} alt="Wersute Logo" className={classes.logo} />
-          <Typography variant={isSmallScreen ? 'h4' : 'h2'} component="h1" gutterBottom>
-            Connect Clients & Freelancers
-          </Typography>
-          <Typography variant={isSmallScreen ? 'body1' : 'h5'} color="inherit" paragraph>
-            Wersute helps you connect with the best freelancers for your projects.
-          </Typography>
-          <div className={classes.heroButtons}>
-            <Grid container spacing={2} justifyContent="center">
-              <Grid item>
-                <Button variant="contained" color="primary" size="large" onClick={()=>{navigate('/login')}}>
-                  Login
-                </Button>
+        <Box className={classes.content}>
+          <Container className={classes.heroContent}>
+            <img src={"logo.png"} alt="Wersute Logo" className={classes.logo} />
+            <Typography variant={isSmallScreen ? 'h4' : 'h2'} component="h1" gutterBottom>
+              Connecting Clients & Freelancers
+            </Typography>
+            <Typography variant={isSmallScreen ? 'body1' : 'h5'} color="inherit" paragraph>
+              Wersute is the platform where clients find top talent and freelancers discover exciting projects.
+            </Typography>
+            <div className={classes.heroButtons}>
+              <Grid container spacing={2} justifyContent="center">
+                <Grid item>
+                  <Button variant="contained" color="primary" size="large" onClick={() => { navigate('/login') }}>
+                    Login
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button variant="contained" color="secondary" size="large" onClick={() => { navigate('/signup') }}>
+                    Sign Up
+                  </Button>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Button variant="contained" color="secondary" size="large" onClick={()=>{navigate('/signup')}}>
-                  Sign Up
-                </Button>
+            </div>
+          </Container>
+          <Container maxWidth="md">
+            <Grid container spacing={4} justifyContent="center" marginTop={"40px"}>
+              <Grid item xs={12} sm={6} md={4}>
+                <Paper elevation={3} className={classes.featurePaper}>
+                  <Typography variant="h6" gutterBottom>
+                    Find the Best Talent
+                  </Typography>
+                  <Typography>
+                    Clients can browse a vast pool of freelancers with various skills and expertise to find the perfect match for their project needs.
+                  </Typography>
+                </Paper>
+              </Grid>
+              <Grid item xs={12} sm={6} md={4}>
+                <Paper elevation={3} className={classes.featurePaper}>
+                  <Typography variant="h6" gutterBottom>
+                    Secure Payments
+                  </Typography>
+                  <Typography>
+                    Our secure system ensures safe transactions for both clients and freelancers, providing peace of mind throughout the project.
+                  </Typography>
+                </Paper>
+              </Grid>
+              <Grid item xs={12} sm={6} md={4}>
+                <Paper elevation={3} className={classes.featurePaper}>
+                  <Typography variant="h6" gutterBottom>
+                    Seamless Messaging
+                  </Typography>
+                  <Typography>
+                    Use our integrated messaging platform to communicate effectively, manage project milestones, and collaborate seamlessly.
+                  </Typography>
+                </Paper>
               </Grid>
             </Grid>
-          </div>
-        </Container>
-        <Container maxWidth="md">
-          <Grid container spacing={4} marginBottom={"80px"}>
-            <Grid item xs={12} sm={6} md={4}>
-              <Paper elevation={3} className={classes.featurePaper}>
-                <Typography variant="h6" gutterBottom>
-                  Discover Top Talent
-                </Typography>
-                <Typography>
-                  Browse through a vast pool of freelancers with various skills and expertise. Find the perfect match for your project requirements.
-                </Typography>
-              </Paper>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <Paper elevation={3} className={classes.featurePaper}>
-                <Typography variant="h6" gutterBottom>
-                  Secure Transactions
-                </Typography>
-                <Typography>
-                  Enjoy safe and secure transactions with our escrow system, ensuring peace of mind for both clients and freelancers.
-                </Typography>
-              </Paper>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <Paper elevation={3} className={classes.featurePaper}>
-                <Typography variant="h6" gutterBottom>
-                  Efficient Messaging
-                </Typography>
-                <Typography>
-                  Use our integrated messaging platform to communicate effectively and manage project milestones seamlessly.
-                </Typography>
-              </Paper>
-            </Grid>
-          </Grid>
-        </Container>
+          </Container>
+        </Box>
       </Box>
       <Box className={classes.contactSection}>
         <Container>
