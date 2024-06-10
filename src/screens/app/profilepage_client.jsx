@@ -124,7 +124,7 @@ export default function ProfilePageClient({ isSelf = false }) {
 
   return (
     <>
-      <AppBarCus onMenuIconClick={toggleMenu} showMenuIcon />
+      <AppBarCus onMenuIconClick={toggleMenu} showMenuIcon  />
       <DrawerCusClient open={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
       <div
         style={{

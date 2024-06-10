@@ -125,7 +125,7 @@ const Tile = ({ title, status, date, applications, assignedTo }) => {
           <Button
             onClick={async () => {
               await acceptApplication(application.id, application.applicant_profile.id);
-              window.location.reload();
+              //window.location.reload();
             }}
             variant="contained"
             color="primary"

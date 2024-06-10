@@ -121,18 +121,8 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
         return;
       }
 
-      if (!formData.skills.trim()) {
-        setAlert(<Alert severity="error">Please enter your skills.</Alert>);
-        return;
-      }
-
       if (!formData.projects_and_experience.trim()) {
         setAlert(<Alert severity="error">Please enter your projects and experience.</Alert>);
-        return;
-      }
-
-      if (!formData.github.trim()) {
-        setAlert(<Alert severity="error">Please enter your github.</Alert>);
         return;
       }
 
