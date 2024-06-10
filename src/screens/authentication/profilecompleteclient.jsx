@@ -142,32 +142,8 @@ export default function ClientProfileComplete() {
             </Grid>
             <Grid item xs={12} md={6}>
               <InputCus
-                placeholder={"Date of Birth (YYYY-MM-DD)"}
-                name="dob"
-                onChange={handleChange}
-                width={300}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <InputCus
-                placeholder={"business profession"}
-                name="business_profession"
-                onChange={handleChange}
-                width={300}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <InputCus
                 placeholder={"Last Name"}
                 name="last_name"
-                onChange={handleChange}
-                width={300}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <InputCus
-                placeholder={"Contact Number"}
-                name="contact_no"
                 onChange={handleChange}
                 width={300}
               />
@@ -180,6 +156,33 @@ export default function ClientProfileComplete() {
                 width={300}
               />
             </Grid>
+            
+            <Grid item xs={12} md={6}>
+              <InputCus
+                placeholder={"business profession"}
+                name="business_profession"
+                onChange={handleChange}
+                width={300}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <InputCus
+                placeholder={"Date of Birth (YYYY-MM-DD)"}
+                name="dob"
+                onChange={handleChange}
+                width={300}
+              />
+            </Grid>
+          
+            <Grid item xs={12} md={6}>
+              <InputCus
+                placeholder={"Contact Number"}
+                name="contact_no"
+                onChange={handleChange}
+                width={300}
+              />
+            </Grid>
+            
             <Grid item xs={12}>
               <InputLargeCus
                 name={"about_business"}
