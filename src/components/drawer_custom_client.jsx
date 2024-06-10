@@ -56,20 +56,23 @@ export default function DrawerCusClient({ open, onClose }) {
 
   const handleLogout = () => {
     setLoggingOut(true);
-    localStorage.removeItem("token");
-    setCurrentUser(null);
+     localStorage.removeItem("accessToken");
+     localStorage.removeItem("refreshToken");
+     localStorage.removeItem("user");
+
+     setCurrentUser(null);
     setTimeout(() => {
       setLoggingOut(false);
-      navigate("/login");
+      navigate("/landing", { replace: true });
     }, 1000);
   };
 
   const LoadingScreen = ({ open }) => (
     <Backdrop
       sx={{
-        color: '#fff',
+        color: "#fff",
         zIndex: (theme) => theme.zIndex.modal + 1,
-        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        backgroundColor: "rgba(0, 0, 0, 0.7)",
       }}
       open={open}
     >
@@ -128,7 +131,10 @@ export default function DrawerCusClient({ open, onClose }) {
                 </ListItemButton>
               </List>
               <List>
-                <ListItemButton sx={{ justifyContent: "flex-end" }} onClick={handleLogout}>
+                <ListItemButton
+                  sx={{ justifyContent: "flex-end" }}
+                  onClick={handleLogout}
+                >
                   <ListItemIcon sx={{ color: "red" }}>
                     <LogoutIcon />
                   </ListItemIcon>
