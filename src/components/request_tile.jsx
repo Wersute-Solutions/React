@@ -14,9 +14,9 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(3),
     borderRadius: theme.spacing(2),
     boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-    width: "calc(100% - 40px)", // Adjusted width for responsiveness
-    Width: 700, // Maximum width
-    margin: "20px auto", // Center the paper horizontally with some top and bottom margin
+    width: "calc(100% - 40px)", 
+    Width: 700,  
+    margin: "20px auto",  
   },
   title: {
     fontWeight: "bold",
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: theme.spacing(1),
     border: `1px solid ${theme.palette.primary.main}`,
     display: "flex",
-    alignItems: "center", // Center items vertically
+    alignItems: "center",  
   },
   avatar: {
     marginRight: theme.spacing(2),
@@ -80,7 +80,7 @@ const Tile = ({ title, status, date, applications, assignedTo }) => {
   useEffect(() => {
     async function getProfile() {
       try {
-        const response = await fetchProfile(assignedTo.id);
+        const response = await fetchProfile(assignedTo?.id);
         setFormData(response[0]);
       } catch (error) {
         console.error("Error fetching profile:", error);
@@ -105,7 +105,7 @@ const Tile = ({ title, status, date, applications, assignedTo }) => {
         <Paper elevation={0} className={classes.application}>
           <ProfilePictureStatic imageSrc={formData.avatar} size={80} className={classes.avatar} />
           <Typography variant="body1" className={classes.applicantDetails}>
-            Assigned to: {assignedTo.username}
+            Assigned to: {assignedTo?.username}
           </Typography>
         </Paper>
       )}
@@ -124,7 +124,7 @@ const Tile = ({ title, status, date, applications, assignedTo }) => {
           </div>
           <Button
             onClick={async () => {
-              await acceptApplication(application.id, application.applicant_profile?.id);
+              await acceptApplication(application.id, application.applicant_profile.id);
               window.location.reload();
             }}
             variant="contained"

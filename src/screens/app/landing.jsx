@@ -17,10 +17,10 @@ import { useNavigate } from 'react-router-dom';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#0d47a1', // Dark Blue
+      main: '#0d47a1',  
     },
     secondary: {
-      main: '#ff6f00', // Orange
+      main: '#ff6f00',  
     },
   },
   typography: {
@@ -196,7 +196,7 @@ const Landing = () => {
             </Grid>
             <Grid item xs={12} sm={4} className={classes.contactItem}>
               <Phone className={classes.contactIcon} />
-              <Typography variant="body1">+1 (123) 456-7890</Typography>
+              <Typography variant="body1">wersute ph no</Typography>
             </Grid>
             <Grid item xs={12} sm={4} className={classes.contactItem}>
               <LocationOn className={classes.contactIcon} />

@@ -102,7 +102,10 @@ function App() {
           <Route
             path="/profilepageclient"
             element={<ProfilePageClient isSelf={true} />}
-          />
+          /><Route
+          path="/profilepageclient/:id"
+          element={<ProfilePageClient isSelf={false} />}
+        />
           <Route />
           <Route path="/choice" element={<Choice/>}></Route>
          </Routes>

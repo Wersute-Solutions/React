@@ -20,6 +20,7 @@ export default function ApplyPopup({ open, onClose, id }) {
     applyToPost(id, description).then((response) => {
       if (response.status) {
         alert("Applied to post");
+        window.location.reload();
         onClose();
       } else {
         alert("Failed to apply to post");

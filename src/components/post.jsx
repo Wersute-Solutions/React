@@ -87,7 +87,7 @@ export default function Post({
           }}
           onClick={
             ()=>{
-              navigate(`/profilepagefreelancer/${user_id}`)
+              navigate(`/profilepageclient/${user_id}`)
             }
           }
         >
