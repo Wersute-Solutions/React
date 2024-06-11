@@ -192,11 +192,11 @@ const Landing = () => {
           <Grid container spacing={6} justifyContent="center">
             <Grid item xs={12} sm={4} className={classes.contactItem}>
               <Email className={classes.contactIcon} />
-              <Typography variant="body1">contact@wersute.com</Typography>
+              <Typography variant="body1">anirvan.nanduri@gmail.com</Typography>
             </Grid>
             <Grid item xs={12} sm={4} className={classes.contactItem}>
               <Phone className={classes.contactIcon} />
-              <Typography variant="body1">wersute ph no</Typography>
+              <Typography variant="body1">+91 9080063304</Typography>
             </Grid>
             <Grid item xs={12} sm={4} className={classes.contactItem}>
               <LocationOn className={classes.contactIcon} />
