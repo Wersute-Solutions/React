@@ -6,6 +6,9 @@ import {
   IconButton,
   Stack,
   Alert,
+  MenuItem, // Add MenuItem for select dropdown
+  FormControl,
+  Select
 } from "@mui/material";
 import {
   ExpandMore as ExpandMoreIcon,
@@ -31,7 +34,8 @@ export default function HomePageClient() {
     skills: "",
     duration: "",
     responsibilities: "",
-   });
+  });
+  const [durationUnit, setDurationUnit] = useState("week");  
   const navigate = useNavigate();
 
   const [showMoreFields, setShowMoreFields] = useState(false);
@@ -77,8 +81,14 @@ export default function HomePageClient() {
 
     const formDataToSend = new FormData();
     for (const [key, value] of Object.entries(formData)) {
-      formDataToSend.append(key, String(value));
-    }
+      if(key == "duration")
+        {
+          const adjustedDuration = String(value) + String(durationUnit)
+          formDataToSend.append(key, adjustedDuration);
+        }
+        else {
+          formDataToSend.append(key, String(value));
+        }    }
     if (formData.image) {
       formDataToSend.append("image", fileInputRef.current.files[0]);
     }
@@ -238,14 +248,32 @@ export default function HomePageClient() {
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
-                    <InputCus
-                      name={"duration"}
-                      placeholder={"Duration"}
-                      onChange={handleChange}
-                      fullWidth
-                      width={"350px"}
-                    />
+                    <FormControl fullWidth>
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <input
+                          type="range"
+                          min="1"
+                          max="12"
+                          value={formData.duration}
+                          onChange={(e) => handleChange({ target: { name: 'duration', value: e.target.value } })}
+                          style={{ width: '222px', marginRight: '10px' }}
+                        />
+                         <Select
+                          value={durationUnit}
+                          onChange={(e) => setDurationUnit(e.target.value)}
+                          displayEmpty
+                          inputProps={{ "aria-label": "Select Duration Unit" }}
+                          sx={{ width: "115px" }}
+                        >
+                          <MenuItem value="week"> {formData.duration} Weeks</MenuItem>
+                          <MenuItem value="month">{formData.duration} Months</MenuItem>
+                          <MenuItem value="year">{formData.duration} Years</MenuItem>
+                        </Select>
+                      </div>
+                    </FormControl>
                   </Grid>
+
+
                   <Grid item xs={12} sm={6}>
                     <InputCus
                       name={"responsibilities"}
