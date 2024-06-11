@@ -15,6 +15,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
+import DrawerCus from "../../components/drawer_custom_freelancer";
 
 export default function ProfilePageFreelancer({ isSelf = false }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -164,7 +165,8 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
   return (
     <>
       <AppBarCus onMenuIconClick={toggleMenu} showMenuIcon />
-      <DrawerCusClient open={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
+
+      { isSelf?<DrawerCusClient open={isMenuOpen} onClose={() => setIsMenuOpen(false)} /> : <DrawerCus open={isMenuOpen} onClose={() => setIsMenuOpen(false)}/>}
       <Box
         sx={{
           backgroundColor: "#f0f0f0",
