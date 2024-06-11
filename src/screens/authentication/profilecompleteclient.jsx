@@ -187,7 +187,7 @@ export default function ClientProfileComplete() {
             </Grid>
             <Grid item xs={12} md={6}>
               <InputCus
-                placeholder={"business name"}
+                placeholder={"Business Name"}
                 name="business_name"
                 onChange={handleChange}
                 width={300}
@@ -201,7 +201,7 @@ export default function ClientProfileComplete() {
                 sx={{ width: "300px" }}
               >
                 <MenuItem value="" disabled>
-                  Select Business Profession
+                  Business Profession
                 </MenuItem>
                 {popularDomains.map((domain, index) => (
                   <MenuItem key={index} value={domain}>
@@ -244,7 +244,7 @@ export default function ClientProfileComplete() {
               <InputLargeCus
                 name={"about_business"}
                 onChange={handleChange}
-                placeholder={"about business"}
+                placeholder={"About Your Business"}
                 width={710}
               />
             </Grid>
