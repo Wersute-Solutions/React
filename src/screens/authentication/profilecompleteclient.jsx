@@ -15,6 +15,30 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+
+const popularDomains = [
+  "Technology",
+  "Healthcare",
+  "Finance",
+  "Education",
+  "Retail",
+  "Manufacturing",
+  "Hospitality",
+  "Real Estate",
+  "Transportation",
+  "Media",
+  "Entertainment",
+  "Agriculture",
+  "Energy",
+  "Construction",
+  "Legal",
+  "Consulting",
+  "Marketing",
+  "Telecommunications",
+  "Pharmaceuticals",
+];
 
 export default function ClientProfileComplete() {
   const [formData, setFormData] = useState({
@@ -105,9 +129,9 @@ export default function ClientProfileComplete() {
 
       await updateProfile(formDataToSend);
 
-       setTimeout(() => {
+      setTimeout(() => {
         navigate("/");
-      }, 2000);  
+      }, 2000);
     } catch (error) {
       setAlert(<Alert severity="error">Failed to submit the form.</Alert>);
     } finally {
@@ -170,13 +194,33 @@ export default function ClientProfileComplete() {
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <InputCus
-                placeholder={"business profession"}
-                name="business_profession"
-                onChange={handleChange}
-                width={300}
-              />
+              <Select
+                value={formData.business_profession}
+                onChange={(e) => setFormData({ ...formData, business_profession: e.target.value })}
+                displayEmpty
+                sx={{ width: "300px" }}
+              >
+                <MenuItem value="" disabled>
+                  Select Business Profession
+                </MenuItem>
+                {popularDomains.map((domain, index) => (
+                  <MenuItem key={index} value={domain}>
+                    {domain}
+                  </MenuItem>
+                ))}
+                <MenuItem value="__custom__">Other (Please specify)</MenuItem>
+              </Select>
+              {formData.business_profession === "__custom__" && (
+                <InputCus
+
+                  placeholder={"Enter your profession"}
+                  name="custom_business_profession"
+                  onChange={handleChange}
+                  width={300}
+                />
+              )}
             </Grid>
+
             <Grid item xs={12} md={6}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
@@ -184,7 +228,7 @@ export default function ClientProfileComplete() {
                   label="Date Of Birth"
                   value={formData.dob}
                   onChange={handleDateChange}
-                  sx={{ width: '300px' }}  
+                  sx={{ width: '300px' }}
                 />
               </LocalizationProvider>
             </Grid>
