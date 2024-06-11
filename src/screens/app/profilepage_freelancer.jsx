@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import AppBarCus from "../../components/appbar_custom";
-import DrawerCus from "../../components/drawer_custom_freelancer";
+import DrawerCusClient from "../../components/drawer_custom_client";  // Updated to match the original code
 import ProfilePicture from "../../components/profilepic";  
 import { Button, Grid, Stack, CircularProgress, Backdrop, Box, useMediaQuery } from "@mui/material";
 import InputCus from "../../components/input_custom";
@@ -11,6 +11,10 @@ import { styled } from "@mui/material/styles";
 import { updateProfile, fetchProfile } from "../../api/profileHelpers";
 import { useParams } from "react-router-dom";
 import Alert from "@mui/material/Alert";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from 'dayjs';
 
 export default function ProfilePageFreelancer({ isSelf = false }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -28,7 +32,10 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
     async function getProfile() {
       try {
         const response = await fetchProfile(id);
-        setFormData(response[0]);
+        setFormData({
+          ...response[0],
+          dob: response[0].dob ? dayjs(response[0].dob) : null  // Convert the date to dayjs object
+        });
       } catch (error) {
         console.error("Error fetching profile:", error);
         setAlert(<Alert severity="error">Error fetching profile</Alert>);
@@ -71,11 +78,11 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
   const toggleMenu = () => {
     setIsMenuOpen((prevState) => !prevState);
   };
-  
+
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
-    dob: "",
+    dob: null,  // Initialize dob as null
     contact_no: "",
     skills: "",
     projects_and_experience: "",
@@ -106,11 +113,11 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
       }
 
       if (!formData.linkedin.trim()) {
-        setAlert(<Alert severity="error">Please enter your linkedin.</Alert>);
+        setAlert(<Alert severity="error">Please enter your LinkedIn profile.</Alert>);
         return;
       }
 
-      if (!formData.dob.trim()) {
+      if (!formData.dob) {
         setAlert(<Alert severity="error">Please enter your date of birth.</Alert>);
         return;
       }
@@ -130,7 +137,7 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
       const formDataToSend = new FormData();
       for (const [key, value] of Object.entries(formData)) {
         if (key === "resume" || key === "avatar") continue;
-        formDataToSend.append(key, String(value));
+        formDataToSend.append(key, key === 'dob' ? value.toISOString() : String(value));  // Convert dob to ISO string
       }
       formDataToSend.append("role", "freelancer");
       if (resumeUploaded) {
@@ -157,7 +164,7 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
   return (
     <>
       <AppBarCus onMenuIconClick={toggleMenu} showMenuIcon />
-      <DrawerCus open={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
+      <DrawerCusClient open={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
       <Box
         sx={{
           backgroundColor: "#f0f0f0",
@@ -202,14 +209,16 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <InputCus
-                placeholder="Date of Birth (YYYY-MM-DD)"
-                name="dob"
-                onChange={handleChange}
-                value={formData.dob}
-                width={isMobile ? "100%" : 300}
-                isDisabled={!isEditMode}
-              />
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  name="dob"
+                  label="Date Of Birth"
+                  value={formData.dob}
+                  onChange={(date) => setFormData({ ...formData, dob: date })}
+                  sx={{ width: '300px' }}
+                  disabled={!isEditMode}
+                />
+              </LocalizationProvider>
             </Grid>
             <Grid item xs={12} md={6}>
               <InputCus

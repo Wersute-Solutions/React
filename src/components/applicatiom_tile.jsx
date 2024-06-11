@@ -19,13 +19,13 @@ const StyledCard = styled(Card)({
 const StatusChip = styled(Chip)(({ status }) => {
   let backgroundColor;
   switch (status) {
-    case 'Accepted':
+    case 'accepted':
       backgroundColor = '#4caf50'; // green
       break;
-    case 'Rejected':
+    case 'rejected':
       backgroundColor = '#f44336'; // red
       break;
-    case 'Ongoing':
+    case 'pending':
       backgroundColor = '#ff9800'; // orange
       break;
     default:

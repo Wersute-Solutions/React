@@ -52,7 +52,7 @@ export async function acceptApplication(applicationId, user_id) {
     }
 }   
 
-export async function fetchMyApplicaionts(){
+export async function fetchMyApplications(){
     try{
         const response = await getRequest('api/applications/', {}, {}, true);
         return { status: true, data: response};

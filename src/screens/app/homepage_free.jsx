@@ -17,6 +17,7 @@ export default function HomePageFreelancer() {
         const { data } = await fetchPosts();
         setPosts(data);
         setIsLoading(false);
+        console.log(data)
       } catch (error) {
         console.error("Error fetching posts:", error);
         setError("Error fetching posts. Please try again later.");

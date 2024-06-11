@@ -14,6 +14,10 @@ import InputLargeCus from "../../components/input_large_custom";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate } from "react-router-dom";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+
 
 export default function FreeProfileComplete() {
   const [formData, setFormData] = useState({
@@ -41,6 +45,7 @@ export default function FreeProfileComplete() {
       [name]: value,
     });
   };
+ 
 
   const handleFileChange = (e) => {
     const resumeFile = e.target.files[0];
@@ -50,6 +55,13 @@ export default function FreeProfileComplete() {
       console.log(formData);
     }
   };
+  const handleDateChange = (date) => {
+    setFormData({
+      ...formData,
+      dob: date,
+    });
+  };
+
 
   const validateUrl = (url) => {
     const pattern = new RegExp(
@@ -149,13 +161,15 @@ export default function FreeProfileComplete() {
     try {
       const formDataToSend = new FormData();
       for (const [key, value] of Object.entries(formData)) {
-        formDataToSend.append(key, String(value));
+        formDataToSend.append(key, key === 'dob' ? value.format('YYYY-MM-DD') : String(value));
       }
       formDataToSend.append("role", "freelancer");
       formDataToSend.append("resume", resumeFile, "resume.pdf");
   
       await updateProfile(formDataToSend);
-      navigate("/")
+      setTimeout(() => {
+        navigate("/");
+      }, 2000); 
     } catch (error) {
       setAlert(<Alert severity="error">Failed to submit the form.</Alert>);
     } finally {
@@ -225,13 +239,14 @@ export default function FreeProfileComplete() {
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <InputCus
-                placeholder={"Date of Birth (YYYY-MM-DD)"}
-                name="dob"
-                onChange={handleChange}
-                value={formData.dob}
-                width={300}
-              />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  name="dob"
+                  label="Date Of Birth"
+                  onChange={handleDateChange}
+                  sx={{ width: '300px' }}  
+                />
+              </LocalizationProvider>
             </Grid>
             <Grid item xs={12} md={6}>
               <InputCus
