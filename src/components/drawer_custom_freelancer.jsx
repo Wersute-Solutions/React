@@ -100,7 +100,7 @@ export default function DrawerCus({ open, onClose }) {
           <>
             <Box sx={{ marginBottom: "20px", textAlign: "center" }}>
               <ProfilePictureStatic
-                imageSrc={formData.avatar}
+                imageSrc={formData?.avatar}
                 altText={"profile"}
                 size={150}
               />

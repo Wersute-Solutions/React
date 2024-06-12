@@ -286,25 +286,26 @@ export default function HomePageClient() {
                 </>
               )}
 
-              <Grid item xs={12}>
-                <IconButton
-                  onClick={toggleShowMoreFields}
-                  sx={{
+              <Grid item xs={12} sx={{
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
                     margin: "auto",
-                  }}
+                  }}>
+                <IconButton
+                  onClick={toggleShowMoreFields}
+                  
                 >
                   {showMoreFields ? (
                     <ExpandLessIcon fontSize="large" />
                   ) : (
                     <ExpandMoreIcon fontSize="large" />
                   )}
-                  <Typography>
-                    {showMoreFields ? "Show Less Fields" : "Show More Fields"}
-                  </Typography>
+                  
                 </IconButton>
+                <Typography>
+                    {showMoreFields ? "Show Less Fields" : "Show More Fields"}
+                </Typography>
               </Grid>
               <Grid item xs={12} marginTop={"20px"}>
                 <ButtonCus text={"Post"} onClick={handleSubmit} fullWidth />

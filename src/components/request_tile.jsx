@@ -5,8 +5,7 @@ import Button from "@mui/material/Button";
 import { acceptApplication } from "../api/posts";
 import { useNavigate } from "react-router-dom";
 import ProfilePictureStatic from "./profilepic_static";
-import { fetchProfile } from "../api/profileHelpers";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -77,18 +76,7 @@ const Tile = ({ title, status, date, applications, assignedTo }) => {
     avatar: "",
   });
 
-  useEffect(() => {
-    async function getProfile() {
-      try {
-        const response = await fetchProfile(assignedTo?.id);
-        setFormData(response[0]);
-      } catch (error) {
-        console.error("Error fetching profile:", error);
-      }
-    }
-
-    getProfile();
-  }, []);
+  
 
   return (
     <Paper elevation={0} className={classes.paper}>
@@ -125,7 +113,7 @@ const Tile = ({ title, status, date, applications, assignedTo }) => {
           <Button
             onClick={async () => {
               await acceptApplication(application.id, application.applicant_profile.id);
-              //window.location.reload();
+              window.location.reload();
             }}
             variant="contained"
             color="primary"

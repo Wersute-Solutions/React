@@ -82,7 +82,7 @@ export default function HomePageFreelancer() {
               responsibilities={post.responsibilities}
               image={post.image}
               user_id={post.user.id}
-              profilePic={"profilepicture.png"}
+              profilePic={post.avatar}
             />
           ))
         )}
