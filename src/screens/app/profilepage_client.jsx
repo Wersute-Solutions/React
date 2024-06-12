@@ -107,7 +107,7 @@ export default function ProfilePageClient({ isSelf = false }) {
         formDataToSend.append(key, key === 'dob' ? value.format('YYYY-MM-DD') : String(value));
       }
       formDataToSend.append("role", "client");
-      if (profilePicFile) {
+      if (profilePicFile){
         formDataToSend.append("avatar", profilePicFile, "avatar.png");
       }
 

@@ -54,7 +54,7 @@ const JobApplicationsPage = () => {
             ) : (
               applications.map((job, index) => (
                 <Grid item key={index}>
-                  <ApplicationTile jobTitle={job.title} jobStatus={job.status} companyName={job.company} />
+                  <ApplicationTile jobTitle={job.job_title} jobStatus={job.status} companyName={job.company_name} />
                 </Grid>
               ))
             )}

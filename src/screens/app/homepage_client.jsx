@@ -81,9 +81,9 @@ export default function HomePageClient() {
 
     const formDataToSend = new FormData();
     for (const [key, value] of Object.entries(formData)) {
-      if(key == "duration")
+      if(key == "duration" && String(value)!="")
         {
-          const adjustedDuration = String(value) + String(durationUnit)
+          const adjustedDuration = String(value) +" "+ String(durationUnit)
           formDataToSend.append(key, adjustedDuration);
         }
         else {
@@ -265,9 +265,9 @@ export default function HomePageClient() {
                           inputProps={{ "aria-label": "Select Duration Unit" }}
                           sx={{ width: "115px" }}
                         >
-                          <MenuItem value="week"> {formData.duration} Weeks</MenuItem>
-                          <MenuItem value="month">{formData.duration} Months</MenuItem>
-                          <MenuItem value="year">{formData.duration} Years</MenuItem>
+                          <MenuItem value="weeks"> {formData.duration} Weeks</MenuItem>
+                          <MenuItem value="months">{formData.duration} Months</MenuItem>
+                          <MenuItem value="years">{formData.duration} Years</MenuItem>
                         </Select>
                       </div>
                     </FormControl>
