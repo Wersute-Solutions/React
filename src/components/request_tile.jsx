@@ -1,129 +1,191 @@
 import { makeStyles } from "@mui/styles";
-import Paper from "@mui/material/Paper";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Card,
+  CardContent,
+  Typography,
+  Button,
+  Avatar,
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { acceptApplication } from "../api/posts";
 import { useNavigate } from "react-router-dom";
-import ProfilePictureStatic from "./profilepic_static";
-import React, { useState } from "react";
+import React from "react";
 
 const useStyles = makeStyles((theme) => ({
-  paper: {
-    padding: theme.spacing(3),
-    marginBottom: theme.spacing(3),
-    borderRadius: theme.spacing(2),
+  card: {
+    marginBottom: theme.spacing(2),
     boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-    width: "calc(100% - 40px)", 
-    Width: 700,  
-    margin: "20px auto",  
+    borderRadius: theme.spacing(2),
+    width: "100%", // Full width initially
+    [theme.breakpoints.up("sm")]: {
+      maxWidth: 450, // Limit width on small screens and up
+      width: "100%", // Ensure full width within the limit
+    },
+  },
+  accordion: {
+    marginBottom: theme.spacing(2),
+  },
+  summaryContent: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
   },
   title: {
     fontWeight: "bold",
-    marginBottom: theme.spacing(2),
   },
   status: {
-    marginBottom: theme.spacing(1),
+    marginLeft: theme.spacing(2),
+    fontWeight: "bold",
   },
   date: {
-    marginBottom: theme.spacing(2),
+    marginLeft: theme.spacing(2),
+    fontWeight: "bold",
   },
-  application: {
-    padding: theme.spacing(2),
-    marginBottom: theme.spacing(3),
-    borderRadius: theme.spacing(1),
-    border: `1px solid ${theme.palette.primary.main}`,
+  detailsContent: {
     display: "flex",
-    alignItems: "center",  
+    flexDirection: "column",
+  },
+  applicantDetails: {
+    display: "flex",
+    alignItems: "center",
+    marginBottom: theme.spacing(2),
   },
   avatar: {
     marginRight: theme.spacing(2),
     width: theme.spacing(8),
     height: theme.spacing(8),
-    border: `2px solid ${theme.palette.primary.main}`, // Add border
-    borderRadius: "50%", // Make avatar round
+    border: `2px solid ${theme.palette.primary.main}`,
   },
-  applicantDetails: {
-    marginLeft: theme.spacing(2),
+  buttonContainer: {
+    marginTop: theme.spacing(2),
+    display: "flex",
+    justifyContent: "flex-end",
+    gap: theme.spacing(1),
   },
-  acceptButton: {
-    marginLeft: "auto",
+  viewProfileButton: {
+    borderColor: theme.palette.primary.main,
+    color: theme.palette.primary.main,
   },
-  coverLetter: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1),
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-    display: "-webkit-box",
-    WebkitLineClamp: 3,
-    WebkitBoxOrient: "vertical",
+  applicationCard: {
+    marginBottom: theme.spacing(2),
+    width: "100%",
+  },
+  coverLetterContainer: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  coverLetterChunk: {
+    whiteSpace: "pre-wrap",
+    wordWrap: "break-word",
+    overflowWrap: "break-word",
   },
 }));
 
-const Tile = ({ title, status, date, applications, assignedTo }) => {
+const splitTextIntoChunks = (text, chunkSize) => {
+  const regex = new RegExp(`.{1,${chunkSize}}`, "g");
+  return text.match(regex) || [];
+};
+
+const Tile = ({ title, status, date, applications, assignedTo, freelancerId }) => {
   const classes = useStyles();
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    first_name: "",
-    last_name: "",
-    dob: "",
-    contact_no: "",
-    skills: "",
-    projects_and_experience: "",
-    github: "",
-    linkedin: "",
-    bio: "",
-    avatar: "",
-  });
+  const handleViewProfile = (clientId) => {
+    navigate(`/profilepagefreelancer/${clientId}`);
+  };
 
-  
+  const handleAcceptApplication = async (applicationId, profileId) => {
+    await acceptApplication(applicationId, profileId);
+    window.location.reload(); // Refreshing the page after acceptance
+  };
 
   return (
-    <Paper elevation={0} className={classes.paper}>
-      <Typography variant="h5" className={classes.title}>
-        {title}
-      </Typography>
-      <Typography variant="body1" className={classes.status}>
-        Status: {status}
-      </Typography>
-      <Typography variant="body1" className={classes.date}>
-        Date: {date}
-      </Typography>
-      {status === "Assigned" && (
-        <Paper elevation={0} className={classes.application}>
-          <ProfilePictureStatic imageSrc={formData.avatar} size={80} className={classes.avatar} />
-          <Typography variant="body1" className={classes.applicantDetails}>
-            Assigned to: {assignedTo?.username}
-          </Typography>
-        </Paper>
-      )}
-      {applications?.map((application, index) => (
-        <Paper key={index} elevation={0} className={classes.application}>
-          <ProfilePictureStatic
-            imageSrc={application.applicant_profile?.avatar}
-            size={40}
-            className={classes.avatar}
-          />
-          <div className={classes.applicantDetails}>
-            <Typography variant="body1">{application.applicant.username}</Typography>
-            <Typography variant="body2" className={classes.coverLetter}>
-              {application.cover_letter}
+    <Card className={classes.card}>
+      <Accordion className={classes.accordion}>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <div className={classes.summaryContent}>
+            <Typography variant="h6" className={classes.title}>
+              {title}
+            </Typography>
+            <Typography variant="body1" className={classes.status}>
+              Status: {status}
+            </Typography>
+            <Typography variant="body1" className={classes.date}>
+              Date: {date}
             </Typography>
           </div>
-          <Button
-            onClick={async () => {
-              await acceptApplication(application.id, application.applicant_profile.id);
-              window.location.reload();
-            }}
-            variant="contained"
-            color="primary"
-            className={classes.acceptButton}
-          >
-            Accept
-          </Button>
-        </Paper>
-      ))}
-    </Paper>
+        </AccordionSummary>
+        <AccordionDetails className={classes.detailsContent}>
+          {status === "Assigned" && (
+            <div className={classes.applicantDetails}>
+              <Avatar src={assignedTo?.avatar} className={classes.avatar} />
+              <div>
+                <Typography variant="body1">
+                  Assigned to: {assignedTo?.username}
+                </Typography>
+                <Button
+                  variant="outlined"
+                  className={classes.viewProfileButton}
+                  onClick={() => handleViewProfile(freelancerId)}
+                >
+                  View Profile
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {applications?.map((application, index) => (
+            <Card variant="outlined" className={classes.applicationCard} key={index}>
+              <CardContent>
+                <div className={classes.applicantDetails}>
+                  <Avatar src={application.applicant_profile?.avatar} className={classes.avatar} />
+                  <div>
+                    <Typography variant="body1">
+                      {application.applicant.username}
+                    </Typography>
+                    <div className={classes.coverLetterContainer}>
+                      {splitTextIntoChunks(application.cover_letter, 30).map((chunk, idx) => (
+                        <Typography
+                          key={idx}
+                          variant="body2"
+                          className={classes.coverLetterChunk}
+                        >
+                          {chunk}
+                        </Typography>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+              <div className={classes.buttonContainer}>
+                <Button
+                  onClick={() =>
+                    handleAcceptApplication(application.id, application.applicant_profile.id)
+                  }
+                  variant="contained"
+                  color="primary"
+                >
+                  Accept
+                </Button>
+                <Button
+                  variant="outlined"
+                  className={classes.viewProfileButton}
+                  onClick={() =>
+                    handleViewProfile(application.applicant_profile.id)
+                  }
+                >
+                  View Profile
+                </Button>
+              </div>
+            </Card>
+          ))}
+        </AccordionDetails>
+      </Accordion>
+    </Card>
   );
 };
 

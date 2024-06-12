@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import AppBarCus from "../../components/appbar_custom";
 import Tile from "../../components/request_tile";
 import { fetchMyPosts } from "../../api/posts";
-import { CircularProgress, Backdrop } from "@mui/material";
-import Typography from "@mui/material/Typography";
+import { CircularProgress, Backdrop, Grid, Typography } from "@mui/material";
 import DrawerCusClient from "../../components/drawer_custom_client";
 
 export default function Requests() {
@@ -52,26 +51,36 @@ export default function Requests() {
       >
         {isLoading ? (
           <Backdrop open={isLoading}>
-          <CircularProgress color="primary" />
-        </Backdrop>
+            <CircularProgress color="primary" />
+          </Backdrop>
         ) : posts.length === 0 ? (
-          <Typography variant="body1" style={{ marginTop: "250px" }}>your posts dont have any applicants yet.</Typography>
+          <Typography variant="body1" style={{ marginTop: "250px" }}>
+            Your posts don't have any applicants yet.
+          </Typography>
         ) : (
-          posts?.map((post, idx) => (
-            <div key={idx} className="">
-              <Tile
-                key={idx}
-                title={post.title}
-                status={post.assigned_to ? "Assigned" : "Unassigned"}
-                date={new Date(post.created_at).toLocaleDateString(
-                  "en-US",
-                  dateOptions
-                )}
-                applications={post.assigned_to ? [] : post.applications}
-                assignedTo={post.assigned_to}
-              />
-            </div>
-          ))
+          <Grid
+            container
+            spacing={2}
+            justifyContent="center"
+            style={{ maxWidth: "1200px", width: "100%" }}
+          >
+            {posts.map((post, idx) => (
+              <Grid item xs={12} sm={6} key={idx}>
+                <Tile
+                  key={idx}
+                  title={post.title}
+                  status={post.assigned_to ? "Assigned" : "Unassigned"}
+                  date={new Date(post.created_at).toLocaleDateString(
+                    "en-US",
+                    dateOptions
+                  )}
+                  applications={post.assigned_to ? [] : post.applications}
+                  assignedTo={post.assigned_to}
+                  freelancerId={post.applications?.id}
+                />
+              </Grid>
+            ))}
+          </Grid>
         )}
       </div>
     </>

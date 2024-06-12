@@ -6,7 +6,7 @@ import AppBarCus from '../../components/appbar_custom';
 import DrawerCus from '../../components/drawer_custom_freelancer';
 import ChatBubble from '../../components/chat_bubble';
 
-export default function Chat() {
+export default function Chat({roomId}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [newMessage, setNewMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -16,7 +16,6 @@ export default function Chat() {
 
   useEffect(() => {
     // Replace with your WebSocket URL and token
-    const roomId = 1;
     const jwtToken = 'your-jwt-token';
     const username = 'your-username'; // Replace with the actual username
 
