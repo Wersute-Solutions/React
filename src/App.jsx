@@ -87,8 +87,6 @@ function App() {
             path="/completeclientprofile"
             element={<ClientProfileComplete />}
           />
-          <Route path="/home" element={<HomePageClient />} />
-          <Route path="/homefree" element={<HomePageFreelancer />} />
           <Route path="/success" element={<SuccessPage />} />
           <Route path="/requests" element={<Requests />} />
           <Route path="/chatscreen"  element={<Chat/>} />

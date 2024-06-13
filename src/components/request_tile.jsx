@@ -90,17 +90,17 @@ const splitTextIntoChunks = (text, chunkSize) => {
   return text.match(regex) || [];
 };
 
-const Tile = ({ title, status, date, applications, assignedTo, freelancerId }) => {
+const Tile = ({ title, status, date, applications, assignedTo,}) => {
   const classes = useStyles();
   const navigate = useNavigate();
 
-  const handleViewProfile = (clientId) => {
-    navigate(`/profilepagefreelancer/${clientId}`);
+  const handleViewProfile = (freeId) => {
+     navigate(`/profilepagefreelancer/${freeId}`);
   };
 
   const handleAcceptApplication = async (applicationId, profileId) => {
     await acceptApplication(applicationId, profileId);
-    window.location.reload(); // Refreshing the page after acceptance
+    window.location.reload(); 
   };
 
   return (
@@ -175,7 +175,7 @@ const Tile = ({ title, status, date, applications, assignedTo, freelancerId }) =
                   variant="outlined"
                   className={classes.viewProfileButton}
                   onClick={() =>
-                    handleViewProfile(application.applicant_profile.id)
+                    handleViewProfile(application.applicant.id)
                   }
                 >
                   View Profile

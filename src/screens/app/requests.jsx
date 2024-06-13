@@ -76,8 +76,7 @@ export default function Requests() {
                   )}
                   applications={post.assigned_to ? [] : post.applications}
                   assignedTo={post.assigned_to}
-                  freelancerId={post.applications?.id}
-                />
+                 />
               </Grid>
             ))}
           </Grid>

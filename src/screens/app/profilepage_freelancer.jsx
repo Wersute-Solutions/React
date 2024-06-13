@@ -166,7 +166,7 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
     <>
       <AppBarCus onMenuIconClick={toggleMenu} showMenuIcon />
 
-      { isSelf?<DrawerCusClient open={isMenuOpen} onClose={() => setIsMenuOpen(false)} /> : <DrawerCus open={isMenuOpen} onClose={() => setIsMenuOpen(false)}/>}
+      { isSelf?<DrawerCus open={isMenuOpen} onClose={() => setIsMenuOpen(false)} /> : <DrawerCusClient open={isMenuOpen} onClose={() => setIsMenuOpen(false)}/>}
       <Box
         sx={{
           backgroundColor: "#f0f0f0",
