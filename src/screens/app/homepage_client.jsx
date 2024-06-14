@@ -304,7 +304,7 @@ export default function HomePageClient() {
                   
                 </IconButton>
                 <Typography>
-                    {showMoreFields ? "Show Less Fields" : "Show More Fields"}
+                    {showMoreFields ? "Show Less Fields" : "Show Optional Fields"}
                 </Typography>
               </Grid>
               <Grid item xs={12} marginTop={"20px"}>
