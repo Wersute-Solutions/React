@@ -12,8 +12,9 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { acceptApplication } from "../api/posts";
 import { useNavigate } from "react-router-dom";
-import React from "react";
 
+import React from "react";
+ 
 const useStyles = makeStyles((theme) => ({
   card: {
     marginBottom: theme.spacing(2),
@@ -83,6 +84,10 @@ const useStyles = makeStyles((theme) => ({
     wordWrap: "break-word",
     overflowWrap: "break-word",
   },
+  chatButton: {
+    borderColor: theme.palette.secondary.main, // Example secondary color
+    color: theme.palette.secondary.main,
+  },
 }));
 
 const splitTextIntoChunks = (text, chunkSize) => {
@@ -93,10 +98,14 @@ const splitTextIntoChunks = (text, chunkSize) => {
 const Tile = ({ title, status, date, applications, assignedTo,}) => {
   const classes = useStyles();
   const navigate = useNavigate();
-
+  const user = JSON.parse(localStorage.getItem("user"));
   const handleViewProfile = (freeId) => {
      navigate(`/profilepagefreelancer/${freeId}`);
   };
+
+  const handleChat = (freelancerId)=>{
+    navigate(`/chatscreen/${user.profile.id}/${freelancerId}/`);
+  }
 
   const handleAcceptApplication = async (applicationId, profileId) => {
     await acceptApplication(applicationId, profileId);
@@ -130,10 +139,17 @@ const Tile = ({ title, status, date, applications, assignedTo,}) => {
                 <Button
                   variant="outlined"
                   className={classes.viewProfileButton}
-                  onClick={() => handleViewProfile(freelancerId)}
+                  onClick={() => handleViewProfile(assignedTo?.id)}
                 >
                   View Profile
                 </Button>
+                <Button
+                    variant="outlined"
+                    className={classes.chatButton}
+                    onClick={() => handleChat(assignedTo?.id)}
+                  >
+                    Chat
+                  </Button>
               </div>
             </div>
           )}
@@ -180,6 +196,13 @@ const Tile = ({ title, status, date, applications, assignedTo,}) => {
                 >
                   View Profile
                 </Button>
+                <Button
+                    variant="outlined"
+                    className={classes.chatButton}
+                    onClick={() => handleChat(application.applicant.id)}
+                  >
+                    Chat
+                  </Button>
               </div>
             </Card>
           ))}
