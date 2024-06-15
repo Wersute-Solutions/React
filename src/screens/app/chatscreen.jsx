@@ -1,82 +1,117 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Box, Typography, Backdrop, CircularProgress, TextField, Button, IconButton } from '@mui/material';
+import { Typography, Backdrop, CircularProgress, TextField, Button, IconButton } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import AppBarCus from '../../components/appbar_custom';
 import DrawerCus from '../../components/drawer_custom_freelancer';
 import ChatBubble from '../../components/chat_bubble';
+import { createChatRoom } from '../../api/chat';
 
-export default function Chat({roomId}) {
+export default function Chat() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [newMessage, setNewMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState([]);
   const navigate = useNavigate();
   const socketRef = useRef(null);
+  const [isWebSocketOpen, setIsWebSocketOpen] = useState(false);
+  const user = JSON.parse(localStorage.getItem("user"));
+  const { clientId, freelancerId } = useParams();
 
   useEffect(() => {
-    // Replace with your WebSocket URL and token
-    const jwtToken = 'your-jwt-token';
-    const username = 'your-username'; // Replace with the actual username
+    const initializeChat = async () => {
+      try {
+        setIsLoading(true);
+        const chatroom = await createChatRoom(clientId, freelancerId);
+        console.log("Chatroom created:", chatroom);
+        const jwtToken = localStorage.getItem("accessToken");
+        socketRef.current = new WebSocket(`ws://localhost:8000/ws/chat/${chatroom.id}/?token=${jwtToken}`);
 
-    socketRef.current = new WebSocket(`ws://localhost:8000/ws/chat/${roomId}/?token=${jwtToken}`);
+        socketRef.current.onopen = () => {
+          console.log('WebSocket connection established');
+          setIsWebSocketOpen(true);
+          socketRef.current.send(JSON.stringify({ type: 'query_history' }));
+        };
 
-    socketRef.current.onopen = () => {
-       socketRef.current.send(JSON.stringify({ type: "query_history" }));
-    };
+        socketRef.current.onmessage = (event) => {
+          const data = JSON.parse(event.data);
+          if (data.type === 'chat_history') {
+            const historyMessages = JSON.parse(data.messages);
+            const formattedMessages = historyMessages.map(msg => ({
+              message: msg.content,
+              user: msg.user,
+              time: new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+              isLeft: msg.user !== user.username,
+              timestamp: msg.timestamp,
+            }));
+            setMessages(formattedMessages.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp)));
+          } else if (data.type === 'chat_message') {
+            const newMsg = data.message;
+            const formattedMessage = {
+              message: newMsg.content,
+              user: newMsg.user,
+              time: new Date(newMsg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+              isLeft: newMsg.user !== user.username,
+              timestamp: newMsg.timestamp,
+            };
+            setMessages(prevMessages => {
+              const updatedMessages = [...prevMessages, formattedMessage];
+              return updatedMessages.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+            });
+          }
+        };
 
-    socketRef.current.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      if (data.type === "chat_message") {
-        setMessages((prevMessages) => [
-          ...prevMessages, 
-          { message: data.message, isLeft: data.user !== username, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
-        ]);
-      } else if (data.type === "chat_history") {
-        const chatHistory = JSON.parse(data.messages);
-        setMessages(chatHistory.map(msg => ({
-          message: msg.content,
-          isLeft: msg.user !== username,
-          time: new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-        })));
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Failed to create chatroom:", error);
+        setIsLoading(false);
       }
     };
 
-    socketRef.current.onclose = () => {
-      console.log('WebSocket closed');
-    };
-
-    socketRef.current.onerror = (error) => {
-      console.error('WebSocket error:', error);
-    };
+    initializeChat();
 
     return () => {
-      socketRef.current.close();
+      if (socketRef.current) {
+        socketRef.current.close();
+      }
     };
-  }, []);
+  }, [clientId, freelancerId, user.username]);
 
   const toggleMenu = () => {
-    setIsMenuOpen((prevState) => !prevState);
+    setIsMenuOpen(prevState => !prevState);
   };
 
   const handleSendMessage = (e) => {
     e.preventDefault();
-    if (newMessage.trim() !== "") {
-      const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      const messageData = { message: newMessage, user: 'your-username', time: currentTime };
-      socketRef.current.send(JSON.stringify({ message: newMessage }));
-      setMessages([...messages, { ...messageData, isLeft: false }]);
+    if (newMessage.trim() !== "" && isWebSocketOpen) {
+      const messageData = {
+        type: 'chat_message',
+        message: newMessage,
+        timestamp: new Date().toISOString(),
+      };
+      socketRef.current.send(JSON.stringify(messageData));
+      const formattedMessage = {
+        message: newMessage,
+        user: user.username,
+        isLeft: false,
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        timestamp: messageData.timestamp,
+      };
+      setMessages(prevMessages => {
+        const updatedMessages = [...prevMessages, formattedMessage];
+        return updatedMessages.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+      });
       setNewMessage("");
     }
   };
 
   const handleBackClick = () => {
-    navigate(-1); 
+    navigate(-1);
   };
 
   return (
     <>
-      <AppBarCus onMenuIconClick={toggleMenu} showMenuIcon fixed/>
+      <AppBarCus onMenuIconClick={toggleMenu} showMenuIcon fixed />
       <DrawerCus open={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
 
       <div
@@ -95,12 +130,12 @@ export default function Chat({roomId}) {
           </Backdrop>
         ) : (
           <>
-            <div style={{ 
-              display: "flex", 
-              alignItems: "center", 
+            <div style={{
+              display: "flex",
+              alignItems: "center",
               marginBottom: "20px",
               position: "fixed",
-              top: "64px",  
+              top: "64px",
               left: 0,
               width: "100%",
               backgroundColor: "#f0f0f0",
@@ -117,11 +152,11 @@ export default function Chat({roomId}) {
               </Typography>
             </div>
 
-            <div style={{ 
-              flex: 1, 
-              overflowY: "auto", 
+            <div style={{
+              flex: 1,
+              overflowY: "auto",
               marginTop: "130px",
-              marginBottom: "60px" 
+              marginBottom: "60px"
             }}>
               {messages.map((msg, index) => (
                 <ChatBubble key={index} message={msg.message} isLeft={msg.isLeft} time={msg.time} />

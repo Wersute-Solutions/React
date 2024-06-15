@@ -94,7 +94,7 @@ export default function FreeProfileComplete() {
     }
 
     
-    if (!formData.dob.trim()) {
+    if (!formData.dob) {
       setAlert(
         <Alert severity="error">Please enter your date of birth.</Alert>
       );

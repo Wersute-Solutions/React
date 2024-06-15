@@ -13,6 +13,7 @@ const JobApplicationsPage = () => {
   useEffect(() => {
     async function fetchApplications() {
       const response = await fetchMyApplications();
+      console.log(response)
       if (response.status) {
         setApplications(response.data);
       } else {
@@ -54,7 +55,7 @@ const JobApplicationsPage = () => {
             ) : (
               applications.map((job, index) => (
                 <Grid item key={index}>
-                  <ApplicationTile jobTitle={job.job_title} jobStatus={job.status} companyName={job.company_name} clientId={job.author_id} />
+                  <ApplicationTile jobTitle={job.job_title} jobStatus={job.status} companyName={job.company_name} clientId={job.author_id} myId={job.applicant} />
                 </Grid>
               ))
             )}

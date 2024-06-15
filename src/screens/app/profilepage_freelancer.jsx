@@ -24,7 +24,7 @@ export default function ProfilePageFreelancer({ isSelf = false }) {
   const [alert, setAlert] = useState(null);
   const [resumeFile, setResumeFile] = useState(null);
   const [profilePicFile, setProfilePicFile] = useState(null);
-  const [loading, setLoading] = useState(true); // State to indicate loading
+  const [loading, setLoading] = useState(true);  
 
   const { id } = useParams();
   const isMobile = useMediaQuery("(max-width:600px)");

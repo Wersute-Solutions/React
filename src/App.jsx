@@ -89,7 +89,7 @@ function App() {
           />
           <Route path="/success" element={<SuccessPage />} />
           <Route path="/requests" element={<Requests />} />
-          <Route path="/chatscreen"  element={<Chat/>} />
+          <Route path="/chatscreen/:clientId/:freelancerId"  element={<Chat/>} />
           <Route
             path="/profilepagefreelancer"
             element={<ProfilePageFreelancer isSelf={true} />}
