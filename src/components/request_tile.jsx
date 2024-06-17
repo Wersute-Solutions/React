@@ -20,11 +20,10 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(2),
     boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
     borderRadius: theme.spacing(2),
-    width: "100%", // Full width initially
+    width: "100%",  
     [theme.breakpoints.up("sm")]: {
-      maxWidth: 450, // Limit width on small screens and up
-      width: "100%", // Ensure full width within the limit
-    },
+      maxWidth: 450,  
+     },
   },
   accordion: {
     marginBottom: theme.spacing(2),
@@ -104,7 +103,7 @@ const Tile = ({ title, status, date, applications, assignedTo,}) => {
   };
 
   const handleChat = (freelancerId)=>{
-    navigate(`/chatscreen/${user.profile.id}/${freelancerId}/`);
+    navigate(`/chatscreen/${user.user_id}/${freelancerId}/`);
   }
 
   const handleAcceptApplication = async (applicationId, profileId) => {

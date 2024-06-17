@@ -14,6 +14,7 @@ export default function Chat() {
   const [messages, setMessages] = useState([]);
   const navigate = useNavigate();
   const socketRef = useRef(null);
+  const messagesEndRef = useRef(null);
   const [isWebSocketOpen, setIsWebSocketOpen] = useState(false);
   const user = JSON.parse(localStorage.getItem("user"));
   const { clientId, freelancerId } = useParams();
@@ -40,8 +41,8 @@ export default function Chat() {
             const formattedMessages = historyMessages.map(msg => ({
               message: msg.content,
               user: msg.user,
-              time: new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-              isLeft: msg.user !== user.username,
+              time: new Date(msg.timestamp).toLocaleString([], { hour: '2-digit', minute: '2-digit', hour12: true, month: 'short', day: 'numeric' }),
+              isLeft: msg.user !== user.user_id,
               timestamp: msg.timestamp,
             }));
             setMessages(formattedMessages.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp)));
@@ -50,7 +51,7 @@ export default function Chat() {
             const formattedMessage = {
               message: newMsg.content,
               user: newMsg.user,
-              time: new Date(newMsg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+              time: new Date(newMsg.timestamp).toLocaleString([], { hour: '2-digit', minute: '2-digit', hour12: true, month: 'short', day: 'numeric' }),
               isLeft: newMsg.user !== user.username,
               timestamp: newMsg.timestamp,
             };
@@ -77,6 +78,12 @@ export default function Chat() {
     };
   }, [clientId, freelancerId, user.username]);
 
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
+
   const toggleMenu = () => {
     setIsMenuOpen(prevState => !prevState);
   };
@@ -94,7 +101,7 @@ export default function Chat() {
         message: newMessage,
         user: user.username,
         isLeft: false,
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        time: new Date().toLocaleString([], { hour: '2-digit', minute: '2-digit', hour12: true, month: 'short', day: 'numeric' }),
         timestamp: messageData.timestamp,
       };
       setMessages(prevMessages => {
@@ -161,6 +168,7 @@ export default function Chat() {
               {messages.map((msg, index) => (
                 <ChatBubble key={index} message={msg.message} isLeft={msg.isLeft} time={msg.time} />
               ))}
+              <div ref={messagesEndRef} />
             </div>
 
             <form
