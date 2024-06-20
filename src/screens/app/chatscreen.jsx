@@ -36,7 +36,6 @@ export default function Chat() {
 
         socketRef.current.onmessage = (event) => {
           const data = JSON.parse(event.data);
-          console.log(data)
           if (data.type === 'chat_history') {
             const historyMessages = JSON.parse(data.messages);
             const formattedMessages = historyMessages.map(msg => ({
@@ -51,9 +50,9 @@ export default function Chat() {
             const newMsg = data.message;
             const formattedMessage = {
               message: newMsg,
-              user: newMsg.user,
+              user: data.user,
               time: new Date().toLocaleString([], { hour: '2-digit', minute: '2-digit', hour12: true, month: 'short', day: 'numeric' }),
-              isLeft: newMsg.user !== user.username,
+              isLeft: data.user !== user.username,
               timestamp: Date(),
             };
             setMessages(prevMessages => {
@@ -98,17 +97,6 @@ export default function Chat() {
         timestamp: new Date().toISOString(),
       };
       socketRef.current.send(JSON.stringify(messageData));
-      const formattedMessage = {
-        message: newMessage,
-        user: user.username,
-        isLeft: false,
-        time: new Date().toLocaleString([], { hour: '2-digit', minute: '2-digit', hour12: true, month: 'short', day: 'numeric' }),
-        timestamp: messageData.timestamp,
-      };
-      setMessages(prevMessages => {
-        const updatedMessages = [...prevMessages, formattedMessage];
-        return updatedMessages.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
-      });
       setNewMessage("");
     }
   };
@@ -156,7 +144,7 @@ export default function Chat() {
                 <ArrowBackIcon />
               </IconButton>
               <Typography variant="h6" style={{ marginLeft: "10px", fontWeight: "bold" }} >
-                Chat with John Doe
+                Chat with Ana de armas
               </Typography>
             </div>
 
