@@ -26,7 +26,7 @@ export default function Chat() {
         const chatroom = await createChatRoom(clientId, freelancerId);
         console.log("Chatroom created:", chatroom);
         const jwtToken = localStorage.getItem("accessToken");
-        socketRef.current = new WebSocket(`ws://wersute-beta.bhagyaj.in/ws/chat/${chatroom.id}/?token=${jwtToken}`);
+        socketRef.current = new WebSocket(`wss://wersute-beta.bhagyaj.in/ws/chat/${chatroom.id}/?token=${jwtToken}`);0
 
         socketRef.current.onopen = () => {
           console.log('WebSocket connection established');
