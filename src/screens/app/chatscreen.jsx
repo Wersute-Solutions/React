@@ -36,6 +36,7 @@ export default function Chat() {
 
         socketRef.current.onmessage = (event) => {
           const data = JSON.parse(event.data);
+          console.log(data)
           if (data.type === 'chat_history') {
             const historyMessages = JSON.parse(data.messages);
             const formattedMessages = historyMessages.map(msg => ({
@@ -46,14 +47,14 @@ export default function Chat() {
               timestamp: msg.timestamp,
             }));
             setMessages(formattedMessages.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp)));
-          } else if (data.type === 'chat_message') {
+          } else {
             const newMsg = data.message;
             const formattedMessage = {
-              message: newMsg.content,
+              message: newMsg,
               user: newMsg.user,
-              time: new Date(newMsg.timestamp).toLocaleString([], { hour: '2-digit', minute: '2-digit', hour12: true, month: 'short', day: 'numeric' }),
+              time: new Date().toLocaleString([], { hour: '2-digit', minute: '2-digit', hour12: true, month: 'short', day: 'numeric' }),
               isLeft: newMsg.user !== user.username,
-              timestamp: newMsg.timestamp,
+              timestamp: Date(),
             };
             setMessages(prevMessages => {
               const updatedMessages = [...prevMessages, formattedMessage];
