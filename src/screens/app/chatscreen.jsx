@@ -143,9 +143,6 @@ export default function Chat() {
               <IconButton onClick={handleBackClick}>
                 <ArrowBackIcon />
               </IconButton>
-              <Typography variant="h6" style={{ marginLeft: "10px", fontWeight: "bold" }} >
-                Chat with Ana De Armas
-              </Typography>
             </div>
 
             <div style={{
