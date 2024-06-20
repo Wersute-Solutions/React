@@ -144,7 +144,7 @@ export default function Chat() {
                 <ArrowBackIcon />
               </IconButton>
               <Typography variant="h6" style={{ marginLeft: "10px", fontWeight: "bold" }} >
-                Chat with Ana de armas
+                Chat with Ana De Armas
               </Typography>
             </div>
 
