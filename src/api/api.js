@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://wersute-beta.bhagyaj.in/';
+export const BASE_URL = 'https://api-v1.wersute.com/';
 
 import { refreshToken } from "./auth";
 
