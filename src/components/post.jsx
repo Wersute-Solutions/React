@@ -159,7 +159,7 @@ export default function Post({
           id={id}
           open={openPopup}
           onClose={() => setOpenPopup(false)}
-        />{" "}
+        /> 
       </CardContent>
     </Card>
   );

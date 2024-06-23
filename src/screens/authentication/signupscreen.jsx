@@ -61,7 +61,7 @@ function SignUp() {
     const response = await signupUser({ username, email, password });
     if (response.status) {
       alert("Signup success, You can login now!");
-      navigate("/choice");
+      navigate("/login");
     } else {
       setBackdropOpen(false);
       alert(response.message);

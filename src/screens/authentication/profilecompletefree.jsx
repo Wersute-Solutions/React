@@ -168,12 +168,11 @@ export default function FreeProfileComplete() {
   
       await updateProfile(formDataToSend);
       setTimeout(() => {
+        setLoading(false);
         navigate("/");
       }, 2000); 
     } catch (error) {
       setAlert(<Alert severity="error">Failed to submit the form.</Alert>);
-    } finally {
-      setLoading(false);
     }
 
  

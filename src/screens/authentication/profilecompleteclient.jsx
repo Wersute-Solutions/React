@@ -14,7 +14,6 @@ import { useNavigate } from "react-router-dom";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import dayjs from 'dayjs';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 
@@ -130,13 +129,13 @@ export default function ClientProfileComplete() {
       await updateProfile(formDataToSend);
 
       setTimeout(() => {
+        setLoading(false)
         navigate("/");
       }, 2000);
+
     } catch (error) {
       setAlert(<Alert severity="error">Failed to submit the form.</Alert>);
-    } finally {
-      setLoading(false);
-    }
+    } 
   };
 
   return (
