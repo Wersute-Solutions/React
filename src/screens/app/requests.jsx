@@ -75,7 +75,7 @@ export default function Requests() {
                     dateOptions
                   )}
                   applications={post.assigned_to.id ? [] : post.applications}
-                  assignedTo={post.assigned_to.id}
+                  assignedTo={post.assigned_to}
                  />
               </Grid>
             ))}
