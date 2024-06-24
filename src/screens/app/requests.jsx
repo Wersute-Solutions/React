@@ -74,8 +74,8 @@ export default function Requests() {
                     "en-US",
                     dateOptions
                   )}
-                  applications={post.assigned_to ? [] : post.applications}
-                  assignedTo={post.assigned_to}
+                  applications={post.assigned_to.id ? [] : post.applications}
+                  assignedTo={post.assigned_to.id}
                  />
               </Grid>
             ))}
