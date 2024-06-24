@@ -9,10 +9,11 @@ export async function createPost(postData) {
     }
 }
 
-export async function fetchPosts() {
+export async function fetchPosts(cursor = '') {
     try {
-        const response = await getRequest('api/posts/', {}, {}, true);
-        return { status: true, data: response.results};
+        const url = cursor ? `api/posts/?cursor=${cursor}` : 'api/posts/';
+        const response = await getRequest(url, {}, {}, true);
+        return { status: true, data: response };
     } catch (error) {
         return { status: false, message: error.message };
     }
