@@ -18,7 +18,6 @@ export default function Choice() {
     navigate("/completeclientprofile");
   };
 
-  // Sample dynamic content
   const freelancerBio = "Skilled professional with expertise in project management and problem-solving.";
   const clientBio = "Entrepreneur seeking reliable partners to bring innovative ideas to life.";
 

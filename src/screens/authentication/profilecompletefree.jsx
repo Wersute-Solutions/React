@@ -14,10 +14,9 @@ import InputLargeCus from "../../components/input_large_custom";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate } from "react-router-dom";
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 export default function FreeProfileComplete() {
   const [formData, setFormData] = useState({
@@ -35,8 +34,8 @@ export default function FreeProfileComplete() {
   const [alert, setAlert] = useState(null);
   const [resumeUploaded, setResumeUploaded] = useState(false);
   const [resumeFile, setResumeFile] = useState(null);
-  const [loading, setLoading] = useState(false)
-  const navigate = useNavigate()
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -45,7 +44,6 @@ export default function FreeProfileComplete() {
       [name]: value,
     });
   };
- 
 
   const handleFileChange = (e) => {
     const resumeFile = e.target.files[0];
@@ -62,15 +60,15 @@ export default function FreeProfileComplete() {
     });
   };
 
-
   const validateUrl = (url) => {
     const pattern = new RegExp(
-      "^(https:\\/\\/)?" + 
-      "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|" +
-      "((\\d{1,3}\\.){3}\\d{1,3}))" + 
-      "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + 
-      "(\\?[;&a-z\\d%_.~+=-]*)?" + 
-      "(\\#[-a-z\\d_]*)?$", "i"
+      "^(https:\\/\\/)?" +
+        "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|" +
+        "((\\d{1,3}\\.){3}\\d{1,3}))" +
+        "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" +
+        "(\\?[;&a-z\\d%_.~+=-]*)?" +
+        "(\\#[-a-z\\d_]*)?$",
+      "i"
     );
     return !!pattern.test(url) && url.startsWith("https://");
   };
@@ -93,7 +91,6 @@ export default function FreeProfileComplete() {
       return;
     }
 
-    
     if (!formData.dob) {
       setAlert(
         <Alert severity="error">Please enter your date of birth.</Alert>
@@ -140,7 +137,7 @@ export default function FreeProfileComplete() {
       );
       return;
     }
-    
+
     if (!resumeFile) {
       setAlert(<Alert severity="error">Please upload your resume.</Alert>);
       return;
@@ -156,27 +153,24 @@ export default function FreeProfileComplete() {
       return;
     }
 
-    
     setLoading(true);
     try {
       const formDataToSend = new FormData();
       for (const [key, value] of Object.entries(formData)) {
-        formDataToSend.append(key, key === 'dob' ? value.format('YYYY-MM-DD') : String(value));
+        formDataToSend.append(
+          key,
+          key === "dob" ? value.format("YYYY-MM-DD") : String(value)
+        );
       }
       formDataToSend.append("role", "freelancer");
       formDataToSend.append("resume", resumeFile, "resume.pdf");
-  
-      await updateProfile(formDataToSend);
-      setTimeout(() => {
-        setLoading(false);
-        navigate("/");
-      }, 2000); 
+
+      const response = await updateProfile(formDataToSend);
+      setLoading(false);
+      navigate("/applications");
     } catch (error) {
       setAlert(<Alert severity="error">Failed to submit the form.</Alert>);
     }
-
- 
-    window.location.reload()
   };
 
   const VisuallyHiddenInput = styled("input")({
@@ -193,10 +187,13 @@ export default function FreeProfileComplete() {
 
   return (
     <>
-      <AppBarCus isclickable = {false}/>
-      <Backdrop open={loading} sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-      <CircularProgress color="inherit" />
-    </Backdrop>
+      <AppBarCus isclickable={false} />
+      <Backdrop
+        open={loading}
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <div
         style={{
           backgroundColor: "#f0f0f0",
@@ -238,12 +235,12 @@ export default function FreeProfileComplete() {
               />
             </Grid>
             <Grid item xs={12} md={6}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   name="dob"
                   label="Date Of Birth"
                   onChange={handleDateChange}
-                  sx={{ width: '300px' }}  
+                  sx={{ width: "300px" }}
                 />
               </LocalizationProvider>
             </Grid>

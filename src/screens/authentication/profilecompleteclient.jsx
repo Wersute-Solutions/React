@@ -130,7 +130,7 @@ export default function ClientProfileComplete() {
 
       setTimeout(() => {
         setLoading(false)
-        navigate("/");
+        navigate("/requests");
       }, 2000);
 
     } catch (error) {
