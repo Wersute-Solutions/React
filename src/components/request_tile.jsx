@@ -179,7 +179,7 @@ const Tile = ({ title, status, date, applications, assignedTo,}) => {
               <div className={classes.buttonContainer}>
                 <Button
                   onClick={() =>
-                    handleAcceptApplication(application.id, application.applicant_profile.id)
+                    handleAcceptApplication(application.id, application.applicant.id)
                   }
                   variant="contained"
                   color="primary"
