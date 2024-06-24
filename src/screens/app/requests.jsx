@@ -69,7 +69,7 @@ export default function Requests() {
                 <Tile
                   key={idx}
                   title={post.title}
-                  status={post.assigned_to ? "Assigned" : "Unassigned"}
+                  status={post.assigned_to.id ? "Assigned" : "Unassigned"}
                   date={new Date(post.created_at).toLocaleDateString(
                     "en-US",
                     dateOptions
