@@ -60,7 +60,7 @@ function SignUp() {
 
     const response = await signupUser({ username, email, password });
     if (response.status) {
-      alert("Signup success, You can login now!");
+      alert("Please check your mail and verify the account");
       navigate("/login");
     } else {
       setBackdropOpen(false);

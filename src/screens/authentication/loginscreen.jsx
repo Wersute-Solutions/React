@@ -10,6 +10,8 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { loginUser } from "../../api/auth";
 import { useStore } from "../../zustandState";
 import AppBarCus from "../../components/appbar_custom";
+import { useEffect } from "react";
+import { fetchProfile } from "../../api/profileHelpers";
 //import { useGoogleLogin } from "@react-oauth/google";
 
 function Login() {
@@ -41,18 +43,19 @@ function Login() {
     try {
       const data = await loginUser({ username, password });
       console.log("user_set: ", data.user);
-      setCurrentUser(data.user); // Set the current user in the state
-      if (data.status) {
-        navigate("/",{ replace: true });
-      } else {
-        alert(data.message); // Show error message
-      }
+      if (data.user.is_avtive) {
+        setCurrentUser(data.user); 
+        if (data.status) {
+          navigate("/", { replace: true });
+        } else {
+          alert(data.message);  
+        }
+      } 
     } catch (error) {
       console.error("Login error:", error);
       alert("An error occurred during login. Please try again.");
     } finally {
       setOpen(false); // Hide loading indicator
-
     }
   };
 
