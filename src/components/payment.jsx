@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Dialog, DialogActions, DialogContent, DialogTitle, TextField, Button } from '@mui/material';
 import { createPost } from "../api/payment";
+import useRazorpay from "react-razorpay";
+
 
 const PaymentPopup = ({ open, onClose }) => {
   const [name, setName] = useState('');
@@ -8,16 +10,17 @@ const PaymentPopup = ({ open, onClose }) => {
   const [contact, setContact] = useState('');
   const [address, setAddress] = useState('');
   const [amount, setAmount] = useState('');
+  const [Razorpay] = useRazorpay();
 
   const handlePayment = async () => {
     try {
       const response = await createPost(parseInt(amount));
-      const { id, currency } = response.data;
+      const { id } = response.data;
 
       const options = {
         key: 'rzp_test_ELxC3MwbyEqE6V',
         amount: amount * 100,  
-        currency: currency,
+        currency: "INR",
         name: 'Wersute',
         description: 'Test Transaction',
         order_id: id,
