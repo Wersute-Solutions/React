@@ -187,7 +187,7 @@ export default function FreeProfileComplete() {
 
   return (
     <>
-      <AppBarCus isclickable={false} />
+      <AppBarCus isclickable={false} iswallet={false}/>
       <Backdrop
         open={loading}
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}

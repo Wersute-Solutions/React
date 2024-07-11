@@ -72,7 +72,7 @@ function SignUp() {
 
   return (
     <>
-      <AppBarCus isclickable={false} />
+      <AppBarCus isclickable={false} iswallet={false}/>
       <div
         style={{
           backgroundColor: "#f0f0f0",
