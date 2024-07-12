@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -8,7 +8,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import PaymentPopup from "./payment"; 
-import { useStore } from "../zustandState";
+import { fetchProfile } from "../api/profileHelpers";
 
 export default function AppBarCus({
   showMenuIcon = false,
@@ -21,7 +21,7 @@ export default function AppBarCus({
 }) {
   const navigate = useNavigate();
   const [isPaymentPopupOpen, setPaymentPopupOpen] = useState(false);
-  const user = JSON.parse(localStorage.getItem("user"));
+  const [walletBalance, setWalletBalance] = useState(0);
 
   const handleLogoClick = () => {
     navigate("/");
@@ -34,6 +34,16 @@ export default function AppBarCus({
   const handleClosePaymentPopup = () => {
     setPaymentPopupOpen(false);
   };
+
+  useEffect(() => {
+    async function fetchUserProfile() {
+      const response = await fetchProfile();
+      if (response && response.length > 0 && response[0].wallet_balance) {
+        setWalletBalance(response[0].wallet_balance);
+      }
+    }
+    fetchUserProfile();
+  }, []);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -70,10 +80,11 @@ export default function AppBarCus({
           </Box>
 
           {/* Payment Button */}
-          {iswallet &&
-          <Button color="inherit" onClick={handleOpenPaymentPopup}>
-            Your Wallet: {user.profile.wallet_balance}
-          </Button>}
+          {iswallet && (
+            <Button color="inherit" onClick={handleOpenPaymentPopup}>
+              Your Wallet: {walletBalance}
+            </Button>
+          )}
 
           {/* Notification Button */}
           {showNotificationButton && (
