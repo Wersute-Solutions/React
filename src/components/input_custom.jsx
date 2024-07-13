@@ -31,7 +31,6 @@ export default function InputCus({
       onChange={onChange}
       value={value}
       disabled={isDisabled}
-      multiline={!isPassword}
       InputProps={{
         endAdornment: isPassword && (
           <InputAdornment position="end">
