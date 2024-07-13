@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Dialog, DialogActions, DialogContent, DialogTitle, TextField, Button, Box, Typography, IconButton } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogTitle, TextField, Button, Typography, IconButton } from '@mui/material';
 import { createPost } from "../api/payment";
 import useRazorpay from "react-razorpay";
 import CloseIcon from '@mui/icons-material/Close';
@@ -26,7 +26,7 @@ const PaymentPopup = ({ open, onClose, onUpdateWallet, walletBalance }) => {
         order_id: id,
         handler: async (response) => {
           console.log(response);
-          await onUpdateWallet(); // Update the wallet balance after successful payment
+          await onUpdateWallet();  
         },
         prefill: {
           name: name,
