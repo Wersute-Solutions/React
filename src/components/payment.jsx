@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { Dialog, DialogActions, DialogContent, DialogTitle, TextField, Button } from '@mui/material';
+import React, { useState } from "react";
+import { Dialog, DialogActions, DialogContent, DialogTitle, TextField, Button, Box, Typography, IconButton } from '@mui/material';
 import { createPost } from "../api/payment";
 import useRazorpay from "react-razorpay";
+import CloseIcon from '@mui/icons-material/Close';
 
-
-const PaymentPopup = ({ open, onClose }) => {
+const PaymentPopup = ({ open, onClose, onUpdateWallet, walletBalance }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [contact, setContact] = useState('');
@@ -19,13 +19,14 @@ const PaymentPopup = ({ open, onClose }) => {
 
       const options = {
         key: 'rzp_test_ELxC3MwbyEqE6V',
-        amount: amount * 100,  
+        amount: amount * 100,
         currency: "INR",
         name: 'Wersute',
         description: 'Test Transaction',
         order_id: id,
-        handler: (response) => {
+        handler: async (response) => {
           console.log(response);
+          await onUpdateWallet(); // Update the wallet balance after successful payment
         },
         prefill: {
           name: name,
@@ -53,8 +54,13 @@ const PaymentPopup = ({ open, onClose }) => {
   };
 
   return (
-    <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Enter Payment Details</DialogTitle>
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
+      <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Typography variant="h6">Enter Payment Details</Typography>
+        <IconButton edge="end" color="inherit" onClick={onClose} aria-label="close">
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
       <DialogContent>
         <TextField
           autoFocus
@@ -64,6 +70,7 @@ const PaymentPopup = ({ open, onClose }) => {
           fullWidth
           value={name}
           onChange={(e) => setName(e.target.value)}
+          variant="outlined"
         />
         <TextField
           margin="dense"
@@ -72,6 +79,7 @@ const PaymentPopup = ({ open, onClose }) => {
           fullWidth
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          variant="outlined"
         />
         <TextField
           margin="dense"
@@ -80,6 +88,7 @@ const PaymentPopup = ({ open, onClose }) => {
           fullWidth
           value={contact}
           onChange={(e) => setContact(e.target.value)}
+          variant="outlined"
         />
         <TextField
           margin="dense"
@@ -88,6 +97,7 @@ const PaymentPopup = ({ open, onClose }) => {
           fullWidth
           value={address}
           onChange={(e) => setAddress(e.target.value)}
+          variant="outlined"
         />
         <TextField
           margin="dense"
@@ -96,6 +106,7 @@ const PaymentPopup = ({ open, onClose }) => {
           fullWidth
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
+          variant="outlined"
         />
       </DialogContent>
       <DialogActions>

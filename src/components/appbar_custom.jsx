@@ -6,6 +6,8 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import Button from "@mui/material/Button";
+import CircularProgress from "@mui/material/CircularProgress";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import { useNavigate } from "react-router-dom";
 import PaymentPopup from "./payment"; 
 import { fetchProfile } from "../api/profileHelpers";
@@ -21,7 +23,8 @@ export default function AppBarCus({
 }) {
   const navigate = useNavigate();
   const [isPaymentPopupOpen, setPaymentPopupOpen] = useState(false);
-  const [walletBalance, setWalletBalance] = useState(0);
+  const [walletBalance, setWalletBalance] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const handleLogoClick = () => {
     navigate("/");
@@ -31,18 +34,22 @@ export default function AppBarCus({
     setPaymentPopupOpen(true);
   };
 
-  const handleClosePaymentPopup = () => {
+  const handleClosePaymentPopup = async () => {
     setPaymentPopupOpen(false);
+    await updateWalletBalance();
+  };
+
+  const updateWalletBalance = async () => {
+    setLoading(true);
+    const response = await fetchProfile();
+    if (response && response.length > 0 && response[0].wallet_balance) {
+      setWalletBalance(response[0].wallet_balance);
+    }
+    setLoading(false);
   };
 
   useEffect(() => {
-    async function fetchUserProfile() {
-      const response = await fetchProfile();
-      if (response && response.length > 0 && response[0].wallet_balance) {
-        setWalletBalance(response[0].wallet_balance);
-      }
-    }
-    fetchUserProfile();
+    updateWalletBalance();
   }, []);
 
   return (
@@ -65,7 +72,7 @@ export default function AppBarCus({
 
           {/* Logo */}
           <Box sx={{ flexGrow: 1, textAlign: "center" }}>
-            <div onClick={isclickable ? handleLogoClick : () => {}} style={{ cursor: "pointer" }}>
+            <div onClick={isclickable ? handleLogoClick : null} style={{ cursor: isclickable ? "pointer" : "default" }}>
               <img
                 src="logo.png"
                 alt="Logo"
@@ -81,8 +88,21 @@ export default function AppBarCus({
 
           {/* Payment Button */}
           {iswallet && (
-            <Button color="inherit" onClick={handleOpenPaymentPopup}>
-              Your Wallet: {walletBalance}
+            <Button
+              color="inherit"
+              onClick={handleOpenPaymentPopup}
+              startIcon={<AccountBalanceWalletIcon />}
+              sx={{
+                textTransform: "none",
+                display: "flex",
+                alignItems: "center"
+              }}
+            >
+              {loading ? (
+                <CircularProgress size={24} color="inherit" />
+              ) : (
+                `Wallet: ₹${walletBalance}`
+              )}
             </Button>
           )}
 
@@ -96,7 +116,11 @@ export default function AppBarCus({
       </AppBar>
 
       {/* Payment Popup */}
-      <PaymentPopup open={isPaymentPopupOpen} onClose={handleClosePaymentPopup} />
+      <PaymentPopup
+        open={isPaymentPopupOpen}
+        onClose={handleClosePaymentPopup}
+        onUpdateWallet={updateWalletBalance}
+      />
     </Box>
   );
 }
