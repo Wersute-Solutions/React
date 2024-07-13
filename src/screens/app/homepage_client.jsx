@@ -24,6 +24,9 @@ import InputCus from "../../components/input_custom";
 import InputLargeCus from "../../components/input_large_custom";
 import ButtonCus from "../../components/button_custom";
 import DrawerCusClient from "../../components/drawer_custom_client";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
+
 
 export default function HomePageClient() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -42,6 +45,8 @@ export default function HomePageClient() {
   const [alert, setAlert] = useState(null);
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef(null);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -150,6 +155,7 @@ export default function HomePageClient() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          marginLeft: isMobile ? "0px" : "100px",
         }}
       >
         <Typography
@@ -225,6 +231,7 @@ export default function HomePageClient() {
                   name={"description"}
                   onChange={handleChange}
                   placeholder={"Description"}
+                  width={"811px"}
                 />
               </Grid>
               {showMoreFields && (
