@@ -8,3 +8,23 @@ export async function createPost(amount) {
         return { status: false, message: error.message };
     }
 }
+
+export async function requestPaymnt(applicationId, amount){
+    try {
+        const response = await postRequest(`api/applications/${applicationId}/request-payment/`, {amount}, {}, true);
+        return { status: true, message: "Payment Requested", data: response};
+    }
+    catch (error) {
+        return { status: false, message: error.message };
+    }
+}
+
+export async function acceptPaymnt(applicationId,){
+    try {
+        const response = await postRequest(`api/applications/${applicationId}/request-payment/`, {}, true);
+        return { status: true, message: "Payment Requested", data: response};
+    }
+    catch (error) {
+        return { status: false, message: error.message };
+    }
+}
