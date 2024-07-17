@@ -16,6 +16,7 @@ import Backdrop from "@mui/material/Backdrop";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import Tooltip from "@mui/material/Tooltip";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 
 export default function DrawerCus({ open, onClose }) {
   const navigate = useNavigate();
@@ -114,6 +115,19 @@ export default function DrawerCus({ open, onClose }) {
             {isMobile && (
               <ListItemText
                 primary="My Requests"
+                sx={{ pl: 2, fontSize: '1.1rem', fontWeight: 500 }}
+              />
+            )}
+          </ListItemButton>
+        </Tooltip>
+        <Tooltip title="Notifications" placement="right">
+          <ListItemButton onClick={() => navigate("/requests")}>
+            <ListItemIcon sx={{ color: "#3f51b5", minWidth: 0 }}>
+              <NotificationsIcon fontSize="medium" />
+            </ListItemIcon>
+            {isMobile && (
+              <ListItemText
+                primary="Notifications"
                 sx={{ pl: 2, fontSize: '1.1rem', fontWeight: 500 }}
               />
             )}

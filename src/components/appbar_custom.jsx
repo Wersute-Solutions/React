@@ -4,7 +4,6 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
@@ -107,11 +106,6 @@ export default function AppBarCus({
           )}
 
           {/* Notification Button */}
-          {showNotificationButton && (
-            <IconButton color="inherit" onClick={onNotificationButtonClick}>
-              <NotificationsIcon />
-            </IconButton>
-          )}
         </Toolbar>
       </AppBar>
 
