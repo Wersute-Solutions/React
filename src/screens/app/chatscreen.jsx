@@ -6,6 +6,8 @@ import AppBarCus from '../../components/appbar_custom';
 import DrawerCus from '../../components/drawer_custom_freelancer';
 import ChatBubble from '../../components/chat_bubble';
 import { createChatRoom } from '../../api/chat';
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 
 export default function Chat() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -18,6 +20,8 @@ export default function Chat() {
   const [isWebSocketOpen, setIsWebSocketOpen] = useState(false);
   const user = JSON.parse(localStorage.getItem("user"));
   const { clientId, freelancerId } = useParams();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
     const initializeChat = async () => {
@@ -118,6 +122,7 @@ export default function Chat() {
           display: "flex",
           flexDirection: "column",
           position: "relative",
+          marginLeft: isMobile? "0px": "100px"
         }}
       >
         {isLoading ? (
@@ -138,7 +143,8 @@ export default function Chat() {
               zIndex: 1,
               padding: "10px 20px",
               borderBottom: "1px solid #ddd",
-              boxSizing: "border-box"
+              boxSizing: "border-box",
+              marginLeft: isMobile? "0px": "100px"
             }}>
               <IconButton onClick={handleBackClick}>
                 <ArrowBackIcon />
@@ -177,11 +183,11 @@ export default function Chat() {
                 placeholder="Type a message..."
                 variant="outlined"
                 fullWidth
-                style={{ marginRight: "10px" }}
+                style={{ marginLeft: "110px" }}
               />
-              <Button type="submit" variant="contained" color="primary" style={{ flexShrink: 0 }}>
+              {isMobile && <Button type="submit" variant="contained" color="primary" style={{ flexShrink: 0 }}>
                 Send
-              </Button>
+              </Button>}
             </form>
           </>
         )}
