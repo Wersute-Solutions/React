@@ -183,7 +183,7 @@ export default function Chat() {
                 placeholder="Type a message..."
                 variant="outlined"
                 fullWidth
-                style={{ marginLeft: "110px" }}
+                style={{ marginLeft: isMobile? "0px": "110px" }}
               />
               {isMobile && <Button type="submit" variant="contained" color="primary" style={{ flexShrink: 0 }}>
                 Send
