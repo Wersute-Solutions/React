@@ -132,26 +132,6 @@ export default function Chat() {
         ) : (
           <>
             <div style={{
-              display: "flex",
-              alignItems: "center",
-              marginBottom: "20px",
-              position: "fixed",
-              top: "64px",
-              left: 0,
-              width: "100%",
-              backgroundColor: "#f0f0f0",
-              zIndex: 1,
-              padding: "10px 20px",
-              borderBottom: "1px solid #ddd",
-              boxSizing: "border-box",
-              marginLeft: isMobile? "0px": "100px"
-            }}>
-              <IconButton onClick={handleBackClick}>
-                <ArrowBackIcon />
-              </IconButton>
-            </div>
-
-            <div style={{
               flex: 1,
               overflowY: "auto",
               marginTop: "130px",
@@ -185,7 +165,7 @@ export default function Chat() {
                 fullWidth
                 style={{ marginLeft: isMobile? "0px": "110px" }}
               />
-              {isMobile && <Button type="submit" variant="contained" color="primary" style={{ flexShrink: 0 }}>
+              {isMobile && <Button type="submit" variant="contained" color="primary" style={{ flexShrink: 0, marginLeft:"10px" }}>
                 Send
               </Button>}
             </form>
