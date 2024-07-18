@@ -55,7 +55,7 @@ const JobApplicationsPage = () => {
             ) : (
               applications.map((job, index) => (
                 <Grid item key={index}>
-                  <ApplicationTile jobTitle={job.job_title} jobStatus={job.status} companyName={job.company_name} clientId={job.author_id} myId={job.applicant} />
+                  <ApplicationTile id = {job.id} jobTitle={job.job_title} jobStatus={job.status} companyName={job.company_name} clientId={job.author_id} myId={job.applicant} paymentStatus={job.payment_status} amount={job.amount}/>
                 </Grid>
               ))
             )}

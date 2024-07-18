@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Typography, Backdrop, CircularProgress, TextField, Button, IconButton } from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Backdrop, CircularProgress, TextField, Button, } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import AppBarCus from '../../components/appbar_custom';
 import DrawerCus from '../../components/drawer_custom_freelancer';
