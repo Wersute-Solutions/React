@@ -68,6 +68,8 @@ export default function Requests() {
               <Grid item xs={12} sm={6} key={idx}>
                 <Tile
                   key={idx}
+                  amount = {post.amount}
+                  id = {post.id}
                   title={post.title}
                   status={post.assigned_to.id ? "Assigned" : "Unassigned"}
                   date={new Date(post.created_at).toLocaleDateString(

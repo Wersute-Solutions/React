@@ -12,9 +12,9 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { acceptApplication } from "../api/posts";
 import { useNavigate } from "react-router-dom";
-
+import { acceptPayment } from '../api/payment';
 import React from "react";
- 
+
 const useStyles = makeStyles((theme) => ({
   card: {
     marginBottom: theme.spacing(2),
@@ -66,9 +66,28 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "flex-end",
     gap: theme.spacing(1),
   },
+  baseButton: {
+    padding: '4px 8px',
+    fontSize: '0.75rem',
+    textTransform: 'none',
+    borderRadius: '20px',
+    marginRight: '8px',
+  },
   viewProfileButton: {
     borderColor: theme.palette.primary.main,
     color: theme.palette.primary.main,
+    '&:hover': {
+      backgroundColor: 'rgba(0, 123, 255, 0.1)',
+      borderColor: theme.palette.primary.main,
+    },
+  },
+  chatButton: {
+    borderColor: theme.palette.secondary.main, 
+    color: theme.palette.secondary.main,
+    '&:hover': {
+      backgroundColor: 'rgba(255, 87, 34, 0.1)',
+      borderColor: theme.palette.secondary.main,
+    },
   },
   applicationCard: {
     marginBottom: theme.spacing(2),
@@ -83,10 +102,6 @@ const useStyles = makeStyles((theme) => ({
     wordWrap: "break-word",
     overflowWrap: "break-word",
   },
-  chatButton: {
-    borderColor: theme.palette.secondary.main, // Example secondary color
-    color: theme.palette.secondary.main,
-  },
 }));
 
 const splitTextIntoChunks = (text, chunkSize) => {
@@ -94,7 +109,7 @@ const splitTextIntoChunks = (text, chunkSize) => {
   return text.match(regex) || [];
 };
 
-const Tile = ({ title, status, date, applications, assignedTo,}) => {
+const Tile = ({ id, amount, title, status, date, applications, assignedTo,}) => {
   const classes = useStyles();
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
@@ -137,14 +152,14 @@ const Tile = ({ title, status, date, applications, assignedTo,}) => {
                 </Typography>
                 <Button
                   variant="outlined"
-                  className={classes.viewProfileButton}
+                  className={`${classes.baseButton} ${classes.viewProfileButton}`}
                   onClick={() => handleViewProfile(assignedTo?.id)}
                 >
                   View Profile
                 </Button>
                 <Button
                     variant="outlined"
-                    className={classes.chatButton}
+                    className={`${classes.baseButton} ${classes.chatButton}`}
                     onClick={() => handleChat(assignedTo?.id)}
                   >
                     Chat
@@ -183,12 +198,13 @@ const Tile = ({ title, status, date, applications, assignedTo,}) => {
                   }
                   variant="contained"
                   color="primary"
+                  className={classes.baseButton}
                 >
                   Accept
                 </Button>
                 <Button
                   variant="outlined"
-                  className={classes.viewProfileButton}
+                  className={`${classes.baseButton} ${classes.viewProfileButton}`}
                   onClick={() =>
                     handleViewProfile(application.applicant.id)
                   }
@@ -197,7 +213,7 @@ const Tile = ({ title, status, date, applications, assignedTo,}) => {
                 </Button>
                 <Button
                     variant="outlined"
-                    className={classes.chatButton}
+                    className={`${classes.baseButton} ${classes.chatButton}`}
                     onClick={() => handleChat(application.applicant.id)}
                   >
                     Chat

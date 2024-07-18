@@ -107,7 +107,7 @@ export default function DrawerCus({ open, onClose }) {
             )}
           </ListItemButton>
         </Tooltip>
-        <Tooltip title="My Applications" placement="right">
+        <Tooltip title="My Requests" placement="right">
           <ListItemButton onClick={() => navigate("/requests")}>
             <ListItemIcon sx={{ color: "#3f51b5", minWidth: 0 }}>
               <FolderIcon fontSize="medium" />
