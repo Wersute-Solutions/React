@@ -13,7 +13,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { acceptApplication } from "../api/posts";
 import { useNavigate } from "react-router-dom";
 import { acceptPayment } from '../api/payment';
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -109,10 +109,13 @@ const splitTextIntoChunks = (text, chunkSize) => {
   return text.match(regex) || [];
 };
 
-const Tile = ({ id, amount, title, status, date, applications, assignedTo,}) => {
+const Tile = ({ id, title, status, date, applications, assignedTo, amount}) => {
+
+
   const classes = useStyles();
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
+
   const handleViewProfile = (freeId) => {
      navigate(`/profilepagefreelancer/${freeId}`);
   };
@@ -124,6 +127,11 @@ const Tile = ({ id, amount, title, status, date, applications, assignedTo,}) => 
   const handleAcceptApplication = async (applicationId, profileId) => {
     await acceptApplication(applicationId, profileId);
     window.location.reload(); 
+  };
+
+  const handleAcceptPayment = async () => {
+    await acceptPayment(id); 
+    //window.location.reload();
   };
 
   return (
@@ -221,6 +229,21 @@ const Tile = ({ id, amount, title, status, date, applications, assignedTo,}) => 
               </div>
             </Card>
           ))}
+          {amount !== 0 && (
+            <div className={classes.buttonContainer}>
+              <Typography variant="body1">
+                Amount: ${amount}
+              </Typography>
+              <Button
+                onClick={handleAcceptPayment}
+                variant="contained"
+                color="primary"
+                className={classes.baseButton}
+              >
+                Accept Payment
+              </Button>
+            </div>
+          )}
         </AccordionDetails>
       </Accordion>
     </Card>

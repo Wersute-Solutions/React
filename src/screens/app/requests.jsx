@@ -64,23 +64,35 @@ export default function Requests() {
             justifyContent="center"
             style={{ maxWidth: "1200px", width: "100%" }}
           >
-            {posts.map((post, idx) => (
-              <Grid item xs={12} sm={6} key={idx}>
-                <Tile
-                  key={idx}
-                  amount = {post.amount}
-                  id = {post.id}
-                  title={post.title}
-                  status={post.assigned_to.id ? "Assigned" : "Unassigned"}
-                  date={new Date(post.created_at).toLocaleDateString(
-                    "en-US",
-                    dateOptions
-                  )}
-                  applications={post.assigned_to.id ? [] : post.applications}
-                  assignedTo={post.assigned_to}
-                 />
-              </Grid>
-            ))}
+            {posts.map((post, idx) => {
+              let amount = 0;
+              if (post.assigned_to.id) {
+                for (const application of post.applications) {
+                  if (application.amount && application.amount !== 0) {
+                    amount = application.amount;
+                    break;
+                  }
+                }
+              }
+
+              return (
+                <Grid item xs={12} sm={6} key={idx}>
+                  <Tile
+                    key={idx}
+                    id={post.id}
+                    title={post.title}
+                    status={post.assigned_to.id ? "Assigned" : "Unassigned"}
+                    date={new Date(post.created_at).toLocaleDateString(
+                      "en-US",
+                      dateOptions
+                    )}
+                    applications={post.assigned_to.id ? [] : post.applications}
+                    assignedTo={post.assigned_to}
+                    amount={amount}
+                  />
+                </Grid>
+              );
+            })}
           </Grid>
         )}
       </div>
