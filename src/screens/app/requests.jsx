@@ -82,6 +82,7 @@ export default function Requests() {
               return (
                 <Grid item xs={12} sm={6} key={idx}>
                   <Tile
+                    paymentStatus = {paymentStatus}
                     key={idx}
                     id={apid}
                     title={post.title}

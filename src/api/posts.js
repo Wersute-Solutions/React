@@ -46,7 +46,7 @@ export async function acceptApplication(applicationId, user_id) {
             "assigned_to": user_id
         }
         const response = await postRequest(`api/applications/${applicationId}/accept/`, data, {}, true);
-        return { status: true, message: "Accepted application", data: response};
+        return { status: true, message: "Accepted application", data: response, status_code: response.status_code};
     }
     catch (error) {
         return { status: false, message: error.message };

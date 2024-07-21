@@ -12,10 +12,12 @@ import {
   CircularProgress,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CancelIcon from "@mui/icons-material/Cancel";
 import { acceptApplication } from "../api/posts";
 import { useNavigate } from "react-router-dom";
 import { acceptPayment } from '../api/payment';
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import MuiAlert from '@mui/material/Alert';
 
 const useStyles = makeStyles((theme) => ({
@@ -105,6 +107,23 @@ const useStyles = makeStyles((theme) => ({
     wordWrap: "break-word",
     overflowWrap: "break-word",
   },
+  paymentStatusContainer: {
+    display: "flex",
+    alignItems: "center",
+    marginTop: theme.spacing(2),
+  },
+  paymentStatusText: {
+    fontWeight: "bold",
+  },
+  paymentStatusIcon: {
+    marginLeft: theme.spacing(1),
+  },
+  amountContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: theme.spacing(2),
+  },
 }));
 
 const splitTextIntoChunks = (text, chunkSize) => {
@@ -112,7 +131,7 @@ const splitTextIntoChunks = (text, chunkSize) => {
   return text.match(regex) || [];
 };
 
-const Tile = ({ id, title, status, date, applications, assignedTo, amount }) => {
+const Tile = ({ id, title, status, date, applications, assignedTo, amount, paymentStatus }) => {
   const classes = useStyles();
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
@@ -132,11 +151,11 @@ const Tile = ({ id, title, status, date, applications, assignedTo, amount }) => 
     setLoading(true);
     try {
       const response = await acceptApplication(applicationId, profileId);
-      if (response.status === 200) {
+      if (response.status_code === 200) {
         setSuccess('Application accepted successfully');
         window.location.reload();
       } else {
-        setError(`Failed to accept the application. Status code: ${response.status}`);
+        setError(`Failed to accept the application. Status code: ${response.status_code}`);
       }
     } catch (error) {
       setError(`An error occurred: ${error.response?.status || 'Unknown error'}`);
@@ -149,11 +168,11 @@ const Tile = ({ id, title, status, date, applications, assignedTo, amount }) => 
     setLoading(true);
     try {
       const response = await acceptPayment(id);
-      if (response.status === 200) {
+      if (response.status_code === 200) {
         setSuccess('Payment accepted successfully');
         window.location.reload();
       } else {
-        setError(`Wallet balance is too less`);
+        setError(`Failed to accept the payment. Status code: ${response.status}`);
       }
     } catch (error) {
       setError(`An error occurred: ${error.response?.status || 'Unknown error'}`);
@@ -263,20 +282,34 @@ const Tile = ({ id, title, status, date, applications, assignedTo, amount }) => 
               </div>
             </Card>
           ))}
+
           {amount !== 0 && (
-            <div className={classes.buttonContainer}>
-              <Typography variant="body1">
+            <div className={classes.amountContainer}>
+              <Typography variant="body1" className={classes.paymentStatusText}>
                 Amount: ${amount}
               </Typography>
-              <Button
-                onClick={handleAcceptPayment}
-                variant="contained"
-                color="primary"
-                className={classes.baseButton}
-                disabled={loading}
-              >
-                {loading ? <CircularProgress size={24} /> : 'Accept Payment'}
-              </Button>
+              {paymentStatus === "requested" ? (
+                <Button
+                  onClick={handleAcceptPayment}
+                  variant="contained"
+                  color="primary"
+                  className={classes.baseButton}
+                  disabled={loading}
+                >
+                  {loading ? <CircularProgress size={24} /> : 'Accept Payment'}
+                </Button>
+              ) : (
+                <div className={classes.paymentStatusContainer}>
+                  <Typography
+                    variant="body1"
+                    className={classes.paymentStatusText}
+                    color="textSecondary"
+                  >
+                    Payment Status: Settled
+                  </Typography>
+                  <CheckCircleIcon color="success" className={classes.paymentStatusIcon} />
+                </div>
+              )}
             </div>
           )}
         </AccordionDetails>

@@ -46,9 +46,10 @@ export async function postRequest(url, kwargs = {}, headers = {}, auth = false) 
             refreshToken();
             return postRequest(url, kwargs, headers, auth);
         }
-        return data;
+        return {...data,status_code: response.status};
     } catch (error) {
-        return { status: false, message: error.message };
+        
+        return { status: false, message: error.message, statuscode: response.status };
     }
 }
 
