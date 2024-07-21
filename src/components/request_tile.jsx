@@ -8,22 +8,25 @@ import {
   Typography,
   Button,
   Avatar,
+  Snackbar,
+  CircularProgress,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { acceptApplication } from "../api/posts";
 import { useNavigate } from "react-router-dom";
 import { acceptPayment } from '../api/payment';
 import React, { useState, useEffect } from "react";
+import MuiAlert from '@mui/material/Alert';
 
 const useStyles = makeStyles((theme) => ({
   card: {
     marginBottom: theme.spacing(2),
     boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
     borderRadius: theme.spacing(2),
-    width: "100%",  
+    width: "100%",
     [theme.breakpoints.up("sm")]: {
-      maxWidth: 450,  
-     },
+      maxWidth: 450,
+    },
   },
   accordion: {
     marginBottom: theme.spacing(2),
@@ -82,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   chatButton: {
-    borderColor: theme.palette.secondary.main, 
+    borderColor: theme.palette.secondary.main,
     color: theme.palette.secondary.main,
     '&:hover': {
       backgroundColor: 'rgba(255, 87, 34, 0.1)',
@@ -109,29 +112,59 @@ const splitTextIntoChunks = (text, chunkSize) => {
   return text.match(regex) || [];
 };
 
-const Tile = ({ id, title, status, date, applications, assignedTo, amount}) => {
-
-
+const Tile = ({ id, title, status, date, applications, assignedTo, amount }) => {
   const classes = useStyles();
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   const handleViewProfile = (freeId) => {
-     navigate(`/profilepagefreelancer/${freeId}`);
+    navigate(`/profilepagefreelancer/${freeId}`);
   };
 
-  const handleChat = (freelancerId)=>{
+  const handleChat = (freelancerId) => {
     navigate(`/chatscreen/${user.user_id}/${freelancerId}/`);
   }
 
   const handleAcceptApplication = async (applicationId, profileId) => {
-    await acceptApplication(applicationId, profileId);
-    window.location.reload(); 
+    setLoading(true);
+    try {
+      const response = await acceptApplication(applicationId, profileId);
+      if (response.status === 200) {
+        setSuccess('Application accepted successfully');
+        window.location.reload();
+      } else {
+        setError(`Failed to accept the application. Status code: ${response.status}`);
+      }
+    } catch (error) {
+      setError(`An error occurred: ${error.response?.status || 'Unknown error'}`);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleAcceptPayment = async () => {
-    await acceptPayment(id); 
-    //window.location.reload();
+    setLoading(true);
+    try {
+      const response = await acceptPayment(id);
+      if (response.status === 200) {
+        setSuccess('Payment accepted successfully');
+        window.location.reload();
+      } else {
+        setError(`Wallet balance is too less`);
+      }
+    } catch (error) {
+      setError(`An error occurred: ${error.response?.status || 'Unknown error'}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCloseSnackbar = () => {
+    setError('');
+    setSuccess('');
   };
 
   return (
@@ -166,12 +199,12 @@ const Tile = ({ id, title, status, date, applications, assignedTo, amount}) => {
                   View Profile
                 </Button>
                 <Button
-                    variant="outlined"
-                    className={`${classes.baseButton} ${classes.chatButton}`}
-                    onClick={() => handleChat(assignedTo?.id)}
-                  >
-                    Chat
-                  </Button>
+                  variant="outlined"
+                  className={`${classes.baseButton} ${classes.chatButton}`}
+                  onClick={() => handleChat(assignedTo?.id)}
+                >
+                  Chat
+                </Button>
               </div>
             </div>
           )}
@@ -207,8 +240,9 @@ const Tile = ({ id, title, status, date, applications, assignedTo, amount}) => {
                   variant="contained"
                   color="primary"
                   className={classes.baseButton}
+                  disabled={loading}
                 >
-                  Accept
+                  {loading ? <CircularProgress size={24} /> : 'Accept'}
                 </Button>
                 <Button
                   variant="outlined"
@@ -220,12 +254,12 @@ const Tile = ({ id, title, status, date, applications, assignedTo, amount}) => {
                   View Profile
                 </Button>
                 <Button
-                    variant="outlined"
-                    className={`${classes.baseButton} ${classes.chatButton}`}
-                    onClick={() => handleChat(application.applicant.id)}
-                  >
-                    Chat
-                  </Button>
+                  variant="outlined"
+                  className={`${classes.baseButton} ${classes.chatButton}`}
+                  onClick={() => handleChat(application.applicant.id)}
+                >
+                  Chat
+                </Button>
               </div>
             </Card>
           ))}
@@ -239,13 +273,26 @@ const Tile = ({ id, title, status, date, applications, assignedTo, amount}) => {
                 variant="contained"
                 color="primary"
                 className={classes.baseButton}
+                disabled={loading}
               >
-                Accept Payment
+                {loading ? <CircularProgress size={24} /> : 'Accept Payment'}
               </Button>
             </div>
           )}
         </AccordionDetails>
       </Accordion>
+
+      <Snackbar open={!!error} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+        <MuiAlert elevation={6} variant="filled" onClose={handleCloseSnackbar} severity="error">
+          {error}
+        </MuiAlert>
+      </Snackbar>
+
+      <Snackbar open={!!success} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+        <MuiAlert elevation={6} variant="filled" onClose={handleCloseSnackbar} severity="success">
+          {success}
+        </MuiAlert>
+      </Snackbar>
     </Card>
   );
 };

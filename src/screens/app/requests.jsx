@@ -66,10 +66,14 @@ export default function Requests() {
           >
             {posts.map((post, idx) => {
               let amount = 0;
+              let apid = 0;
+              let paymentStatus
               if (post.assigned_to.id) {
                 for (const application of post.applications) {
                   if (application.amount && application.amount !== 0) {
                     amount = application.amount;
+                    apid = application.id
+                    paymentStatus = application.payment_status
                     break;
                   }
                 }
@@ -79,7 +83,7 @@ export default function Requests() {
                 <Grid item xs={12} sm={6} key={idx}>
                   <Tile
                     key={idx}
-                    id={post.id}
+                    id={apid}
                     title={post.title}
                     status={post.assigned_to.id ? "Assigned" : "Unassigned"}
                     date={new Date(post.created_at).toLocaleDateString(

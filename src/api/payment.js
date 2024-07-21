@@ -19,12 +19,12 @@ export async function requestPayment(applicationId, amount){
     }
 }
 
-export async function acceptPayment(applicationId){
-    try {
-        const response = await postRequest(`api/applications/${applicationId}/accept_payment/`,{},{}, true);
-        return { status: true, message: "Payment Requested", data: response};
-    }
-    catch (error) {
-        return { status: false, message: error.message };
-    }
-}
+        export async function acceptPayment(applicationId){
+            try {
+                const response = await postRequest(`api/applications/${applicationId}/accept_payment/`,{},{}, true);
+                return { status: true, message: "Payment Requested", data: response};
+            }
+            catch (error) {
+                return { status: false, message: error.message };
+            }
+        }
