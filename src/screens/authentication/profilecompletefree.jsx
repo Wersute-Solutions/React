@@ -167,7 +167,8 @@ export default function FreeProfileComplete() {
 
       const response = await updateProfile(formDataToSend);
       setLoading(false);
-      navigate("/applications");
+      navigate("/");
+      window.location.reload()
     } catch (error) {
       setAlert(<Alert severity="error">Failed to submit the form.</Alert>);
     }
