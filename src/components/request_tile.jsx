@@ -19,6 +19,8 @@ import { useNavigate } from "react-router-dom";
 import { acceptPayment } from '../api/payment';
 import React, { useState } from "react";
 import MuiAlert from '@mui/material/Alert';
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -44,6 +46,8 @@ const useStyles = makeStyles((theme) => ({
   },
   status: {
     marginLeft: theme.spacing(2),
+    display: "flex",
+    alignItems: "center",
     fontWeight: "bold",
   },
   date: {
@@ -132,6 +136,8 @@ const splitTextIntoChunks = (text, chunkSize) => {
 };
 
 const Tile = ({ id, title, status, date, applications, assignedTo, amount, paymentStatus }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const classes = useStyles();
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
@@ -142,7 +148,7 @@ const Tile = ({ id, title, status, date, applications, assignedTo, amount, payme
   const handleViewProfile = (freeId) => {
     navigate(`/profilepagefreelancer/${freeId}`);
   };
-
+  
   const handleChat = (freelancerId) => {
     navigate(`/chatscreen/${user.user_id}/${freelancerId}/`);
   }
@@ -187,16 +193,22 @@ const Tile = ({ id, title, status, date, applications, assignedTo, amount, payme
   };
 
   return (
-    <Card className={classes.card}>
+    <Card className={classes.card} style={{ marginLeft: isMobile ? 0 : '50px' }}>
       <Accordion className={classes.accordion}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <div className={classes.summaryContent}>
             <Typography variant="h6" className={classes.title}>
               {title}
             </Typography>
-            <Typography variant="body1" className={classes.status}>
-              Status: {status}
-            </Typography>
+            <div className={classes.status}>
+              {status === "Accepted" ? (
+                <CheckCircleIcon color="success" />
+              ) : status === "Rejected" ? (
+                <CancelIcon color="error" />
+              ) : (
+                <Typography variant="body1">{status}</Typography>
+              )}
+            </div>
             <Typography variant="body1" className={classes.date}>
               Date: {date}
             </Typography>

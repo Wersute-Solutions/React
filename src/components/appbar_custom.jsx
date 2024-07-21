@@ -8,14 +8,14 @@ import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import { useNavigate } from "react-router-dom";
-import PaymentPopup from "./payment"; 
+import PaymentPopup from "./payment";
 import { fetchProfile } from "../api/profileHelpers";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 
 export default function AppBarCus({
   showMenuIcon = false,
   onMenuIconClick = () => {},
-  showNotificationButton = false,
-  onNotificationButtonClick = () => {},
   fixed = false,
   isclickable = true,
   iswallet = true
@@ -28,6 +28,9 @@ export default function AppBarCus({
   const handleLogoClick = () => {
     navigate("/");
   };
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleOpenPaymentPopup = () => {
     setPaymentPopupOpen(true);
@@ -54,9 +57,9 @@ export default function AppBarCus({
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position={fixed ? "fixed" : "static"} color="primary">
-        <Toolbar sx={{ justifyContent: "space-between" }}>
+        <Toolbar sx={{ justifyContent: "space-between", marginLeft: isMobile ? 0 : '100px' }}>
           {/* Menu Icon */}
-          {showMenuIcon && (
+          {showMenuIcon && isMobile && (
             <IconButton
               size="large"
               edge="start"
