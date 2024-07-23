@@ -48,6 +48,7 @@ export default function Post({
       sx={{
         display: "flex",
         maxWidth: 600,
+        width: "90vw",
         marginBottom: "20px",
         boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
       }}
