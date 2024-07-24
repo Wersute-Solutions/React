@@ -10,3 +10,26 @@ export async function fetchProfile(id) {
     }
     return await getRequest(`api/user/profiles/?id=${id}`, {}, {}, true);
 }
+
+
+export async function fetchBusiness(){
+    try{
+        const response = await getRequest('api/buisnessprofession/',{},{},true);
+        return { status: true, data: response};
+    }
+    catch(error){
+        return { status: false, message: error.message };
+
+    }
+
+}
+export async function fetchskills(){
+    try{
+        const response = await getRequest('api/skills/', {}, {}, true);
+        return { status: true, data: response};
+    }
+    catch(error){
+        return { status: false, message: error.message };
+
+    }
+}

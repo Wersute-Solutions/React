@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Typography from "@mui/material/Typography";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
@@ -7,37 +7,15 @@ import InputCus from "../../components/input_custom";
 import ButtonCus from "../../components/button_custom";
 import Grid from "@mui/material/Grid";
 import InputLargeCus from "../../components/input_large_custom";
-import { updateProfile } from "../../api/profileHelpers";
+import { updateProfile, fetchBusiness } from "../../api/profileHelpers";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate } from "react-router-dom";
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-
-const popularDomains = [
-  "Technology",
-  "Healthcare",
-  "Finance",
-  "Education",
-  "Retail",
-  "Manufacturing",
-  "Hospitality",
-  "Real Estate",
-  "Transportation",
-  "Media",
-  "Entertainment",
-  "Agriculture",
-  "Energy",
-  "Construction",
-  "Legal",
-  "Consulting",
-  "Marketing",
-  "Telecommunications",
-  "Pharmaceuticals",
-];
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 
 export default function ClientProfileComplete() {
   const [formData, setFormData] = useState({
@@ -49,10 +27,26 @@ export default function ClientProfileComplete() {
     business_profession: "",
     about_business: "",
   });
+  const [domains, setDomains] = useState([]);
   const navigate = useNavigate();
-
   const [alert, setAlert] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);  
+      try {
+        const response = await fetchBusiness();
+        setDomains(response.data || []);
+        console.log(response.data);
+      } catch (error) {
+        setAlert(<Alert severity="error">Failed to load business domains.</Alert>);
+      } finally {
+        setLoading(false); 
+      }
+    };
+    fetchData();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -129,70 +123,39 @@ export default function ClientProfileComplete() {
       await updateProfile(formDataToSend);
 
       setTimeout(() => {
-        setLoading(false)
+        setLoading(false);
         navigate("/");
-        window.location.reload()
-        
+        window.location.reload();
       }, 2000);
 
     } catch (error) {
       setAlert(<Alert severity="error">Failed to submit the form.</Alert>);
-    } 
+    } finally {
+      setLoading(false); // Stop loading
+    }
   };
 
   return (
     <>
-      <AppBarCus isclickable={false} iswallet={false}/>
+      <AppBarCus isclickable={false} iswallet={false} />
       <Backdrop open={loading} sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}>
         <CircularProgress color="inherit" />
       </Backdrop>
-      <div
-        style={{
-          backgroundColor: "#f0f0f0",
-          minHeight: "100vh",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
+      <div style={{ backgroundColor: "#f0f0f0", minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center" }}>
         <div style={{ maxWidth: "800px", width: "100%" }}>
-          <Typography
-            variant="h4"
-            align="center"
-            gutterBottom
-            marginTop={"40px"}
-          >
+          <Typography variant="h4" align="center" gutterBottom marginTop={"40px"}>
             Complete Your Profile
           </Typography>
-          {alert && (
-            <Stack sx={{ width: "100%" }} spacing={2}>
-              {alert}
-            </Stack>
-          )}
+          {alert && <Stack sx={{ width: "100%" }} spacing={2}>{alert}</Stack>}
           <Grid container spacing={2} marginTop={"40px"}>
             <Grid item xs={12} md={6}>
-              <InputCus
-                placeholder={"First Name"}
-                name="first_name"
-                onChange={handleChange}
-                width={300}
-              />
+              <InputCus placeholder={"First Name"} name="first_name" onChange={handleChange} width={300} />
             </Grid>
             <Grid item xs={12} md={6}>
-              <InputCus
-                placeholder={"Last Name"}
-                name="last_name"
-                onChange={handleChange}
-                width={300}
-              />
+              <InputCus placeholder={"Last Name"} name="last_name" onChange={handleChange} width={300} />
             </Grid>
             <Grid item xs={12} md={6}>
-              <InputCus
-                placeholder={"Business Name"}
-                name="business_name"
-                onChange={handleChange}
-                width={300}
-              />
+              <InputCus placeholder={"Business Name"} name="business_name" onChange={handleChange} width={300} />
             </Grid>
             <Grid item xs={12} md={6}>
               <Select
@@ -204,56 +167,30 @@ export default function ClientProfileComplete() {
                 <MenuItem value="" disabled>
                   Business Profession
                 </MenuItem>
-                {popularDomains.map((domain, index) => (
-                  <MenuItem key={index} value={domain}>
-                    {domain}
+                {domains?.map((domain, index) => (
+                  <MenuItem key={index} value={domain.title}>
+                    {domain.title}
                   </MenuItem>
                 ))}
                 <MenuItem value="__custom__">Other (Please specify)</MenuItem>
               </Select>
               {formData.business_profession === "__custom__" && (
-                <InputCus
-
-                  placeholder={"Enter your profession"}
-                  name="custom_business_profession"
-                  onChange={handleChange}
-                  width={300}
-                />
+                <InputCus placeholder={"Enter your profession"} name="custom_business_profession" onChange={handleChange} width={300} />
               )}
             </Grid>
 
             <Grid item xs={12} md={6}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  name="dob"
-                  label="Date Of Birth"
-                  value={formData.dob}
-                  onChange={handleDateChange}
-                  sx={{ width: '300px' }}
-                />
+                <DatePicker name="dob" label="Date Of Birth" value={formData.dob} onChange={handleDateChange} sx={{ width: "300px" }} />
               </LocalizationProvider>
             </Grid>
             <Grid item xs={12} md={6}>
-              <InputCus
-                placeholder={"Contact Number"}
-                name="contact_no"
-                onChange={handleChange}
-                width={300}
-              />
+              <InputCus placeholder={"Contact Number"} name="contact_no" onChange={handleChange} width={300} />
             </Grid>
             <Grid item xs={12}>
-              <InputLargeCus
-                name={"about_business"}
-                onChange={handleChange}
-                placeholder={"About Your Business"}
-                width={710}
-              />
+              <InputLargeCus name={"about_business"} onChange={handleChange} placeholder={"About Your Business"} width={710} />
             </Grid>
-            <Grid
-              item
-              xs={12}
-              style={{ display: "flex", justifyContent: "center" }}
-            >
+            <Grid item xs={12} style={{ display: "flex", justifyContent: "center" }}>
               <ButtonCus text={"Submit"} onClick={handleSubmit} />
             </Grid>
           </Grid>

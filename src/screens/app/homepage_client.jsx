@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   AppBar,
   Typography,
@@ -6,9 +6,10 @@ import {
   IconButton,
   Stack,
   Alert,
-  MenuItem, 
+  MenuItem,
   FormControl,
-  Select
+  Select,
+  CircularProgress,
 } from "@mui/material";
 import {
   ExpandMore as ExpandMoreIcon,
@@ -16,7 +17,7 @@ import {
   PhotoCamera as PhotoCameraIcon,
   Close as CloseIcon,
 } from "@mui/icons-material";
-import { createPost } from "../../api/posts";
+import { createPost, fetchTags } from "../../api/posts"; 
 import { useNavigate } from "react-router-dom";
 import AppBarCus from "../../components/appbar_custom";
 import BoxCus from "../../components/box_custom";
@@ -27,7 +28,6 @@ import DrawerCusClient from "../../components/drawer_custom_client";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 
-
 export default function HomePageClient() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [formData, setFormData] = useState({
@@ -37,16 +37,29 @@ export default function HomePageClient() {
     skills: "",
     duration: "",
     responsibilities: "",
+    tag: "",
   });
-  const [durationUnit, setDurationUnit] = useState("week");  
+  const [durationUnit, setDurationUnit] = useState("week");
+  const [tags, setTags] = useState([]);
   const navigate = useNavigate();
-
   const [showMoreFields, setShowMoreFields] = useState(false);
   const [alert, setAlert] = useState(null);
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef(null);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  useEffect(() => {
+    const fetchTagsData = async () => {
+      try {
+        const response = await fetchTags();
+        setTags(response.data || []);
+      } catch (error) {
+        setAlert(<Alert severity="error">Failed to load tags.</Alert>);
+      }
+    };
+    fetchTagsData();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -76,9 +89,7 @@ export default function HomePageClient() {
     }
     if (formData.description.trim().length > 500) {
       setAlert(
-        <Alert severity="error">
-          Description should be 500 characters or less.
-        </Alert>
+        <Alert severity="error">Description should be 500 characters or less.</Alert>
       );
       return;
     }
@@ -86,14 +97,13 @@ export default function HomePageClient() {
 
     const formDataToSend = new FormData();
     for (const [key, value] of Object.entries(formData)) {
-      if(key == "duration" && String(value)!="")
-        {
-          const adjustedDuration = String(value) +" "+ String(durationUnit)
-          formDataToSend.append(key, adjustedDuration);
-        }
-        else {
-          formDataToSend.append(key, String(value));
-        }    }
+      if (key === "duration" && String(value) !== "") {
+        const adjustedDuration = String(value) + " " + String(durationUnit);
+        formDataToSend.append(key, adjustedDuration);
+      } else {
+        formDataToSend.append(key, String(value));
+      }
+    }
     if (formData.image) {
       formDataToSend.append("image", fileInputRef.current.files[0]);
     }
@@ -217,14 +227,32 @@ export default function HomePageClient() {
           </Grid>
           <Grid item xs={12} md={8}>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid item xs={12} sm={6}>
                 <InputCus
-                  name={"title"}
+                  name="title"
                   onChange={handleChange}
-                  placeholder={"Title"}
-                  marginbottom={4}
-                  width={"350px"}
+                  placeholder="Title"
+                  width="350px"
                 />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormControl fullWidth>
+                  <Select
+                    value={formData.tag}
+                    onChange={(e) => handleChange({ target: { name: 'tag', value: e.target.value } })}
+                    displayEmpty
+                    sx={{ width: "350px" }}
+                  >
+                    <MenuItem value="" disabled>
+                      Select a Tag
+                    </MenuItem>
+                    {tags.map((tag) => (
+                      <MenuItem key={tag.id} value={tag.name}>
+                        {tag.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </Grid>
               <Grid item xs={12}>
                 <InputLargeCus
@@ -256,30 +284,28 @@ export default function HomePageClient() {
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <FormControl fullWidth>
-                      <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <input
-                          type="range"
-                          min="1"
-                          max="12"
-                          value={formData.duration}
-                          onChange={(e) => handleChange({ target: { name: 'duration', value: e.target.value } })}
-                          style={{ width: '222px', marginRight: '10px' }}
+                      <div style={{ display: "flex", alignItems: "center" }}>
+                        <InputCus
+                          name={"duration"}
+                          placeholder={"Duration"}
+                          onChange={handleChange}
+                          fullWidth
+                          width={"222px"}
                         />
-                         <Select
+                        <Select
                           value={durationUnit}
                           onChange={(e) => setDurationUnit(e.target.value)}
                           displayEmpty
                           inputProps={{ "aria-label": "Select Duration Unit" }}
-                          sx={{ width: "115px" }}
+                          sx={{ width: "115px", marginLeft: "12px"  }}
                         >
-                          <MenuItem value="weeks"> {formData.duration} Weeks</MenuItem>
-                          <MenuItem value="months">{formData.duration} Months</MenuItem>
-                          <MenuItem value="years">{formData.duration} Years</MenuItem>
+                          <MenuItem value="weeks">Weeks</MenuItem>
+                          <MenuItem value="months">Months</MenuItem>
+                          <MenuItem value="years">Years</MenuItem>
                         </Select>
                       </div>
                     </FormControl>
                   </Grid>
-
 
                   <Grid item xs={12} sm={6}>
                     <InputCus
@@ -293,25 +319,25 @@ export default function HomePageClient() {
                 </>
               )}
 
-              <Grid item xs={12} sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    margin: "auto",
-                  }}>
-                <IconButton
-                  onClick={toggleShowMoreFields}
-                  
-                >
+              <Grid
+                item
+                xs={12}
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  margin: "auto",
+                }}
+              >
+                <IconButton onClick={toggleShowMoreFields}>
                   {showMoreFields ? (
                     <ExpandLessIcon fontSize="large" />
                   ) : (
                     <ExpandMoreIcon fontSize="large" />
                   )}
-                  
                 </IconButton>
                 <Typography>
-                    {showMoreFields ? "Show Less Fields" : "Show Optional Fields"}
+                  {showMoreFields ? "Show Less Fields" : "Show Optional Fields"}
                 </Typography>
               </Grid>
               <Grid item xs={12} marginTop={"20px"}>
@@ -335,9 +361,7 @@ export default function HomePageClient() {
               zIndex: 9999,
             }}
           >
-            <Typography variant="h5" style={{ color: "white" }}>
-              Loading...
-            </Typography>
+            <CircularProgress color="inherit" />
           </div>
         )}
       </div>

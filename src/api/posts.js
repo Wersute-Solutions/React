@@ -31,9 +31,9 @@ export async function applyToPost(postId, coverLetter) {
     }
 }
 
-export async function fetchMyPosts() {
+export async function fetchMyPosts(tagId) {
     try {
-        const response = await getRequest('api/user-posts/', {}, {}, true);
+        const response = await getRequest('api/user-posts/'+tagId, {}, {}, true);
         return { status: true, data: response};
     } catch (error) {
         return { status: false, message: error.message };
@@ -56,6 +56,18 @@ export async function acceptApplication(applicationId, user_id) {
 export async function fetchMyApplications(){
     try{
         const response = await getRequest('api/applications/', {}, {}, true);
+        return { status: true, data: response};
+    }
+    catch(error){
+        return { status: false, message: error.message };
+
+    }
+}
+
+
+export async function fetchTags(){
+    try{
+        const response = await getRequest('api/tags/', {}, {}, true);
         return { status: true, data: response};
     }
     catch(error){
