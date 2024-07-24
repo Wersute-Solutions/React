@@ -48,9 +48,9 @@ export default function HomePageFreelancer() {
 
   const fetchTagsData = async () => {
     try {
-      const { status, data } = await fetchTags(); // Assuming fetchTags API exists
+      const { status, data } = await fetchTags(); 
       if (status) {
-        setTags([{ id: 'all', name: 'All' }, ...data]); // Adding "All" option
+        setTags([{ id: 'all', name: 'All' }, ...data]); 
       }
     } catch (error) {
       console.error("Error fetching tags:", error);
