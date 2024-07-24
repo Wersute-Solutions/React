@@ -247,7 +247,7 @@ export default function HomePageClient() {
                       Select a Tag
                     </MenuItem>
                     {tags.map((tag) => (
-                      <MenuItem key={tag.id} value={tag.name}>
+                      <MenuItem key={tag.id} value={tag.title}>
                         {tag.name}
                       </MenuItem>
                     ))}

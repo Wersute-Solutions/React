@@ -2,8 +2,9 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import AppBarCus from "../../components/appbar_custom";
 import DrawerCus from "../../components/drawer_custom_freelancer";
 import Post from "../../components/post";
-import { fetchPosts } from "../../api/posts";
+import { fetchPosts, fetchTags } from "../../api/posts"; // Assuming fetchTags API exists
 import Typography from "@mui/material/Typography";
+import { Select, MenuItem, Button, FormControl } from "@mui/material";
 
 export default function HomePageFreelancer() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,12 +13,14 @@ export default function HomePageFreelancer() {
   const [error, setError] = useState(null);
   const [nextCursor, setNextCursor] = useState(null);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [tags, setTags] = useState([]);
+  const [selectedTag, setSelectedTag] = useState("all");
 
   const loadMoreTrigger = useRef(null);
 
-  const fetchPostsData = async (cursor = '') => {
+  const fetchPostsData = async (cursor = '', tagId = '') => {
     try {
-      const { status, data } = await fetchPosts(cursor);
+      const { status, data } = await fetchPosts(cursor, tagId);
       if (status) {
         if (cursor) {
           setPosts((prevPosts) => [...prevPosts, ...data.results]);
@@ -40,14 +43,26 @@ export default function HomePageFreelancer() {
 
   useEffect(() => {
     fetchPostsData();
+    fetchTagsData();
   }, []);
+
+  const fetchTagsData = async () => {
+    try {
+      const { status, data } = await fetchTags(); // Assuming fetchTags API exists
+      if (status) {
+        setTags([{ id: 'all', name: 'All' }, ...data]); // Adding "All" option
+      }
+    } catch (error) {
+      console.error("Error fetching tags:", error);
+    }
+  };
 
   const loadMorePosts = useCallback(() => {
     if (nextCursor && !isLoadingMore) {
       setIsLoadingMore(true);
-      fetchPostsData(nextCursor);
+      fetchPostsData(nextCursor, selectedTag !== "all" ? selectedTag : '');
     }
-  }, [nextCursor, isLoadingMore]);
+  }, [nextCursor, isLoadingMore, selectedTag]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -74,6 +89,16 @@ export default function HomePageFreelancer() {
     setIsMenuOpen((prevState) => !prevState);
   };
 
+  const handleTagChange = (event) => {
+    setSelectedTag(event.target.value);
+  };
+
+  const filterPostsByTag = () => {
+    setIsLoading(true);
+    setPosts([]);
+    fetchPostsData('', selectedTag !== "all" ? selectedTag : '');
+  };
+
   return (
     <>
       <AppBarCus
@@ -97,6 +122,20 @@ export default function HomePageFreelancer() {
           alignItems: "center",
         }}
       >
+        <div style={{ display: "flex", alignItems: "center", marginBottom: "20px" }}>
+          <FormControl style={{ minWidth: 200, marginRight: "10px" }}>
+            <Select value={selectedTag} onChange={handleTagChange}>
+              {tags.map((tag) => (
+                <MenuItem key={tag.id} value={tag.id}>
+                  {tag.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <Button variant="contained" color="primary" onClick={filterPostsByTag}>
+            Filter
+          </Button>
+        </div>
         {isLoading ? (
           <Typography variant="body1" style={{ marginTop: "250px" }}>
             Loading...

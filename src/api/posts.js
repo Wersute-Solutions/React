@@ -9,9 +9,9 @@ export async function createPost(postData) {
     }
 }
 
-export async function fetchPosts(cursor = '') {
+export async function fetchPosts(cursor = '',tagId) {
     try {
-        const url = cursor ? `api/posts/?cursor=${cursor}` : 'api/posts/';
+        const url = cursor ? `api/posts/?cursor=${cursor}&tags=${tagId}` : 'api/posts/';
         const response = await getRequest(url, {}, {}, true);
         return { status: true, data: response };
     } catch (error) {
@@ -31,9 +31,9 @@ export async function applyToPost(postId, coverLetter) {
     }
 }
 
-export async function fetchMyPosts(tagId) {
+export async function fetchMyPosts() {
     try {
-        const response = await getRequest('api/user-posts/'+tagId, {}, {}, true);
+        const response = await getRequest('api/user-posts/', {}, {}, true);
         return { status: true, data: response};
     } catch (error) {
         return { status: false, message: error.message };
