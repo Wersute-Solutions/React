@@ -17,6 +17,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import Tooltip from "@mui/material/Tooltip";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import { fetchNotifications } from "../api/posts";
 
 export default function DrawerCus({ open, onClose }) {
   const navigate = useNavigate();
@@ -39,6 +40,15 @@ export default function DrawerCus({ open, onClose }) {
     }, 1000);
   };
 
+  const handleFetchNotifications = async () => {
+    try {
+      const notifications = await fetchNotifications();
+      console.log("Notifications:", notifications);
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+    }
+  };
+
   const LoadingScreen = ({ open }) => (
     <Backdrop
       sx={{
@@ -55,7 +65,7 @@ export default function DrawerCus({ open, onClose }) {
   const drawerContent = (
     <Box
       sx={{
-        width: isMobile ? 260 : 90, // Adjust width for mobile
+        width: isMobile ? 260 : 90,  
         backgroundColor: "#f0f0f0",
         display: "flex",
         flexDirection: "column",
@@ -121,7 +131,7 @@ export default function DrawerCus({ open, onClose }) {
           </ListItemButton>
         </Tooltip>
         <Tooltip title="Notifications" placement="right">
-          <ListItemButton onClick={() => navigate("/requests")}>
+          <ListItemButton onClick={handleFetchNotifications}>
             <ListItemIcon sx={{ color: "#3f51b5", minWidth: 0 }}>
               <NotificationsIcon fontSize="medium" />
             </ListItemIcon>

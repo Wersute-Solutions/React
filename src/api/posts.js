@@ -75,3 +75,14 @@ export async function fetchTags(){
 
     }
 }
+
+export async function fetchNotifications(){
+    try{
+        const response = await getRequest('api/notifications/', {}, {}, true);
+        return { status: true, data: response};
+    }
+    catch(error){
+        return { status: false, message: error.message };
+
+    }
+}
