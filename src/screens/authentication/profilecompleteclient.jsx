@@ -34,7 +34,7 @@ export default function ClientProfileComplete() {
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);  
+      setLoading(true);
       try {
         const response = await fetchBusiness();
         setDomains(response.data || []);
@@ -42,7 +42,7 @@ export default function ClientProfileComplete() {
       } catch (error) {
         setAlert(<Alert severity="error">Failed to load business domains.</Alert>);
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
     fetchData();
@@ -142,27 +142,27 @@ export default function ClientProfileComplete() {
         <CircularProgress color="inherit" />
       </Backdrop>
       <div style={{ backgroundColor: "#f0f0f0", minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center" }}>
-        <div style={{ maxWidth: "800px", width: "100%" }}>
+        <div style={{ maxWidth: "800px", width: "100%", padding: "0 16px" }}>
           <Typography variant="h4" align="center" gutterBottom marginTop={"40px"}>
             Complete Your Profile
           </Typography>
           {alert && <Stack sx={{ width: "100%" }} spacing={2}>{alert}</Stack>}
           <Grid container spacing={2} marginTop={"40px"}>
-            <Grid item xs={12} md={6}>
-              <InputCus placeholder={"First Name"} name="first_name" onChange={handleChange} width={300} />
+            <Grid item xs={12} sm={6}>
+              <InputCus placeholder={"First Name"} name="first_name" onChange={handleChange} width="100%" />
             </Grid>
-            <Grid item xs={12} md={6}>
-              <InputCus placeholder={"Last Name"} name="last_name" onChange={handleChange} width={300} />
+            <Grid item xs={12} sm={6}>
+              <InputCus placeholder={"Last Name"} name="last_name" onChange={handleChange} width="100%" />
             </Grid>
-            <Grid item xs={12} md={6}>
-              <InputCus placeholder={"Business Name"} name="business_name" onChange={handleChange} width={300} />
+            <Grid item xs={12} sm={6}>
+              <InputCus placeholder={"Business Name"} name="business_name" onChange={handleChange} width="100%" />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} sm={6}>
               <Select
                 value={formData.business_profession}
                 onChange={(e) => setFormData({ ...formData, business_profession: e.target.value })}
                 displayEmpty
-                sx={{ width: "300px" }}
+                sx={{ width: "100%" }}
               >
                 <MenuItem value="" disabled>
                   Business Profession
@@ -175,20 +175,19 @@ export default function ClientProfileComplete() {
                 <MenuItem value="__custom__">Other (Please specify)</MenuItem>
               </Select>
               {formData.business_profession === "__custom__" && (
-                <InputCus placeholder={"Enter your profession"} name="custom_business_profession" onChange={handleChange} width={300} />
+                <InputCus placeholder={"Enter your profession"} name="custom_business_profession" onChange={handleChange} width="100%" />
               )}
             </Grid>
-
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} sm={6}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker name="dob" label="Date Of Birth" value={formData.dob} onChange={handleDateChange} sx={{ width: "300px" }} />
+                <DatePicker name="dob" label="Date Of Birth" value={formData.dob} onChange={handleDateChange} renderInput={(params) => <InputCus {...params} width="100%" />} />
               </LocalizationProvider>
             </Grid>
-            <Grid item xs={12} md={6}>
-              <InputCus placeholder={"Contact Number"} name="contact_no" onChange={handleChange} width={300} />
+            <Grid item xs={12} sm={6}>
+              <InputCus placeholder={"Contact Number"} name="contact_no" onChange={handleChange} width="100%" />
             </Grid>
             <Grid item xs={12}>
-              <InputLargeCus name={"about_business"} onChange={handleChange} placeholder={"About Your Business"} width={710} />
+              <InputLargeCus name={"about_business"} onChange={handleChange} placeholder={"About Your Business"} width="100%" />
             </Grid>
             <Grid item xs={12} style={{ display: "flex", justifyContent: "center" }}>
               <ButtonCus text={"Submit"} onClick={handleSubmit} />

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import AppBarCus from "../../components/appbar_custom";
 import DrawerCus from "../../components/drawer_custom_freelancer";
 import Post from "../../components/post";
-import { fetchPosts, fetchTags } from "../../api/posts"; // Assuming fetchTags API exists
+import { fetchPosts, fetchTags } from "../../api/posts";
 import Typography from "@mui/material/Typography";
 import { Select, MenuItem, Button, FormControl } from "@mui/material";
 
@@ -14,7 +14,7 @@ export default function HomePageFreelancer() {
   const [nextCursor, setNextCursor] = useState(null);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [tags, setTags] = useState([]);
-  const [selectedTag, setSelectedTag] = useState("all");
+  const [selectedTag, setSelectedTag] = useState("");
 
   const loadMoreTrigger = useRef(null);
 
@@ -22,11 +22,7 @@ export default function HomePageFreelancer() {
     try {
       const { status, data } = await fetchPosts(cursor, tagId);
       if (status) {
-        if (cursor) {
-          setPosts((prevPosts) => [...prevPosts, ...data.results]);
-        } else {
-          setPosts(data.results);
-        }
+        setPosts((prevPosts) => cursor ? [...prevPosts, ...data.results] : data.results);
         setNextCursor(data.next ? data.next.split('cursor=')[1] : null);
       } else {
         setError(data.message);
@@ -41,21 +37,22 @@ export default function HomePageFreelancer() {
     }
   };
 
-  useEffect(() => {
-    fetchPostsData();
-    fetchTagsData();
-  }, []);
-
   const fetchTagsData = async () => {
     try {
-      const { status, data } = await fetchTags(); 
+      const { status, data } = await fetchTags();
+      console.log(data)
       if (status) {
-        setTags([{ id: 'all', name: 'All' }, ...data]); 
+        setTags([{ id: 'all', name: 'All' }, ...data]);
       }
     } catch (error) {
       console.error("Error fetching tags:", error);
     }
   };
+
+  useEffect(() => {
+    fetchPostsData();
+    fetchTagsData();
+  }, []);
 
   const loadMorePosts = useCallback(() => {
     if (nextCursor && !isLoadingMore) {
@@ -123,15 +120,15 @@ export default function HomePageFreelancer() {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", marginBottom: "20px" }}>
-          <FormControl style={{ minWidth: 200, marginRight: "10px" }}>
-            <Select value={selectedTag} onChange={handleTagChange}>
-              {tags.map((tag) => (
-                <MenuItem key={tag.id} value={tag.id}>
-                  {tag.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+        <FormControl style={{ minWidth: 200, marginRight: "10px" }}>
+  <Select value={selectedTag} onChange={handleTagChange}>
+    {tags.map((tag) => (
+      <MenuItem key={tag.id} value={tag.id}>
+        {tag.title}
+      </MenuItem>
+    ))}
+  </Select>
+</FormControl>
           <Button variant="contained" color="primary" onClick={filterPostsByTag}>
             Filter
           </Button>
@@ -153,7 +150,7 @@ export default function HomePageFreelancer() {
             {posts.map((post, idx) => (
               <Post
                 id={post.id}
-                key={idx}
+                key={post.id} // Use post.id as the key to avoid issues with indexing
                 title={post.title}
                 description={post.description}
                 username={post.user.username}

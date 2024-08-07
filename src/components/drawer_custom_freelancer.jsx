@@ -25,7 +25,7 @@ export default function DrawerCus({ open, onClose }) {
   const [loggingOut, setLoggingOut] = useState(false);
 
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleLogout = () => {
     setLoggingOut(true);

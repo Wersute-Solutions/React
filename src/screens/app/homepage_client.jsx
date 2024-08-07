@@ -17,7 +17,7 @@ import {
   PhotoCamera as PhotoCameraIcon,
   Close as CloseIcon,
 } from "@mui/icons-material";
-import { createPost, fetchTags } from "../../api/posts"; 
+import { createPost, fetchTags } from "../../api/posts";
 import { useNavigate } from "react-router-dom";
 import AppBarCus from "../../components/appbar_custom";
 import BoxCus from "../../components/box_custom";
@@ -39,7 +39,7 @@ export default function HomePageClient() {
     responsibilities: "",
     tag: "",
   });
-  const [durationUnit, setDurationUnit] = useState("week");
+  const [durationUnit, setDurationUnit] = useState("weeks");
   const [tags, setTags] = useState([]);
   const navigate = useNavigate();
   const [showMoreFields, setShowMoreFields] = useState(false);
@@ -53,6 +53,7 @@ export default function HomePageClient() {
     const fetchTagsData = async () => {
       try {
         const response = await fetchTags();
+        console.log("Fetched Tags:", response.data);
         setTags(response.data || []);
       } catch (error) {
         setAlert(<Alert severity="error">Failed to load tags.</Alert>);
@@ -89,7 +90,9 @@ export default function HomePageClient() {
     }
     if (formData.description.trim().length > 500) {
       setAlert(
-        <Alert severity="error">Description should be 500 characters or less.</Alert>
+        <Alert severity="error">
+          Description should be 500 characters or less.
+        </Alert>
       );
       return;
     }
@@ -230,6 +233,7 @@ export default function HomePageClient() {
               <Grid item xs={12} sm={6}>
                 <InputCus
                   name="title"
+                  value={formData.title}
                   onChange={handleChange}
                   placeholder="Title"
                   width="350px"
@@ -238,8 +242,12 @@ export default function HomePageClient() {
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
                   <Select
-                    value={formData.tag}
-                    onChange={(e) => handleChange({ target: { name: 'tag', value: e.target.value } })}
+                    value={formData.tag || ""}
+                    onChange={(e) =>
+                      handleChange({
+                        target: { name: "tag", value: e.target.value },
+                      })
+                    }
                     displayEmpty
                     sx={{ width: "350px" }}
                   >
@@ -248,7 +256,7 @@ export default function HomePageClient() {
                     </MenuItem>
                     {tags.map((tag) => (
                       <MenuItem key={tag.id} value={tag.title}>
-                        {tag.name}
+                        {tag.title}
                       </MenuItem>
                     ))}
                   </Select>
@@ -257,6 +265,7 @@ export default function HomePageClient() {
               <Grid item xs={12}>
                 <InputLargeCus
                   name={"description"}
+                  value={formData.description}
                   onChange={handleChange}
                   placeholder={"Description"}
                   width={"811px"}
@@ -267,6 +276,7 @@ export default function HomePageClient() {
                   <Grid item xs={12} sm={6}>
                     <InputCus
                       name={"pay"}
+                      value={formData.pay}
                       placeholder={"Approximate Pay"}
                       onChange={handleChange}
                       fullWidth
@@ -276,6 +286,7 @@ export default function HomePageClient() {
                   <Grid item xs={12} sm={6}>
                     <InputCus
                       name={"skills"}
+                      value={formData.skills}
                       placeholder={"Skills Required"}
                       onChange={handleChange}
                       fullWidth
@@ -287,6 +298,7 @@ export default function HomePageClient() {
                       <div style={{ display: "flex", alignItems: "center" }}>
                         <InputCus
                           name={"duration"}
+                          value={formData.duration}
                           placeholder={"Duration"}
                           onChange={handleChange}
                           fullWidth
@@ -297,7 +309,7 @@ export default function HomePageClient() {
                           onChange={(e) => setDurationUnit(e.target.value)}
                           displayEmpty
                           inputProps={{ "aria-label": "Select Duration Unit" }}
-                          sx={{ width: "115px", marginLeft: "12px"  }}
+                          sx={{ marginLeft: "8px" }}
                         >
                           <MenuItem value="weeks">Weeks</MenuItem>
                           <MenuItem value="months">Months</MenuItem>
@@ -306,10 +318,10 @@ export default function HomePageClient() {
                       </div>
                     </FormControl>
                   </Grid>
-
                   <Grid item xs={12} sm={6}>
                     <InputCus
                       name={"responsibilities"}
+                      value={formData.responsibilities}
                       placeholder={"Responsibilities"}
                       onChange={handleChange}
                       fullWidth
@@ -318,7 +330,6 @@ export default function HomePageClient() {
                   </Grid>
                 </>
               )}
-
               <Grid
                 item
                 xs={12}
